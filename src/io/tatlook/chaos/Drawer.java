@@ -41,12 +41,16 @@ public class Drawer extends JComponent implements Runnable {
 	@Override
 	public void run() {
 		ChaosFileParser parser = ChaosFileParser.getCurrentFileParser();
-		parser.readChaos();
+		try {
+			parser.readChaos();
+		} catch (ChaosFileDataException e) {
+			e.openDialog();
+		}
 		// 每个变换的执行概率
-        double[] dist = parser.dist;
+        double[] dist = ChaosData.current.getDist();
         // 矩阵值
-        double[][] cx = parser.cx;
-        double[][] cy = parser.cy;
+        double[][] cx = ChaosData.current.getCX();
+        double[][] cy = ChaosData.current.getCY();
 
         // 初始值 (x, y)
         double x = 0.0, y = 0.0;

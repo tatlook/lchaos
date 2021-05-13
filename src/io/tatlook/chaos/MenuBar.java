@@ -3,6 +3,9 @@
  */
 package io.tatlook.chaos;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -33,6 +36,20 @@ public class MenuBar extends JMenuBar {
         
         exitMenuItem.addActionListener((e) -> {
         	System.exit(0);
+        });
+        openMenuItem.addActionListener((e) -> {
+        	ChaosFileChooser fileChooser = new ChaosFileChooser();
+        	fileChooser.chose();
+        	File file = fileChooser.getChaosFile();
+        	try {
+				ChaosFileParser parser = new ChaosFileParser(file);
+				parser.readChaos();
+				App.mainWindow.UI();
+        	} catch (ChaosFileDataException e1) {
+        		e1.openDialog();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
         });
 		
 		add(fileMenu);
