@@ -3,12 +3,9 @@ package io.tatlook.chaos;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 public class App {
 	static MainWindow mainWindow;
-	static File defaultFile = new File("bin/sysrule.ch");
+	static File defaultFile = new File("rules/swirl.ch");
     public static void main(String[] args) {
     	mainWindow = new MainWindow();
 		
@@ -22,4 +19,4 @@ public class App {
     	mainWindow.UI();
     	mainWindow.setVisible(true);
     } 
-} 
+}

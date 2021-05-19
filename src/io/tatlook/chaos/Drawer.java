@@ -5,6 +5,7 @@ package io.tatlook.chaos;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JComponent;
 
@@ -20,60 +21,75 @@ public class Drawer extends JComponent implements Runnable {
 	 */
 	private static final long serialVersionUID = 3839460539960225035L;
 
-	private Thread drawTheard = new Thread(this);
+	/**
+	 * "Thread", jossa pirt盲minen toimii.
+	 */
+	private Thread drawThread = new Thread(this);
 	
-	private final int trials = 100000;	// 迭代次数*（需输入在命令行中，或者直接赋值）*
+	/**
+	 * Kuinka paljon pistett盲 pit盲 piirt盲
+	 */
+	private final int trials = 10000;
 	
-	private Graphics graphics;
+	/**
+	 * Kuva, johon pirt盲盲n pistett盲
+	 */
+	private Image image;
 	
 	public void paint(Graphics g) {
-		g.setColor(Color.RED);
-		graphics = g.create();
-		if (graphics == null) {
-			System.err.println("EEEE");
-		}
+		g.drawImage(image, 0, 0, this);
+		System.out.println("Drawer.paint()");
 	}
 	
 	public void start() {
-		drawTheard.start();
+		drawThread.start();
 	}
 	
 	@Override
 	public void run() {
+		image = createImage(getWidth(), getHeight());
+		Graphics g = image.getGraphics();
+		g.setColor(Color.red);
 		ChaosFileParser parser = ChaosFileParser.getCurrentFileParser();
 		try {
 			parser.readChaos();
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}
-		// 每个变换的执行概率
+	
         double[] dist = ChaosData.current.getDist();
-        // 矩阵值
         double[][] cx = ChaosData.current.getCX();
         double[][] cy = ChaosData.current.getCY();
 
-        // 初始值 (x, y)
+        // Ensim盲isen pisteen koordinaati
         double x = 0.0, y = 0.0;
 
         for (int t = 0; t < trials; t++) { 
-
-            // 根据概率分布随机选择变换
+            // S盲盲nn枚st盲 valitaan yksi, r on sen numero
             int r = StdRandom.discrete(dist); 
 
-            // 迭代
+            // Laske seurava pisten koordinaati
             double x0 = cx[r][0] * x + cx[r][1] * y + cx[r][2]; 
             double y0 = cy[r][0] * x + cy[r][1] * y + cy[r][2]; 
-            x = x0; 
-            y = y0; 
+            x = 10 * x0; 
+            y = 10 * y0; 
 
-            // 绘制结果
-            graphics.drawLine((int)x, (int)y, (int)x, (int)y); 
-
-            // 每迭代100次显示1次
-            if (t % 100 == 0) {
-                
-            }
+            // Pirt盲盲n kuvassa
+            g.drawLine((int)x, (int)y, (int)x + 5, (int)y + 5);
+            
+            // Kun on jo sataa pistett盲 kuvassa
+            if (t % 2 == 0) {
+            	try {
+            		synchronized (this) {
+            			wait(200);
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            	// Lis盲盲 kuva komponenttiin
+				repaint();
+			}
         } 
-	
 	}
 }

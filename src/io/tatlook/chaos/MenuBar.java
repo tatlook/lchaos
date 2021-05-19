@@ -3,6 +3,7 @@
  */
 package io.tatlook.chaos;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -22,12 +23,17 @@ public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = -7347092499428362250L;
 
 	public MenuBar() {
-		JMenu fileMenu = new JMenu("文件");
+		JMenu fileMenu = new JMenu("File");
+		
 		fileMenu.setMnemonic('F');
 		
-		JMenuItem newMenuItem = new JMenuItem("新建");
-        JMenuItem openMenuItem = new JMenuItem("打开");
-        JMenuItem exitMenuItem = new JMenuItem("退出");
+		JMenuItem newMenuItem = new JMenuItem("New");
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        newMenuItem.setMnemonic('N');
+        openMenuItem.setMnemonic('O');
+        exitMenuItem.setMnemonic('E');
+        
         // 子菜单添加到一级菜单
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
@@ -41,10 +47,13 @@ public class MenuBar extends JMenuBar {
         	ChaosFileChooser fileChooser = new ChaosFileChooser();
         	fileChooser.chose();
         	File file = fileChooser.getChaosFile();
+        	if (file == null) {
+        		return;
+        	}
         	try {
 				ChaosFileParser parser = new ChaosFileParser(file);
 				parser.readChaos();
-				App.mainWindow.UI();
+				App.mainWindow.updateToolPanel();
         	} catch (ChaosFileDataException e1) {
         		e1.openDialog();
 			} catch (FileNotFoundException e1) {
@@ -52,6 +61,11 @@ public class MenuBar extends JMenuBar {
 			}
         });
 		
+        Dimension dimension = new Dimension(70, 10);
+        newMenuItem.setSize(dimension);
+        openMenuItem.setSize(dimension);
+        exitMenuItem.setSize(dimension);
+        
 		add(fileMenu);
 	}
 }

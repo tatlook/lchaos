@@ -33,6 +33,9 @@ public class ChaosFileParser {
 			throw new ChaosFileDataException(ChaosFileDataException.DIST_ERROR);
 		}
         int n = scanner.nextInt();
+        if (n <= 0) {
+			throw new ChaosFileDataException(ChaosFileDataException.DIST_ERROR);
+		}
         double[] a = new double[n];
         for (int i = 0; i < n; i++) {
         	if (!scanner.hasNextDouble()) {
@@ -52,6 +55,9 @@ public class ChaosFileParser {
 			throw new ChaosFileDataException(ChaosFileDataException.CX_CY_ERROR);
 		}
         int n = scanner.nextInt();
+        if (n != 3 || m <= 0) {
+        	throw new ChaosFileDataException(ChaosFileDataException.CX_CY_ERROR);
+        }
         System.out.println("m=" + m + ";n=" + n);
         double[][] a = new double[m][n];
         for (int i = 0; i < m; i++) {
@@ -60,7 +66,7 @@ public class ChaosFileParser {
         			throw new ChaosFileDataException();
         		}
                 a[i][j] = scanner.nextDouble();
-                System.out.println("a[i][j]=" + a[i][j]);
+                System.out.println("a[" + i + "][" + j + "]=" + a[i][j]);
             }
         }
         return a;
@@ -68,6 +74,7 @@ public class ChaosFileParser {
     
 	public void readChaos() throws ChaosFileDataException {
 		try {
+			// Lue alusta
 			inputStream.close();
 			inputStream = new FileInputStream(chaosFile);
 			scanner = new Scanner(inputStream);
