@@ -31,6 +31,11 @@ public class MainWindow extends JFrame {
 	
 	private JPanel mainPanel = new JPanel(new BorderLayout());
 	private Drawer drawer;
+	
+	public Drawer getDrawer() {
+		return drawer;
+	}
+
 	private JPanel toolPanel;
 	
 	public void updateToolPanel() {

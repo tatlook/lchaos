@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -38,6 +39,7 @@ public class ToolPanel extends JPanel {
 		}
 		contentBox = Box.createVerticalBox();
 		add(contentBox);
+		createSpeedControl();
 		createRandomControl();
 		createRulePanel();
 	}
@@ -51,6 +53,31 @@ public class ToolPanel extends JPanel {
 		
 		createRuleButton.addActionListener((e) -> createRule(true));
 		contentBox.add(createRuleButton);
+	}
+	
+	private void createSpeedControl() {
+		JPanel speedControlPanel = new JPanel();
+		speedControlPanel.setBorder(BorderFactory.createTitledBorder("Speed"));
+		
+		JSlider slider = new JSlider(0, 10);
+		slider.setValue(0);
+		slider.setMajorTickSpacing(2);
+        slider.setMinorTickSpacing(1);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setPaintTrack(true);
+		slider.addChangeListener((e) -> {
+			int sliderValue = slider.getValue();
+			int waitTime = (Byte.MAX_VALUE) / (sliderValue + 1);
+			if (sliderValue == 10) {
+				waitTime = 0;
+			}
+			App.mainWindow.getDrawer().setWaitTime(waitTime);
+		});
+		
+		speedControlPanel.add(slider);
+		
+		contentBox.add(speedControlPanel);
 	}
 	
 	private void createRandomControl() {
