@@ -78,17 +78,15 @@ public class MenuBar extends JMenuBar {
         	String imageType = fileChooser.getImageType();
         	Drawer drawer = App.mainWindow.getDrawer();
 
-            Dimension imageSize = drawer.getSize();
-
-        	BufferedImage image = new BufferedImage(imageSize.width, imageSize.height, BufferedImage.TYPE_INT_ARGB);
+        	BufferedImage image = new BufferedImage(Drawer.imageWidth, Drawer.imageHeight, BufferedImage.TYPE_INT_ARGB);
         	Graphics2D graphics = image.createGraphics();
-        	drawer.paint(graphics);
+        	graphics.drawImage(drawer.getImage(), 0, 0, null);
         	graphics.dispose();
         	
         	try {
 				ImageIO.write(image, imageType, file);
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				ErrorMessageDialog.createExceptionDialog(e1);
 			}
         });
 		

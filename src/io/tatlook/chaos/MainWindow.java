@@ -5,6 +5,12 @@ package io.tatlook.chaos;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.KeyEventPostProcessor;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -58,6 +64,40 @@ public class MainWindow extends JFrame {
 		splitPane.setLeftComponent(toolPanel);
 		
 		mainPanel.add(splitPane, BorderLayout.CENTER);
+		
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventPostProcessor(new KeyEventPostProcessor() {
+			int stal = 0;
+			boolean full = false;
+			@Override
+			public boolean postProcessKeyEvent(KeyEvent e) {
+				stal++;
+				if (stal != 1) {
+					stal = 0;
+					return true;
+				}
+				if (e.getKeyCode() != KeyEvent.VK_F11) {
+					return true;
+				}
+				System.out.println(
+						"MainWindow.UI().new KeyEventPostProcessor() {...}.postProcessKeyEvent()");
+				if (full == true) {
+					setJMenuBar(menuBar);
+					setContentPane(mainPanel);
+					splitPane.setRightComponent(drawer);
+					update(getGraphics());
+					full = false;
+				} else {
+					setJMenuBar(null);
+					setContentPane(drawer);
+					update(getGraphics());
+					setExtendedState(JFrame.NORMAL);
+					setExtendedState(JFrame.MAXIMIZED_BOTH);
+					full = true;
+				}
+				return true; 
+			}
+		});
 	}
 	
 	@Override
