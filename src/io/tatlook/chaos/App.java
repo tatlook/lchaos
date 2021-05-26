@@ -5,17 +5,16 @@ import java.io.FileNotFoundException;
 
 public class App {
 	static MainWindow mainWindow;
-	static File defaultFile = new File("rules/swirl.ch");
+	static File defaultFile = new File("rules/bas.ch");
     public static void main(String[] args) {
     	mainWindow = new MainWindow();
 		
-    	try {
-			new ChaosFileParser(defaultFile).readChaos();
-    	} catch (ChaosFileDataException e) {
-    		e.openDialog();
+		try {
+			new ChaosFileParser(defaultFile);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			ErrorMessageDialog.createExceptionDialog(e);
 		}
+    	
     	mainWindow.UI();
     	mainWindow.setVisible(true);
     } 
