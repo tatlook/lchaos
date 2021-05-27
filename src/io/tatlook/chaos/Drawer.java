@@ -29,10 +29,8 @@ public class Drawer extends JComponent implements Runnable {
 	private Thread drawThread = new Thread(this);
 	
 	/**
-	 * Kuinka paljon pistettä pitä piirtä
+	 * Kuinka pitkä aika pitä odota (millisekunti)
 	 */
-	private final int trials = Integer.MAX_VALUE - 1000;
-	
 	private int waitTime = 1000;
 	
 	/**
@@ -139,7 +137,6 @@ public class Drawer extends JComponent implements Runnable {
 	public void run() {
 		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
-		g.setColor(Color.red);
 		
 		ChaosFileParser parser = ChaosFileParser.getCurrentFileParser();
 		try {
@@ -154,44 +151,71 @@ public class Drawer extends JComponent implements Runnable {
 
         // Ensimäisen pisteen koordinaati
         double x = 0.0, y = 0.0;
+        while (true) {
+        	g.setColor(Color.red);
+        	// Piirtään tuhat pistettä kuvaan.
+        	for (int t = 0; t < 1000; t++) { 
+        		// Säännöstä valitaan yksi, r on sen numero
+        		int r = discrete(dist); 
+        		
+        		// Laske seurava pisten koordinaati
+        		double x0 = cx[r][0] * x + cx[r][1] * y + cx[r][2]; 
+        		double y0 = cy[r][0] * x + cy[r][1] * y + cy[r][2]; 
+        		x = x0; 
+        		y = y0; 
+        		
+        		x0 *= imageWidth;
+        		y0 *= imageHeight;
+        		// Pirtään kuvassa
+        		g.drawLine((int)x0, imageHeight - (int)y0, (int)x0, imageHeight - (int)y0);
+        	}
+        	
+        	// Kun on jo tuhat pistettä lisääntyy kuvassa
+        	
+        	// Jos jotain parametri muutui, päivitää sen.
+    		if (hasChange) {
+    			g = image.getGraphics();
+    			dist = ChaosData.current.getDist();
+    			cx = ChaosData.current.getCX();
+    			cy = ChaosData.current.getCY();
+    			hasChange = false;
+    		}
+    		// Wait() funktio ei saa olla nolla.
+    		if (waitTime != 0) {
+    			try {
+    				synchronized (this) {
+    					wait(waitTime);
+    				}
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}	
+    		}
+    		// Lisää kuva komponenttiin
+    		repaint();
+		}
+	}
+	
+	private static int discrete(double[] probabilities) {
+		double sum = 0.0;
+		for (int i = 0; i < probabilities.length; i++) {
+            if (probabilities[i] < 0.0)
+                throw new IllegalArgumentException("array entry " + i + " must be nonnegative: " + probabilities[i]);
+            sum += probabilities[i];
+        }
+		double sumb = sum;
+		while (true) {
+			sum = 0.0;
+            double r = StdRandom.uniform(0.0, sumb);
+            for (int i = 0; i < probabilities.length; i++) {
+                sum = sum + probabilities[i];
+                if (sum > r) return i;
+            }
+        }
+	}
 
-        for (int t = 0; t < trials; t++) { 
-            // Säännöstä valitaan yksi, r on sen numero
-            int r = StdRandom.discrete(dist); 
-
-            // Laske seurava pisten koordinaati
-            double x0 = cx[r][0] * x + cx[r][1] * y + cx[r][2]; 
-            double y0 = cy[r][0] * x + cy[r][1] * y + cy[r][2]; 
-            x = x0; 
-            y = y0; 
-
-            x0 *= imageWidth;
-            y0 *= imageHeight;
-            // Pirtään kuvassa
-            g.drawLine((int)x0, imageHeight - (int)y0, (int)x0, imageHeight - (int)y0);
-            
-            // Kun on jo tuhat pistettä kuvassa
-            if (t % 1000 == 0) {
-            	if (hasChange) {
-            		dist = ChaosData.current.getDist();
-                    cx = ChaosData.current.getCX();
-                    cy = ChaosData.current.getCY();
-                    hasChange = false;
-				}
-            	// Wait() funktio ei saa olla nolla.
-            	if (waitTime != 0) {
-            		try {
-            			synchronized (this) {
-            				wait(waitTime);
-            			}
-            		} catch (InterruptedException e) {
-            			// TODO Auto-generated catch block
-            			e.printStackTrace();
-            		}	
-				}
-            	// Lisää kuva komponenttiin
-				repaint();
-			}
-        } 
+	public void clean() {
+		image = createImage(imageWidth, imageHeight);
+		
+		setChange();
 	}
 }

@@ -32,8 +32,10 @@ public class MenuBar extends JMenuBar {
 
 	public MenuBar() {
 		JMenu fileMenu = new JMenu("File");
+		JMenu viewMenu = new JMenu("View");
 		
 		fileMenu.setMnemonic('F');
+		viewMenu.setMnemonic('V');
 		
 		JMenuItem newMenuItem = new JMenuItem("New");
         JMenuItem openMenuItem = new JMenuItem("Open");
@@ -64,13 +66,13 @@ public class MenuBar extends JMenuBar {
 				ChaosFileParser parser = new ChaosFileParser(file);
 				parser.readChaos();
 				App.mainWindow.updateToolPanel();
+				App.mainWindow.getDrawer().setChange();
         	} catch (ChaosFileDataException e1) {
         		e1.openDialog();
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
         });
-        
         saveImageMenuItem.addActionListener((e) -> {
         	ImageFileChooser fileChooser = new ImageFileChooser();
         	fileChooser.chose();
@@ -89,12 +91,15 @@ public class MenuBar extends JMenuBar {
 				ErrorMessageDialog.createExceptionDialog(e1);
 			}
         });
-		
-        Dimension dimension = new Dimension(70, 10);
-        newMenuItem.setSize(dimension);
-        openMenuItem.setSize(dimension);
-        exitMenuItem.setSize(dimension);
+        
+        JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
+        cleanImageMenuItem.setMnemonic('C');
+        
+        viewMenu.add(cleanImageMenuItem);
+        
+        cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
         
 		add(fileMenu);
+		add(viewMenu);
 	}
 }

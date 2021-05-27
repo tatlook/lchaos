@@ -12,7 +12,6 @@ import java.util.Vector;
 public class ChaosData {
 	public static ChaosData current;
     
-    private Vector<ChaosDataRule> ruleVector;
     private Vector<Double> distVector;
     private Vector<Double[]> cxVector;
     private Vector<Double[]> cyVector;
@@ -25,14 +24,7 @@ public class ChaosData {
     	distVector = arrayToVector1D(dist);
     	cxVector = arrayToVector2D(cx);
     	cyVector = arrayToVector2D(cy);
-    	ruleVector = new Vector<>();
-    	for (int i = 0; i < dist.length; i++) {
-			ruleVector.add(new ChaosDataRule(dist[i], cx[i], cy[i]));
-		}
     }
-    
-    public ChaosData() {
-	}
     
     public double[] getDist() {
     	return vectorToArray1D(distVector);

@@ -43,11 +43,11 @@ public class MainWindow extends JFrame {
 	}
 
 	private JPanel toolPanel;
+	private JSplitPane splitPane;
 	
 	public void updateToolPanel() {
-		mainPanel.remove(toolPanel);
 		toolPanel = new ToolPanel();
-		mainPanel.add(toolPanel);
+		splitPane.setLeftComponent(toolPanel);
 	}
 	
 	public void UI() {
@@ -59,7 +59,7 @@ public class MainWindow extends JFrame {
 		toolPanel = new ToolPanel();
 		drawer = new Drawer();
 		
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setRightComponent(drawer);
 		splitPane.setLeftComponent(toolPanel);
 		

@@ -130,6 +130,9 @@ public class ToolPanel extends JPanel {
 					Double value;
 					try {
 						value = Double.parseDouble(textField.getText());
+						if (value < 0) {
+							return;
+						}
 					} catch (NumberFormatException e2) {
 						return;
 					}
@@ -166,6 +169,9 @@ public class ToolPanel extends JPanel {
 						Double value;
 						try {
 							value = Double.parseDouble(field.getText());
+							if (value < 0) {
+								return;
+							}
 						} catch (NumberFormatException e2) {
 							return;
 						}

@@ -19,14 +19,13 @@ public class ChaosFileParser {
 	private File chaosFile;
 	private Scanner scanner;
 	private FileInputStream inputStream;
+	private ChaosData data;
 	public ChaosFileParser(File file) throws FileNotFoundException {
 		chaosFile = file;
 		inputStream = new FileInputStream(file);
 		scanner = new Scanner(inputStream);
 		currentFileParser = this;
 	}
-	
-	ChaosData data = new ChaosData();
 	
     private double[] readDouble1D() throws ChaosFileDataException {
     	if (!scanner.hasNextInt()) {
