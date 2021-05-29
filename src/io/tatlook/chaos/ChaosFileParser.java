@@ -14,17 +14,20 @@ import java.util.Scanner;
  *
  */
 public class ChaosFileParser {
-	private static ChaosFileParser currentFileParser;
+	protected static ChaosFileParser currentFileParser;
 	
 	private File chaosFile;
 	private Scanner scanner;
 	private FileInputStream inputStream;
-	private ChaosData data;
+	protected ChaosData data;
 	public ChaosFileParser(File file) throws FileNotFoundException {
 		chaosFile = file;
 		inputStream = new FileInputStream(file);
 		scanner = new Scanner(inputStream);
 		currentFileParser = this;
+	}
+	
+	protected ChaosFileParser() {
 	}
 	
     private double[] readDouble1D() throws ChaosFileDataException {
@@ -94,5 +97,22 @@ public class ChaosFileParser {
 	 */
 	public static ChaosFileParser getCurrentFileParser() {
 		return currentFileParser;
+	}
+
+	public File getFile() {
+		return chaosFile;
+	}
+}
+
+class NullChaosFileParser extends ChaosFileParser {
+	public NullChaosFileParser() {
+		super();
+		currentFileParser = this;
+	}
+	
+	@Override
+	public void readChaos() {
+		data = new ChaosData();
+		ChaosData.current = data;
 	}
 }

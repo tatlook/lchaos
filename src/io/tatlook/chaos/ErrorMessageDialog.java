@@ -3,8 +3,6 @@
  */
 package io.tatlook.chaos;
 
-import java.io.FileNotFoundException;
-
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,7 +23,10 @@ public class ErrorMessageDialog {
 		
 		dialog.setTitle(e.getClass().getName());
 		
-		JLabel messageLabel = new JLabel(e.getMessage());
+		JLabel messageLabel = new JLabel(e.getClass().getName());
+		if (e.getMessage() != null) {
+			messageLabel.setText(e.getClass().getName() + ": " + e.getMessage());
+		}
 		String stackTraceString = "";
 		{
 			StackTraceElement[] elements = e.getStackTrace();

@@ -15,6 +15,8 @@ public class ChaosData {
     private Vector<Double> distVector;
     private Vector<Double[]> cxVector;
     private Vector<Double[]> cyVector;
+
+	private boolean changed;
     
     public ChaosData(double[] dist, double[][] cx, double[][] cy) {
     	if (dist.length != cx.length || dist.length != cy.length) {
@@ -24,6 +26,13 @@ public class ChaosData {
     	distVector = arrayToVector1D(dist);
     	cxVector = arrayToVector2D(cx);
     	cyVector = arrayToVector2D(cy);
+    }
+    
+    public ChaosData() {
+    	this(new double[1], new double[1][3], new double[1][3]);
+//   	double[] dist = new double[1];
+//    	double[][] cx = new double[3][1];
+//    	double[][] cy = new double[3][1];
     }
     
     public double[] getDist() {
@@ -48,6 +57,14 @@ public class ChaosData {
     
     public Vector<Double[]> getCYVector() {
     	return cyVector;
+    }
+    
+    public void setChange() {
+		changed = true; 
+	}
+    
+    public boolean isChanged() {
+    	return changed;
     }
     
 	public void addRule(double dist, Double[] cx, Double[] cy) {

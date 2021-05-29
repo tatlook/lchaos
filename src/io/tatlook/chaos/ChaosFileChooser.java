@@ -14,6 +14,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ChaosFileChooser {
 	private File chaosFile;
+	private int dialogMode = JFileChooser.OPEN_DIALOG;
+	public ChaosFileChooser(int dialogMode) {
+		this.dialogMode = dialogMode;
+	}
+
+	public ChaosFileChooser() {
+	}
+
 	public void chose() {
         JFileChooser fileChooser = new JFileChooser();
 
@@ -30,9 +38,13 @@ public class ChaosFileChooser {
         // 设置默认使用的文件过滤器
         fileChooser.setFileFilter(new FileNameExtensionFilter("Chaos file(*.ch)", "ch"));
 
-        // 打开文件选择框（线程将被阻塞, 直到选择框被关闭）
-        int result = fileChooser.showOpenDialog(App.mainWindow);
-
+        
+        int result;
+        if (dialogMode == JFileChooser.OPEN_DIALOG) {
+            result = fileChooser.showOpenDialog(App.mainWindow);
+        } else {
+        	result = fileChooser.showSaveDialog(App.mainWindow);
+        }
         File file = null;
         if (result == JFileChooser.APPROVE_OPTION) {
             // 如果点击了"确定", 则获取选择的文件路径

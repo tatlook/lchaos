@@ -42,8 +42,8 @@ public class Drawer extends JComponent implements Runnable {
 	public static final int imageHeight = 3000;
 	
 	private int zoom = imageHeight;
-	private int imageX = 0;
-	private int imageY = 0;
+	private int imageX = imageWidth / 2;
+	private int imageY = imageHeight / 2;
 	
 	private boolean hasChange = true;
 	
@@ -202,9 +202,12 @@ public class Drawer extends JComponent implements Runnable {
                 throw new IllegalArgumentException("array entry " + i + " must be nonnegative: " + probabilities[i]);
             sum += probabilities[i];
         }
-		double sumb = sum;
+		final double sumb = sum;
 		while (true) {
 			sum = 0.0;
+			if (sumb == 0.0) {
+				return 0;
+			}
             double r = StdRandom.uniform(0.0, sumb);
             for (int i = 0; i < probabilities.length; i++) {
                 sum = sum + probabilities[i];

@@ -18,8 +18,6 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import java.util.Vector;
 
@@ -42,6 +40,7 @@ public class ToolPanel extends JPanel {
 	private Box contentBox;
 	private Vector<JPanel> rulePanels;
 	private JButton createRuleButton = new JButton("Create a rule");
+	private JPanel createRulePanel = new JPanel();
 	
 	public ToolPanel() {
 		super(new BorderLayout());
@@ -57,10 +56,10 @@ public class ToolPanel extends JPanel {
 		contentBox.setBorder(BROAD_SPACING_BORDER_BORDER);
 		add(scrollPane, BorderLayout.CENTER);
 		createSpeedControl();
-		createRulePanel();
+		createCreateRulePanel();
 	}
 	
-	private void createRulePanel() {
+	private void createCreateRulePanel() {
 		rulePanels = new Vector<>();
 		
 		for (int i = 0; i < ChaosData.current.getDist().length; i++) {
@@ -68,8 +67,9 @@ public class ToolPanel extends JPanel {
 		}
 
 		createRuleButton.addActionListener((e) -> createRule(true));
-		createRuleButton.setBorder(BROAD_SPACING_BORDER_BORDER);
-		contentBox.add(createRuleButton);
+		createRulePanel.add(createRuleButton);
+		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
+		contentBox.add(createRulePanel);
 	}
 	
 	private void createSpeedControl() {
@@ -124,7 +124,7 @@ public class ToolPanel extends JPanel {
 			textField.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+					if (e.isAltDown() || e.isActionKey()) {
 						return;
 					}
 					Double value;
@@ -141,6 +141,7 @@ public class ToolPanel extends JPanel {
 					dists = value;
 					vector.set(panelIndex, dists);
 					App.mainWindow.getDrawer().setChange();
+					ChaosData.current.setChange();
 				}
 			});
 			Box box = Box.createHorizontalBox();
@@ -180,6 +181,7 @@ public class ToolPanel extends JPanel {
 						cxs[theI] = value;
 						vector.set(panelIndex, cxs);
 						App.mainWindow.getDrawer().setChange();
+						ChaosData.current.setChange();
 					}
 				});
 				xBox.add(createSpacing());
@@ -214,6 +216,7 @@ public class ToolPanel extends JPanel {
 						cys[theI] = value;
 						vector.set(panelIndex, cys);
 						App.mainWindow.getDrawer().setChange();
+						ChaosData.current.setChange();
 					}
 				});
 				yBox.add(createSpacing());
@@ -224,9 +227,9 @@ public class ToolPanel extends JPanel {
 		}
 		System.out.print(rulePanels.size());
 		
-		contentBox.remove(createRuleButton);
+		contentBox.remove(createRulePanel);
 		contentBox.add(panel);
-		contentBox.add(createRuleButton);
+		contentBox.add(createRulePanel);
 		panel.updateUI();
 		rulePanels.add(panel);
 	}
