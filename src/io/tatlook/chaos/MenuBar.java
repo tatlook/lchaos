@@ -14,6 +14,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+
+import io.tatlook.chaos.MainWindow.MainWindowListener;
 
 /**
  * @author Administrator
@@ -52,6 +56,10 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(exitMenuItem);
         
         newMenuItem.addActionListener((e) -> {
+        	if (checkFileSave() == false) {
+				return;
+			} 
+        	
         	new NullChaosFileParser().readChaos();
         	App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
@@ -60,6 +68,8 @@ public class MenuBar extends JMenuBar {
         	ChaosFileSaver.staticSave();
         });
         openMenuItem.addActionListener((e) -> {
+        	checkFileSave();
+        	
         	ChaosFileChooser fileChooser = new ChaosFileChooser();
         	fileChooser.chose();
         	File file = fileChooser.getChaosFile();
@@ -96,7 +106,9 @@ public class MenuBar extends JMenuBar {
 			}
         });
         exitMenuItem.addActionListener((e) -> {
-        	System.exit(0);
+        	MainWindowListener mainWindowListener = MainWindow.getWindowListener();
+        	mainWindowListener.windowClosing(App.mainWindow);
+        	mainWindowListener.windowClosed(App.mainWindow);
         });
         
         JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
@@ -108,5 +120,21 @@ public class MenuBar extends JMenuBar {
         
 		add(fileMenu);
 		add(viewMenu);
+	}
+	
+	/**
+	 * 
+	 * @return false älä tee joatin
+	 */
+	private static boolean checkFileSave() {
+		if (ChaosData.current.isChanged()) {
+			int result = ErrorMessageDialog.createSaveDialog();
+			if (result == JOptionPane.YES_OPTION) {
+				return ChaosFileSaver.staticSave();
+			} else if (result == JOptionPane.CANCEL_OPTION) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

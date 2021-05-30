@@ -5,6 +5,7 @@ package io.tatlook.chaos;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -75,5 +76,15 @@ public class ErrorMessageDialog {
 		dialog.setVisible(true);
 		
 		System.exit(1);
+	}
+	
+	public static int createSaveDialog() {
+		int result = JOptionPane.showConfirmDialog(
+                App.mainWindow,
+                "If you don't save, your changes will be lost.",
+                "Save the changes?",
+                JOptionPane.YES_NO_CANCEL_OPTION
+        );
+		return result;
 	}
 }

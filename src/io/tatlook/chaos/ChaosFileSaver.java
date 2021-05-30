@@ -22,6 +22,9 @@ public class ChaosFileSaver {
 	
 	public ChaosFileSaver(File file) {
 		try {
+			if (file == null) {
+				throw new AssertionError();
+			}
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -66,11 +69,19 @@ public class ChaosFileSaver {
 		stream.close();
 	}
 	
-	public static void staticSave() {
+	/**
+	 * 
+	 * @return false älä tee joatin
+	 */
+	public static boolean staticSave() {
 		ChaosFileChooser fileChooser = new ChaosFileChooser(JFileChooser.SAVE_DIALOG);
     	fileChooser.chose();
     	File file = fileChooser.getChaosFile();
+    	if (file == null) {
+			return false;
+		}
     	ChaosFileSaver saver = new ChaosFileSaver(file);
     	saver.save();
+    	return true;
 	}
 }

@@ -83,6 +83,12 @@ public class ChaosData {
 		addRule(0.0, dx, dy);
 	}
 	
+	public void removeRule(int index) {
+		distVector.remove(index);
+    	cxVector.remove(index);
+    	cyVector.remove(index);
+	}
+	
 	public static double[] vectorToArray1D(Vector<Double> vector) {
 		double[] array = new double[vector.size()];
 		for (int i = 0; i < vector.size(); i++) {

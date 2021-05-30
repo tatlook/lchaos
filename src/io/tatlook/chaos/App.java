@@ -17,5 +17,6 @@ public class App {
     	
     	mainWindow.UI();
     	mainWindow.setVisible(true);
+    	mainWindow.waitDrawerStart();
     } 
 }

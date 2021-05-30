@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -38,7 +39,7 @@ public class ToolPanel extends JPanel {
 	private static final Border BROAD_SPACING_BORDER_BORDER = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 	
 	private Box contentBox;
-	private Vector<JPanel> rulePanels;
+	private Vector<RulePanel> rulePanels;
 	private JButton createRuleButton = new JButton("Create a rule");
 	private JPanel createRulePanel = new JPanel();
 	
@@ -104,133 +105,164 @@ public class ToolPanel extends JPanel {
 		return spacing;
 	}
 	
-	private void createRule(boolean itIsNew) {
-		JPanel panel = new JPanel(new BorderLayout());
-		
-		if (itIsNew) {
-			ChaosData.current.addRule();
-			App.mainWindow.getDrawer().setChange();
-		}
-		
-		panel.setMaximumSize(new Dimension(panel.getMaximumSize().width, 110));
-		System.out.println("ToolPanel.createRule()");
+	@SuppressWarnings("serial")
+	class RulePanel extends JPanel {
 		int panelIndex = rulePanels.size();
 		
-		Border border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
-		panel.setBorder(border);
-		{
-			JLabel label = new JLabel("Possibility");
-			JTextField textField = new JTextField("" + ChaosData.current.getDist()[panelIndex]);
-			textField.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if (e.isAltDown() || e.isActionKey()) {
-						return;
-					}
-					Double value;
-					try {
-						value = Double.parseDouble(textField.getText());
-						if (value < 0) {
-							return;
-						}
-					} catch (NumberFormatException e2) {
-						return;
-					}
-					Vector<Double> vector = ChaosData.current.getDistVector();
-					Double dists = vector.get(panelIndex);
-					dists = value;
-					vector.set(panelIndex, dists);
-					App.mainWindow.getDrawer().setChange();
-					ChaosData.current.setChange();
-				}
-			});
-			Box box = Box.createHorizontalBox();
-			box.add(label);
-			box.add(textField);
-			box.setBorder(STD_SPACING_BORDER);
-			panel.add(box, BorderLayout.NORTH);
-		}
-		final int fieldMinimumWidth = 100;
-		final int fieldMaximumHeight = 22;
-		{
-			Box xBox = Box.createHorizontalBox();
-			JLabel label = new JLabel("CX");
-			xBox.add(label);
-			for (int i = 0; i < ChaosData.current.getCX()[0].length; i++) {
-				JTextField field = new JTextField("" + ChaosData.current.getCX()[panelIndex][i]);
-				field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
-				field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
-				final int theI = i;
-				field.addKeyListener(new KeyAdapter() {
+		public RulePanel() {
+			super(new BorderLayout());
+			
+			setMaximumSize(new Dimension(getMaximumSize().width, 110));
+			System.out.println("ToolPanel.createRule()");
+			
+			final int fieldMinimumWidth = 100;
+			final int fieldMaximumHeight = 22;
+			Border border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
+			setBorder(border);
+			{
+				JLabel label = new JLabel("Possibility");
+				JTextField textField = new JTextField("" + ChaosData.current.getDist()[panelIndex]);
+				textField.setMaximumSize(new Dimension(textField.getMaximumSize().width, fieldMaximumHeight));
+				textField.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyPressed(KeyEvent e) {
-						if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+						if (e.isAltDown() || e.isActionKey()) {
 							return;
 						}
 						Double value;
 						try {
-							value = Double.parseDouble(field.getText());
+							value = Double.parseDouble(textField.getText());
 							if (value < 0) {
 								return;
 							}
 						} catch (NumberFormatException e2) {
 							return;
 						}
-						Vector<Double[]> vector = ChaosData.current.getCXVector();
-						Double[] cxs = vector.get(panelIndex);
-						cxs[theI] = value;
-						vector.set(panelIndex, cxs);
+						Vector<Double> vector = ChaosData.current.getDistVector();
+						Double dists = vector.get(panelIndex);
+						dists = value;
+						vector.set(panelIndex, dists);
 						App.mainWindow.getDrawer().setChange();
 						ChaosData.current.setChange();
 					}
 				});
-				xBox.add(createSpacing());
-				xBox.add(field);
-			}
-			xBox.setBorder(STD_SPACING_BORDER);
-			panel.add(xBox);
-		}
-		{
-			Box yBox = Box.createHorizontalBox();
-			JLabel label = new JLabel("CY");
-			yBox.add(label);
-			for (int i = 0; i < ChaosData.current.getCY()[0].length; i++) {
-				JTextField field = new JTextField("" + ChaosData.current.getCY()[panelIndex][i]);
-				field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
-				field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
-				final int theI = i;
-				field.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyPressed(KeyEvent e) {
-						if (e.getKeyCode() != KeyEvent.VK_ENTER) {
-							return;
-						}
-						Double value;
-						try {
-							value = Double.parseDouble(field.getText());
-						} catch (NumberFormatException e2) {
-							return;
-						}
-						Vector<Double[]> vector = ChaosData.current.getCYVector();
-						Double[] cys = vector.get(panelIndex);
-						cys[theI] = value;
-						vector.set(panelIndex, cys);
-						App.mainWindow.getDrawer().setChange();
-						ChaosData.current.setChange();
+				JButton deleteButton = new JButton("✕");
+				deleteButton.setMaximumSize(new Dimension(fieldMaximumHeight, fieldMaximumHeight));
+				deleteButton.setSize(fieldMaximumHeight, fieldMaximumHeight);
+				deleteButton.addActionListener((e) -> {
+					if (rulePanels.size() <= 0) {
+						return;
 					}
+					ChaosData.current.removeRule(panelIndex);
+					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
+						RulePanel panel = rulePanels.get(i);
+						panel.panelIndex--;
+						panel.updateUI();
+					}
+					contentBox.remove(this);
+					rulePanels.remove(this);
+					contentBox.updateUI();
 				});
-				yBox.add(createSpacing());
-				yBox.add(field);
+				
+				Box box = Box.createHorizontalBox();
+				box.add(label);
+				box.add(createSpacing());
+				box.add(textField);
+				box.add(createSpacing());
+				box.add(deleteButton);
+				box.setBorder(STD_SPACING_BORDER);
+				add(box, BorderLayout.NORTH);
 			}
-			yBox.setBorder(STD_SPACING_BORDER);
-			panel.add(yBox, BorderLayout.SOUTH);
+			{
+				Box xBox = Box.createHorizontalBox();
+				JLabel label = new JLabel("CX");
+				xBox.add(label);
+				for (int i = 0; i < ChaosData.current.getCX()[0].length; i++) {
+					JTextField field = new JTextField("" + ChaosData.current.getCX()[panelIndex][i]);
+					field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
+					field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
+					final int theI = i;
+					field.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyPressed(KeyEvent e) {
+							if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+								return;
+							}
+							Double value;
+							try {
+								value = Double.parseDouble(field.getText());
+								if (value < 0) {
+									return;
+								}
+							} catch (NumberFormatException e2) {
+								return;
+							}
+							Vector<Double[]> vector = ChaosData.current.getCXVector();
+							Double[] cxs = vector.get(panelIndex);
+							cxs[theI] = value;
+							vector.set(panelIndex, cxs);
+							App.mainWindow.getDrawer().setChange();
+							ChaosData.current.setChange();
+						}
+					});
+					xBox.add(createSpacing());
+					xBox.add(field);
+				}
+				xBox.setBorder(STD_SPACING_BORDER);
+				add(xBox);
+			}
+			{
+				Box yBox = Box.createHorizontalBox();
+				JLabel label = new JLabel("CY");
+				yBox.add(label);
+				for (int i = 0; i < ChaosData.current.getCY()[0].length; i++) {
+					JTextField field = new JTextField("" + ChaosData.current.getCY()[panelIndex][i]);
+					field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
+					field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
+					final int theI = i;
+					field.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyPressed(KeyEvent e) {
+							if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+								return;
+							}
+							Double value;
+							try {
+								value = Double.parseDouble(field.getText());
+							} catch (NumberFormatException e2) {
+								return;
+							}
+							Vector<Double[]> vector = ChaosData.current.getCYVector();
+							Double[] cys = vector.get(panelIndex);
+							cys[theI] = value;
+							vector.set(panelIndex, cys);
+							App.mainWindow.getDrawer().setChange();
+							ChaosData.current.setChange();
+						}
+					});
+					yBox.add(createSpacing());
+					yBox.add(field);
+				}
+				yBox.setBorder(STD_SPACING_BORDER);
+				add(yBox, BorderLayout.SOUTH);
+			}
+			System.out.print(rulePanels.size());
+			
+			contentBox.remove(createRulePanel);
+			contentBox.add(this);
+			contentBox.add(createRulePanel);
+			updateUI();
+			rulePanels.add(this);
 		}
-		System.out.print(rulePanels.size());
+	}
+	
+	private void createRule(boolean itIsNew) {
+		RulePanel panel = new RulePanel();
 		
-		contentBox.remove(createRulePanel);
-		contentBox.add(panel);
-		contentBox.add(createRulePanel);
-		panel.updateUI();
-		rulePanels.add(panel);
+		if (itIsNew) {
+			ChaosData.current.addRule();
+			App.mainWindow.getDrawer().setChange();
+			ChaosData.current.setChange();
+		}
 	}
 }
