@@ -10,7 +10,11 @@ public class App {
     	mainWindow = new MainWindow();
 		
 		try {
-			new ChaosFileParser(defaultFile);
+			if (args.length > 0) {
+				new ChaosFileParser(new File(args[0]));
+			} else {
+				new ChaosFileParser(defaultFile);
+			}
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
 		}

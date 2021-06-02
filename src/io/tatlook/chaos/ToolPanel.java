@@ -4,6 +4,7 @@
 package io.tatlook.chaos;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,8 +19,9 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -108,33 +110,51 @@ public class ToolPanel extends JPanel {
 	@SuppressWarnings("serial")
 	class RulePanel extends JPanel {
 		int panelIndex = rulePanels.size();
+		private Border border;
+		
+		private Double parseFieldValue(JTextField textField, boolean negative) throws NumberFormatException {
+			Double value;
+			try {
+				value = Double.parseDouble(textField.getText());
+				if ((!negative) && value < 0) {
+					throw new NumberFormatException();
+				}
+				textField.setBorder(new JTextField().getBorder());
+			} catch (NumberFormatException e) {
+				textField.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 255), 3));
+				throw e;
+			}
+			
+			return value;
+		}
 		
 		public RulePanel() {
 			super(new BorderLayout());
 			
-			setMaximumSize(new Dimension(getMaximumSize().width, 110));
-			System.out.println("ToolPanel.createRule()");
+			abstract class DocumentAdapter implements DocumentListener {
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					changedUpdate(e);
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					changedUpdate(e);
+				}
+			}
 			
 			final int fieldMinimumWidth = 100;
 			final int fieldMaximumHeight = 22;
-			Border border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
-			setBorder(border);
 			{
 				JLabel label = new JLabel("Possibility");
 				JTextField textField = new JTextField("" + ChaosData.current.getDist()[panelIndex]);
 				textField.setMaximumSize(new Dimension(textField.getMaximumSize().width, fieldMaximumHeight));
-				textField.addKeyListener(new KeyAdapter() {
+				textField.getDocument().addDocumentListener(new DocumentAdapter() {
 					@Override
-					public void keyPressed(KeyEvent e) {
-						if (e.isAltDown() || e.isActionKey()) {
-							return;
-						}
+					public void changedUpdate(DocumentEvent e) {
 						Double value;
 						try {
-							value = Double.parseDouble(textField.getText());
-							if (value < 0) {
-								return;
-							}
+							value = parseFieldValue(textField, false);
 						} catch (NumberFormatException e2) {
 							return;
 						}
@@ -151,17 +171,23 @@ public class ToolPanel extends JPanel {
 				deleteButton.setSize(fieldMaximumHeight, fieldMaximumHeight);
 				deleteButton.addActionListener((e) -> {
 					if (rulePanels.size() <= 0) {
-						return;
+						throw new AssertionError();
 					}
+					// Poista tiedoista
 					ChaosData.current.removeRule(panelIndex);
+					// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
 					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
 						RulePanel panel = rulePanels.get(i);
 						panel.panelIndex--;
+						// Virkistää näyttön
 						panel.updateUI();
 					}
 					contentBox.remove(this);
 					rulePanels.remove(this);
 					contentBox.updateUI();
+					
+					App.mainWindow.getDrawer().setChange();
+					ChaosData.current.setChange();
 				});
 				
 				Box box = Box.createHorizontalBox();
@@ -170,6 +196,7 @@ public class ToolPanel extends JPanel {
 				box.add(textField);
 				box.add(createSpacing());
 				box.add(deleteButton);
+				box.add(createSpacing());
 				box.setBorder(STD_SPACING_BORDER);
 				add(box, BorderLayout.NORTH);
 			}
@@ -177,23 +204,17 @@ public class ToolPanel extends JPanel {
 				Box xBox = Box.createHorizontalBox();
 				JLabel label = new JLabel("CX");
 				xBox.add(label);
-				for (int i = 0; i < ChaosData.current.getCX()[0].length; i++) {
+				for (int i = 0; i < 3; i++) {
 					JTextField field = new JTextField("" + ChaosData.current.getCX()[panelIndex][i]);
 					field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
 					field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
 					final int theI = i;
-					field.addKeyListener(new KeyAdapter() {
+					field.getDocument().addDocumentListener(new DocumentAdapter() {
 						@Override
-						public void keyPressed(KeyEvent e) {
-							if (e.getKeyCode() != KeyEvent.VK_ENTER) {
-								return;
-							}
+						public void changedUpdate(DocumentEvent e) {
 							Double value;
 							try {
-								value = Double.parseDouble(field.getText());
-								if (value < 0) {
-									return;
-								}
+								value = parseFieldValue(field, true);
 							} catch (NumberFormatException e2) {
 								return;
 							}
@@ -215,20 +236,17 @@ public class ToolPanel extends JPanel {
 				Box yBox = Box.createHorizontalBox();
 				JLabel label = new JLabel("CY");
 				yBox.add(label);
-				for (int i = 0; i < ChaosData.current.getCY()[0].length; i++) {
+				for (int i = 0; i < 3; i++) {
 					JTextField field = new JTextField("" + ChaosData.current.getCY()[panelIndex][i]);
 					field.setMinimumSize(new Dimension(fieldMinimumWidth, 0));
 					field.setMaximumSize(new Dimension(field.getMaximumSize().width, fieldMaximumHeight));
 					final int theI = i;
-					field.addKeyListener(new KeyAdapter() {
+					field.getDocument().addDocumentListener(new DocumentAdapter() {
 						@Override
-						public void keyPressed(KeyEvent e) {
-							if (e.getKeyCode() != KeyEvent.VK_ENTER) {
-								return;
-							}
+						public void changedUpdate(DocumentEvent e) {
 							Double value;
 							try {
-								value = Double.parseDouble(field.getText());
+								value = parseFieldValue(field, true);
 							} catch (NumberFormatException e2) {
 								return;
 							}
@@ -247,22 +265,31 @@ public class ToolPanel extends JPanel {
 				add(yBox, BorderLayout.SOUTH);
 			}
 			System.out.print(rulePanels.size());
-			
-			contentBox.remove(createRulePanel);
-			contentBox.add(this);
-			contentBox.add(createRulePanel);
-			updateUI();
-			rulePanels.add(this);
+		}
+		
+		@Override
+		public void updateUI() {
+			super.updateUI();
+			setMaximumSize(new Dimension(getMaximumSize().width, 110));
+			border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
+			setBorder(border);
 		}
 	}
 	
 	private void createRule(boolean itIsNew) {
-		RulePanel panel = new RulePanel();
+		System.out.println("ToolPanel.createRule()");
 		
 		if (itIsNew) {
 			ChaosData.current.addRule();
 			App.mainWindow.getDrawer().setChange();
 			ChaosData.current.setChange();
 		}
+		
+		RulePanel panel = new RulePanel();
+		contentBox.remove(createRulePanel);
+		contentBox.add(panel);
+		contentBox.add(createRulePanel);
+		panel.updateUI();
+		rulePanels.add(panel);
 	}
 }

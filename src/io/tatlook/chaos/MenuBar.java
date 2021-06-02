@@ -112,11 +112,15 @@ public class MenuBar extends JMenuBar {
         });
         
         JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
+        JMenuItem intoMiddleMenuItem = new JMenuItem("Into the middle");
         cleanImageMenuItem.setMnemonic('C');
+        intoMiddleMenuItem.setMnemonic('I');
         
         viewMenu.add(cleanImageMenuItem);
+        viewMenu.add(intoMiddleMenuItem);
         
         cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
+        intoMiddleMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().intoMiddle());
         
 		add(fileMenu);
 		add(viewMenu);

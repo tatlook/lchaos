@@ -30,9 +30,6 @@ public class ChaosData {
     
     public ChaosData() {
     	this(new double[1], new double[1][3], new double[1][3]);
-//   	double[] dist = new double[1];
-//    	double[][] cx = new double[3][1];
-//    	double[][] cy = new double[3][1];
     }
     
     public double[] getDist() {
