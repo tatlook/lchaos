@@ -10,11 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.WindowConstants;
 
 import io.tatlook.chaos.MainWindow.MainWindowListener;
@@ -91,6 +93,9 @@ public class MenuBar extends JMenuBar {
         	ImageFileChooser fileChooser = new ImageFileChooser();
         	fileChooser.chose();
         	File file = fileChooser.getImageFile();
+        	if (file == null) {
+				return;
+			}
         	String imageType = fileChooser.getImageType();
         	Drawer drawer = App.mainWindow.getDrawer();
 
@@ -113,11 +118,40 @@ public class MenuBar extends JMenuBar {
         
         JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
         JMenuItem intoMiddleMenuItem = new JMenuItem("Into the middle");
+        JMenu imageSizeMenu = new JMenu("Image size");
         cleanImageMenuItem.setMnemonic('C');
         intoMiddleMenuItem.setMnemonic('I');
+        imageSizeMenu.setMnemonic('S');
+        
+        ButtonGroup imageSizeButtonGroup = new ButtonGroup();
+        @SuppressWarnings("serial")
+		class ImageSizeRadioButtonMenuItem extends JRadioButtonMenuItem {
+        	public ImageSizeRadioButtonMenuItem(int size, boolean selected) {
+        		super(size + "×" + size, selected);
+        		imageSizeButtonGroup.add(this);
+        		imageSizeMenu.add(this);
+        		addChangeListener((e) -> {
+        			if (isSelected()) {
+        				App.mainWindow.getDrawer().setImageSize(size);
+        			}
+        		});
+        	}
+			public ImageSizeRadioButtonMenuItem(int size) {
+				this(size, false);
+			}
+        }
+        
+        new ImageSizeRadioButtonMenuItem(300);
+        new ImageSizeRadioButtonMenuItem(500);
+        new ImageSizeRadioButtonMenuItem(1000);
+        new ImageSizeRadioButtonMenuItem(2000);
+        new ImageSizeRadioButtonMenuItem(3000, true);
+        new ImageSizeRadioButtonMenuItem(4000);
+        new ImageSizeRadioButtonMenuItem(5000);
         
         viewMenu.add(cleanImageMenuItem);
         viewMenu.add(intoMiddleMenuItem);
+        viewMenu.add(imageSizeMenu);
         
         cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
         intoMiddleMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().intoMiddle());

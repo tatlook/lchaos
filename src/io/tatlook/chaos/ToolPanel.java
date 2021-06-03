@@ -89,10 +89,7 @@ public class ToolPanel extends JPanel {
 		slider.setPaintTrack(true);
 		slider.addChangeListener((e) -> {
 			int sliderValue = slider.getValue();
-			int waitTime = (Byte.MAX_VALUE) / (sliderValue + 1);
-			if (sliderValue == 10) {
-				waitTime = 0;
-			}
+			int waitTime = ((11 - sliderValue) * 500 + 1) / Drawer.imageHeight;
 			App.mainWindow.getDrawer().setWaitTime(waitTime);
 		});
 		

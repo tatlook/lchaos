@@ -17,7 +17,7 @@ public class ImageFileChooser {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
 
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG(*.jpg)", "jpg"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG(*.jpg, *.jpeg, *.jpe, *.jfif)", "jpg", "jpeg", "jpe", "jfif"));
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("GIF(*.gif)", "gif"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("PNG(*.png)", "png"));
 
@@ -34,7 +34,7 @@ public class ImageFileChooser {
 				}
 			}
             imageType = switch (getFileExtension(file).toLowerCase()) {
-				case "jpg", "jpeg", "jpe", "jfif" -> "jpeg";
+				case "jpg", "jpeg", "jpe", "jfif" -> "jpg";
 				case "png" -> "png";
 				case "gif" -> "gif";
 				default -> "png";

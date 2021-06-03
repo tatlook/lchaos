@@ -38,8 +38,8 @@ public class Drawer extends JComponent implements Runnable {
 	 */
 	private Image image;
 	
-	public static final int imageWidth = 3000;
-	public static final int imageHeight = 3000;
+	public static int imageWidth = 3000;
+	public static int imageHeight = 3000;
 	
 	private int zoom = imageHeight;
 	private int imageX = imageWidth / 2;
@@ -50,17 +50,19 @@ public class Drawer extends JComponent implements Runnable {
 	public Drawer() {
 		// Kuva suurennee/pienennee, kun hiiren rullaa selaa.
 		addMouseWheelListener((e) -> {
-			zoom -= e.getWheelRotation() * 100;
-			if (zoom < 600) {
-				zoom = 600;
+			zoom -= e.getWheelRotation() * imageHeight / 30;
+			int minSize = Math.min(getWidth(), getHeight());
+			int maxSize = Math.max(getWidth(), getHeight());
+			if (zoom < minSize / 4 * 3) {
+				zoom = minSize / 4 * 3;
 				return;
 			}
 			if (zoom > imageHeight * 3) {
 				zoom = imageHeight * 3;
 				return;
 			}
-			int moveX = 200 * e.getX() / imageWidth;
-			int moveY = 200 * e.getY() / imageHeight;
+			int moveX = imageWidth / 15 * e.getX() / maxSize;
+			int moveY = imageHeight / 15 * e.getY() / maxSize;
 			if (e.getWheelRotation() < 0) {
 				imageX += moveX;
 				imageY += moveY;
@@ -153,8 +155,8 @@ public class Drawer extends JComponent implements Runnable {
         double x = 0.0, y = 0.0;
         while (true) {
         	g.setColor(Color.red);
-        	// Piirtään tuhat pistettä kuvaan.
-        	for (int t = 0; t < 1000; t++) { 
+        	// Piirtään pistettä kuvaan.
+        	for (int t = 0; t < imageHeight / 100; t++) { 
         		// Säännöstä valitaan yksi, r on sen numero
         		int r = discrete(dist); 
         		
@@ -170,7 +172,7 @@ public class Drawer extends JComponent implements Runnable {
         		g.drawLine((int)x0, imageHeight - (int)y0, (int)x0, imageHeight - (int)y0);
         	}
         	
-        	// Kun on jo tuhat pistettä lisääntyy kuvassa
+        	// Kun on jo riitävä pistettä lisääntyy kuvassa
         	
         	// Jos jotain parametri muutui, päivitää sen.
     		if (hasChange) {
@@ -225,5 +227,11 @@ public class Drawer extends JComponent implements Runnable {
 	public void intoMiddle() {
 		imageX = zoom / 2;
 		imageY = zoom / 2;
+	}
+
+	public void setImageSize(int size) {
+		imageWidth = imageHeight = zoom = size;
+		intoMiddle();
+		clean();
 	}
 }
