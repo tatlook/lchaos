@@ -37,6 +37,7 @@ public class Drawer extends JComponent implements Runnable {
 	 * Kuva, johon pirtään pistettä
 	 */
 	private Image image;
+	private Color penColor = Color.red;
 	
 	public static int imageWidth = 3000;
 	public static int imageHeight = 3000;
@@ -154,7 +155,7 @@ public class Drawer extends JComponent implements Runnable {
         // Ensimäisen pisteen koordinaati
         double x = 0.0, y = 0.0;
         while (true) {
-        	g.setColor(Color.red);
+        	g.setColor(penColor);
         	// Piirtään pistettä kuvaan.
         	for (int t = 0; t < imageHeight / 100; t++) { 
         		// Säännöstä valitaan yksi, r on sen numero
@@ -233,5 +234,14 @@ public class Drawer extends JComponent implements Runnable {
 		imageWidth = imageHeight = zoom = size;
 		intoMiddle();
 		clean();
+	}
+
+	public void setPenColor(Color color) {
+		penColor = color;
+		setChange();
+	}
+
+	public Color getPenColor() {
+		return penColor;
 	}
 }

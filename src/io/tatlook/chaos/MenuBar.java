@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -118,9 +119,11 @@ public class MenuBar extends JMenuBar {
         
         JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
         JMenuItem intoMiddleMenuItem = new JMenuItem("Into the middle");
+        JMenuItem chooseColorMenuItem = new JMenuItem("Select color");
         JMenu imageSizeMenu = new JMenu("Image size");
         cleanImageMenuItem.setMnemonic('C');
         intoMiddleMenuItem.setMnemonic('I');
+        chooseColorMenuItem.setMnemonic('O');
         imageSizeMenu.setMnemonic('S');
         
         ButtonGroup imageSizeButtonGroup = new ButtonGroup();
@@ -151,11 +154,18 @@ public class MenuBar extends JMenuBar {
         
         viewMenu.add(cleanImageMenuItem);
         viewMenu.add(intoMiddleMenuItem);
+        viewMenu.add(chooseColorMenuItem);
         viewMenu.add(imageSizeMenu);
         
         cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
         intoMiddleMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().intoMiddle());
-        
+        chooseColorMenuItem.addActionListener((e) -> {
+        	App.mainWindow.getDrawer().setPenColor(
+        			JColorChooser.showDialog(
+        					App.mainWindow, 
+        					"Color Chooser", 
+        					App.mainWindow.getDrawer().getPenColor()));
+        });
 		add(fileMenu);
 		add(viewMenu);
 	}

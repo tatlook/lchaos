@@ -5,15 +5,24 @@ import java.io.FileNotFoundException;
 
 public class App {
 	static MainWindow mainWindow;
-	static File defaultFile = new File("rules/bas.ch");
     public static void main(String[] args) {
     	mainWindow = new MainWindow();
 		
 		try {
 			if (args.length > 0) {
-				new ChaosFileParser(new File(args[0]));
+				File file = new File(args[0]);
+				if (file.exists()) {
+					new ChaosFileParser(file);					
+				} else {
+					if (args[0].charAt(0) == '-') {
+						System.out.println("This program doesn't have command-line options");
+						System.exit(0);
+					}
+					// = Throw new FileNotFoundException.
+					new ChaosFileParser(file);
+				}
 			} else {
-				new ChaosFileParser(defaultFile);
+				new NullChaosFileParser();
 			}
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);

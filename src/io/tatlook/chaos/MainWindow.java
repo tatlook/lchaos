@@ -40,7 +40,6 @@ public class MainWindow extends JFrame {
 	
 
 	public MainWindow() {
-		super.setTitle(NAME);
 		super.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		super.setMinimumSize(new Dimension(900, 600));
@@ -118,12 +117,12 @@ public class MainWindow extends JFrame {
 		JMenuBar menuBar = new MenuBar();
 		setJMenuBar(menuBar);
 		
-		toolPanel = new ToolPanel();
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		
+		updateToolPanel();
 		drawer = new Drawer();
 		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setRightComponent(drawer);
-		splitPane.setLeftComponent(toolPanel);
 		
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 		
