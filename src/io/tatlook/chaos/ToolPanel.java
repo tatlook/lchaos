@@ -174,7 +174,7 @@ public class ToolPanel extends JPanel {
 						dists = value;
 						vector.set(panelIndex, dists);
 						App.mainWindow.getDrawer().setChange();
-						ChaosData.current.setChange();
+						ChaosData.current.setChanged(true);
 					}
 				});
 				deleteButton.setMaximumSize(new Dimension(fieldMaximumHeight, fieldMaximumHeight));
@@ -197,7 +197,7 @@ public class ToolPanel extends JPanel {
 					contentBox.updateUI();
 					
 					App.mainWindow.getDrawer().setChange();
-					ChaosData.current.setChange();
+					ChaosData.current.setChanged(true);
 				});
 				
 				Box box = Box.createHorizontalBox();
@@ -234,7 +234,7 @@ public class ToolPanel extends JPanel {
 							cxs[theI] = value;
 							vector.set(panelIndex, cxs);
 							App.mainWindow.getDrawer().setChange();
-							ChaosData.current.setChange();
+							ChaosData.current.setChanged(true);
 						}
 					});
 					xBox.add(createSpacing());
@@ -267,7 +267,7 @@ public class ToolPanel extends JPanel {
 							cys[theI] = value;
 							vector.set(panelIndex, cys);
 							App.mainWindow.getDrawer().setChange();
-							ChaosData.current.setChange();
+							ChaosData.current.setChanged(true);
 						}
 					});
 					yBox.add(createSpacing());
@@ -283,28 +283,11 @@ public class ToolPanel extends JPanel {
 			UndoManager manager = new UndoManager();
 			field.getDocument().addUndoableEditListener(manager);
 			
-			ActionListener pasteActionListener = (e) -> {
-				field.paste();
-//					Transferable transferable = clipboard.getContents(null);
-//					if (transferable == null) {
-//						return;
-//					}
-//		            if (transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-//		                try {
-//		                    String text = (String) transferable.getTransferData(DataFlavor.stringFlavor);
-//		                    String selected = field.getSelectedText();
-//							if (selected == null || selected.equals("")) {
-//								field.getColumns();
-//								field.i
-//							}
-//		                } catch (Exception e1) {
-//		                    e1.printStackTrace();
-//		                }
-//		            }
-			};
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			ActionListener pasteActionListener = (e) -> field.paste();
 			ActionListener cutActionListener = (e) -> {
 				String selected = field.getSelectedText();
+				// Jos ei ole valinnut mitään, leikkaa kaikki tekstikenttästä pois.
 				if (selected == null || selected.equals("")) {
 					Transferable transferable = new StringSelection(field.getText());
 					clipboard.setContents(transferable, null);
@@ -315,11 +298,12 @@ public class ToolPanel extends JPanel {
 			};
 			ActionListener copyActionListener = (e) -> {
 				String selected = field.getSelectedText();
+				// Jos ei ole valinnut mitään, kopioida kaikki tekstikenttästä leikepöydälle.
 				if (selected == null || selected.equals("")) {
 					Transferable transferable = new StringSelection(field.getText());
 					clipboard.setContents(transferable, null);
 				} else {
-					field.copy();							
+					field.copy();
 				}
 			};
 			
@@ -332,7 +316,7 @@ public class ToolPanel extends JPanel {
 						case KeyEvent.VK_Z :
 							if (manager.canUndo()) {
 								manager.undo();
-							}							
+							}
 							break;
 						case KeyEvent.VK_Y :
 							if (manager.canRedo()) {
@@ -411,7 +395,7 @@ public class ToolPanel extends JPanel {
 		if (itIsNew) {
 			ChaosData.current.addRule();
 			App.mainWindow.getDrawer().setChange();
-			ChaosData.current.setChange();
+			ChaosData.current.setChanged(true);
 		}
 		
 		RulePanel panel = new RulePanel();

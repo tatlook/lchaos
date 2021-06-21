@@ -5,8 +5,12 @@ package io.tatlook.chaos;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.KeyEventPostProcessor;
 import java.awt.KeyboardFocusManager;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -93,6 +97,7 @@ public class MainWindow extends JFrame {
 
 	private JPanel toolPanel;
 	private JSplitPane splitPane;
+	private JMenuBar menuBar;
 	
 	public void updateToolPanel() {
 		toolPanel = new ToolPanel();
@@ -105,10 +110,55 @@ public class MainWindow extends JFrame {
 		}
 	}
 	
+	private Runnable fullScreenRunnable = new Runnable() {
+		/**
+		 * Tallennetut ikkunatiedot 
+		 */
+		int state;
+		Dimension size;
+		Point location;
+		@Override
+		public void run() {
+			if (isUndecorated()) {
+				setJMenuBar(menuBar);
+				setContentPane(mainPanel);
+				splitPane.setRightComponent(drawer);
+				// On pakko käytä tämä funktio, kun aikeissa käyttää setUndecorated()
+				dispose();
+				// Käytä tallennettuja tietoja.
+				setSize(size);
+				setExtendedState(state);
+				setLocation(location);
+				// Tee raja ikkunalle.
+				setUndecorated(false);
+				// On pakko käytä tämä funktio, kun äsken käyttää dispose()
+				setVisible(true);
+			} else {
+				setJMenuBar(null);
+				setContentPane(drawer);
+				// Laita tiedot talteen.
+				size = getSize();
+				state = getExtendedState();
+				location = getLocationOnScreen();
+				// On pakko käytä tämä funktio, kun aikeissa käyttää setUndecorated()
+				dispose();
+				// Maksimoida ikkunaa.
+				setExtendedState(JFrame.MAXIMIZED_BOTH);
+				setUndecorated(true);	// Otta raja ikkunasta pois.
+				// On pakko käytä tämä funktio, kun äsken käyttää dispose()
+				setVisible(true);
+			}
+		}
+	};
+	
+	public Runnable getFullScreenRunnable() {
+		return fullScreenRunnable;
+	}
+
 	public void UI() {
 		super.setContentPane(mainPanel);
 		
-		JMenuBar menuBar = new MenuBar();
+		menuBar = new MenuBar();
 		setJMenuBar(menuBar);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -123,7 +173,6 @@ public class MainWindow extends JFrame {
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 			int stal = 0;
-			boolean full = false;
 			@Override
 			public boolean postProcessKeyEvent(KeyEvent e) {
 				stal++;
@@ -131,24 +180,18 @@ public class MainWindow extends JFrame {
 					stal = 0;
 					return true;
 				}
-				if (e.getKeyCode() != KeyEvent.VK_F11) {
-					return true;
-				}
 				System.out.println(
 						"MainWindow.UI().new KeyEventPostProcessor() {...}.postProcessKeyEvent()");
-				if (full == true) {
-					setJMenuBar(menuBar);
-					setContentPane(mainPanel);
-					splitPane.setRightComponent(drawer);
-					update(getGraphics());
-					full = false;
+				if (isUndecorated()) {
+					if (e.getKeyCode() != KeyEvent.VK_F11 && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+						return true;
+					}
+					fullScreenRunnable.run();
 				} else {
-					setJMenuBar(null);
-					setContentPane(drawer);
-					update(getGraphics());
-					setExtendedState(JFrame.NORMAL);
-					setExtendedState(JFrame.MAXIMIZED_BOTH);
-					full = true;
+					if (e.getKeyCode() != KeyEvent.VK_F11) {
+						return true;
+					}
+					fullScreenRunnable.run();
 				}
 				return true; 
 			}

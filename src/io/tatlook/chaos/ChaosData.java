@@ -56,8 +56,8 @@ public class ChaosData {
     	return cyVector;
     }
     
-    public void setChange() {
-		changed = true; 
+    public void setChanged(boolean changed) {
+		this.changed = changed; 
 	}
     
     public boolean isChanged() {

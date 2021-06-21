@@ -113,6 +113,7 @@ public class Drawer extends JComponent implements Runnable {
         });
 	}
 	
+	@Override
 	public void paint(Graphics g) {
 		g.drawImage(image, -imageX, -imageY, zoom, zoom, this);
 	}

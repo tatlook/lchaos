@@ -119,10 +119,12 @@ public class MenuBar extends JMenuBar {
         JMenuItem intoMiddleMenuItem = new JMenuItem("Into the middle");
         JMenuItem chooseColorMenuItem = new JMenuItem("Select color");
         JMenu imageSizeMenu = new JMenu("Image size");
+        JMenuItem fullScreenMenuItem = new JMenuItem("Full screen (F11)");
         cleanImageMenuItem.setMnemonic('C');
         intoMiddleMenuItem.setMnemonic('I');
         chooseColorMenuItem.setMnemonic('O');
         imageSizeMenu.setMnemonic('S');
+        fullScreenMenuItem.setMnemonic('F');
         
         ButtonGroup imageSizeButtonGroup = new ButtonGroup();
         @SuppressWarnings("serial")
@@ -154,6 +156,8 @@ public class MenuBar extends JMenuBar {
         viewMenu.add(intoMiddleMenuItem);
         viewMenu.add(chooseColorMenuItem);
         viewMenu.add(imageSizeMenu);
+        viewMenu.addSeparator();
+        viewMenu.add(fullScreenMenuItem);
         
         cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
         intoMiddleMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().intoMiddle());
@@ -164,6 +168,10 @@ public class MenuBar extends JMenuBar {
         					"Color Chooser", 
         					App.mainWindow.getDrawer().getPenColor()));
         });
+        fullScreenMenuItem.addActionListener((e) -> {
+        	App.mainWindow.getFullScreenRunnable().run();
+        });
+
 		add(fileMenu);
 		add(viewMenu);
 	}

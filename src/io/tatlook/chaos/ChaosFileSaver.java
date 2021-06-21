@@ -77,6 +77,7 @@ public class ChaosFileSaver {
 		}
     	ChaosFileSaver saver = new ChaosFileSaver(file);
     	saver.save();
+    	ChaosData.current.setChanged(false);
     	return true;
 	}
 }
