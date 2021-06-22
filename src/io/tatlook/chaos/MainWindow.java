@@ -5,12 +5,9 @@ package io.tatlook.chaos;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
 import java.awt.KeyEventPostProcessor;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -180,8 +177,6 @@ public class MainWindow extends JFrame {
 					stal = 0;
 					return true;
 				}
-				System.out.println(
-						"MainWindow.UI().new KeyEventPostProcessor() {...}.postProcessKeyEvent()");
 				if (isUndecorated()) {
 					if (e.getKeyCode() != KeyEvent.VK_F11 && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
 						return true;

@@ -3,6 +3,7 @@
  */
 package io.tatlook.chaos;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -162,11 +163,13 @@ public class MenuBar extends JMenuBar {
         cleanImageMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().clean());
         intoMiddleMenuItem.addActionListener((e) -> App.mainWindow.getDrawer().intoMiddle());
         chooseColorMenuItem.addActionListener((e) -> {
-        	App.mainWindow.getDrawer().setPenColor(
-        			JColorChooser.showDialog(
-        					App.mainWindow, 
-        					"Color Chooser", 
-        					App.mainWindow.getDrawer().getPenColor()));
+        	Color color = JColorChooser.showDialog(
+					App.mainWindow, 
+					"Color Chooser", 
+					App.mainWindow.getDrawer().getPenColor());
+        	if (color != null) {
+        		App.mainWindow.getDrawer().setPenColor(color);				
+			}
         });
         fullScreenMenuItem.addActionListener((e) -> {
         	App.mainWindow.getFullScreenRunnable().run();
