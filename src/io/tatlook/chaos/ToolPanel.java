@@ -92,16 +92,20 @@ public class ToolPanel extends JPanel {
 		speedControlPanel.setMaximumSize(new Dimension(speedControlPanel.getMaximumSize().width, 90));
 		
 		JSlider slider = new JSlider(0, 10);
-		slider.setValue(0);
+		if (App.mainWindow.getDrawer() != null) {
+			int waitLevel = App.mainWindow.getDrawer().getWaitLevel();
+			slider.setValue(waitLevel);			
+		} else {
+			slider.setValue(0);
+		}
 		slider.setMajorTickSpacing(2);
         slider.setMinorTickSpacing(1);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setPaintTrack(true);
 		slider.addChangeListener((e) -> {
-			int sliderValue = slider.getValue();
-			int waitTime = ((11 - sliderValue) * 500 + 1) / Drawer.imageHeight;
-			App.mainWindow.getDrawer().setWaitTime(waitTime);
+			int waitLevel = slider.getValue();
+			App.mainWindow.getDrawer().setWaitLevel(waitLevel);
 		});
 		
 		speedControlPanel.add(slider);

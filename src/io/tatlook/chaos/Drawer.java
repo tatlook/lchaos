@@ -32,6 +32,7 @@ public class Drawer extends JComponent implements Runnable {
 	 * Kuinka pitkä aika pitä odota (millisekunti)
 	 */
 	private int waitTime = 1000;
+	private int waitLevel = 0;
 	
 	/**
 	 * Kuva, johon pirtään pistettä
@@ -127,12 +128,20 @@ public class Drawer extends JComponent implements Runnable {
 	}
 	
 	/**
-	 * @param waitTime the waitTime to set
+	 * @return the waitLevel
 	 */
-	public void setWaitTime(int waitTime) {
-		this.waitTime = waitTime;
+	public int getWaitLevel() {
+		return waitLevel;
 	}
-	
+
+	/**
+	 * @param waitLevel the waitLevel to set
+	 */
+	public void setWaitLevel(int waitLevel) {
+		this.waitLevel = waitLevel;
+		this.waitTime = ((11 - waitLevel) * 500 + 1) / imageHeight;
+	}
+
 	public void setChange() {
 		hasChange = true;
 	}
