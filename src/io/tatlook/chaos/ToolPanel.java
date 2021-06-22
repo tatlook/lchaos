@@ -196,8 +196,10 @@ public class ToolPanel extends JPanel {
 						// Virkistää näyttön
 						panel.updateUI();
 					}	
+					
 					contentBox.remove(this);
 					rulePanels.remove(this);
+					rulePanels.get(0).updateUI();
 					contentBox.updateUI();
 					
 					App.mainWindow.getDrawer().setChange();
@@ -390,6 +392,10 @@ public class ToolPanel extends JPanel {
 			setMaximumSize(new Dimension(getMaximumSize().width, 110));
 			border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
 			setBorder(border);
+			if (deleteButton == null) {
+				deleteButton = new JButton("✕");
+			}
+			deleteButton.setEnabled(rulePanels.size() != 1);
 		}
 	}
 	
@@ -406,7 +412,8 @@ public class ToolPanel extends JPanel {
 		contentBox.remove(createRulePanel);
 		contentBox.add(panel);
 		contentBox.add(createRulePanel);
-		panel.updateUI();
 		rulePanels.add(panel);
+		rulePanels.get(0).updateUI();
+		panel.updateUI();
 	}
 }
