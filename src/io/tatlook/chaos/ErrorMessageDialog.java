@@ -3,79 +3,40 @@
  */
 package io.tatlook.chaos;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  * @author Administrator
  *
  */
 public class ErrorMessageDialog {
+	/** Don't let anyone instantiate this class */
 	private ErrorMessageDialog() {
 	}
 	
 	public static void createExceptionDialog(Exception e) {
-		JDialog dialog = new JDialog(App.mainWindow, true);
-		JPanel panel = new JPanel();
-		
-		
-		dialog.setTitle(e.getClass().getName());
-		
-		JLabel messageLabel = new JLabel(e.getClass().getName());
-		if (e.getMessage() != null) {
-			messageLabel.setText(e.getClass().getName() + ": " + e.getMessage());
+		String title = "Error";
+		String message = e.getMessage();
+		if (e instanceof IOException) {
+			title = "Input/Output Error";
+			if (e instanceof FileNotFoundException) {
+				title = "File Does Not Exist";
+			}
 		}
-		String stackTraceString = "";
-		{
-			StackTraceElement[] elements = e.getStackTrace();
-			for (int i = 0; i < elements.length; i++) {
-				stackTraceString += elements[i].toString();
-				stackTraceString += "\n";
-			}			
+		if (e instanceof ChaosFileDataException) {
+			title = "File Format Error";
+			message = "There is an error in file \"" + 
+					((ChaosFileDataException) e).getFile().getPath() + "\"";
 		}
-		JTextArea stackTraceTextArea= new JTextArea(stackTraceString);
-		stackTraceTextArea.setEditable(false);
-		
-		panel.add(messageLabel);
-		panel.add(stackTraceTextArea);
-		dialog.setContentPane(panel);
-		dialog.setSize(500, 300);
-		dialog.setAlwaysOnTop(true);
-		dialog.setVisible(true);
-		
-		System.exit(1);
-	}
-	
-	public static void createChaosFileDataExceptionDialog(ChaosFileDataException e) {
-		JDialog dialog = new JDialog(App.mainWindow, true);
-		JPanel panel = new JPanel();
-		
-		
-		dialog.setTitle("File format error");
-		
-		JLabel messageLabel = new JLabel(e.getMessage());
-		String stackTraceString = "";
-		{
-			StackTraceElement[] elements = e.getStackTrace();
-			for (int i = 0; i < elements.length; i++) {
-				stackTraceString += elements[i].toString();
-				stackTraceString += "\n";
-			}			
-		}
-		JTextArea stackTraceTextArea= new JTextArea(stackTraceString);
-		stackTraceTextArea.setEditable(false);
-		
-		panel.add(messageLabel);
-		panel.add(stackTraceTextArea);
-		dialog.setContentPane(panel);
-		dialog.setSize(500, 300);
-		dialog.setAlwaysOnTop(true);
-		dialog.setVisible(true);
-		
-		System.exit(1);
+		JOptionPane.showMessageDialog(
+				App.mainWindow,
+				message,
+				title,
+				JOptionPane.ERROR_MESSAGE
+		);
 	}
 	
 	public static int createSaveDialog() {
