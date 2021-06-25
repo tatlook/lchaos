@@ -81,7 +81,7 @@ public class ChaosFileParser {
 			inputStream = new FileInputStream(chaosFile);
 			scanner = new Scanner(inputStream);
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorMessageDialog.createExceptionDialog(e);
 		}
 		data = new ChaosData(readDouble1D(),
 				readDouble2D(),
@@ -90,6 +90,8 @@ public class ChaosFileParser {
 			throw new NullPointerException();
 		}
 		ChaosData.current = data;
+		
+		scanner.close();
 	}
 
 	/**
