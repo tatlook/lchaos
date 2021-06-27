@@ -150,13 +150,6 @@ public class Drawer extends JComponent implements Runnable {
 	public void run() {
 		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
-		
-		ChaosFileParser parser = ChaosFileParser.getCurrentFileParser();
-		try {
-			parser.readChaos();
-		} catch (ChaosFileDataException e) {
-			e.openDialog();
-		}
 	
         double[] dist = ChaosData.current.getDist();
         double[][] cx = ChaosData.current.getCX();

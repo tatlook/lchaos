@@ -32,6 +32,12 @@ public class App {
 			ErrorMessageDialog.createExceptionDialog(e);
 			new NullChaosFileParser();
 		}
+		
+		try {
+			ChaosFileParser.getCurrentFileParser().readChaos();
+		} catch (ChaosFileDataException e) {
+			e.openDialog();
+		}
     	
     	mainWindow.UI();
     	mainWindow.setVisible(true);

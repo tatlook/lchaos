@@ -6,7 +6,6 @@ package io.tatlook.chaos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -75,14 +74,6 @@ public class ChaosFileParser {
     }
     
 	public void readChaos() throws ChaosFileDataException {
-		try {
-			// Lue alusta
-			inputStream.close();
-			inputStream = new FileInputStream(chaosFile);
-			scanner = new Scanner(inputStream);
-		} catch (IOException e) {
-			ErrorMessageDialog.createExceptionDialog(e);
-		}
 		data = new ChaosData(readDouble1D(),
 				readDouble2D(),
 				readDouble2D());

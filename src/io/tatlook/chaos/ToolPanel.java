@@ -59,11 +59,6 @@ public class ToolPanel extends JPanel {
 	
 	public ToolPanel() {
 		super(new BorderLayout());
-		try {
-			ChaosFileParser.getCurrentFileParser().readChaos();
-		} catch (ChaosFileDataException e) {
-			e.openDialog();
-		}
 		contentBox = Box.createVerticalBox();
 		JScrollPane scrollPane = new JScrollPane(contentBox,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
