@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionListener;
@@ -287,7 +288,14 @@ public class ToolPanel extends JPanel {
 		
 		private void addListeners(JTextField field) {
 			UndoManager manager = new UndoManager();
-			field.getDocument().addUndoableEditListener(manager);
+			
+			JMenuItem undoMenuItem = new JMenuItem("Undo    (Ctrl+Z)");
+			JMenuItem redoMenuItem = new JMenuItem("Redo    (Ctrl+Y)");
+			field.getDocument().addUndoableEditListener((e) -> {
+				manager.addEdit(e.getEdit());
+				undoMenuItem.setEnabled(manager.canUndo());
+				redoMenuItem.setEnabled(manager.canRedo());
+			});
 			
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			ActionListener pasteActionListener = (e) -> field.paste();
@@ -312,23 +320,28 @@ public class ToolPanel extends JPanel {
 					field.copy();
 				}
 			};
+			ActionListener undoActionListener = (e) -> {
+				if (manager.canUndo()) {
+					manager.undo();
+				}
+				undoMenuItem.setEnabled(manager.canUndo());
+				redoMenuItem.setEnabled(manager.canRedo());
+			};
+			ActionListener redoActionListener = (e) -> {
+				if (manager.canRedo()) {
+					manager.redo();
+				} 
+				undoMenuItem.setEnabled(manager.canUndo());
+				redoMenuItem.setEnabled(manager.canRedo());
+			};
 			
 			field.addKeyListener(new KeyAdapter() {
+				@Override
 				public void keyPressed(KeyEvent e) {
 					if (!e.isControlDown()) {
 						return;
 					}
 					switch (e.getKeyCode()) {
-						case KeyEvent.VK_Z :
-							if (manager.canUndo()) {
-								manager.undo();
-							}
-							break;
-						case KeyEvent.VK_Y :
-							if (manager.canRedo()) {
-								manager.redo();
-							}
-							break;
 						case KeyEvent.VK_C :
 							copyActionListener.actionPerformed(null);
 							break;
@@ -337,6 +350,12 @@ public class ToolPanel extends JPanel {
 							break;
 						case KeyEvent.VK_X :
 							cutActionListener.actionPerformed(null);
+							break;
+						case KeyEvent.VK_Z :
+							undoActionListener.actionPerformed(null);
+							break;
+						case KeyEvent.VK_Y :
+							redoActionListener.actionPerformed(null);
 							break;
 						default :
 							break;
@@ -349,10 +368,10 @@ public class ToolPanel extends JPanel {
 				JMenuItem copyMenuItem = new JMenuItem("Copy   (Ctrl+C)");
 				JMenuItem pasteMenuItem = new JMenuItem("Paste (Ctrl+V)");
 				JMenuItem cutMenuItem = new JMenuItem("Cut      (Ctrl+X)");
-				JMenuItem undoMenuItem = new JMenuItem("Undo    (Ctrl+Z)");
-				JMenuItem redoMenuItem = new JMenuItem("Redo    (Ctrl+Y)");
 				
 				{
+					undoMenuItem.setEnabled(manager.canUndo());
+					redoMenuItem.setEnabled(manager.canRedo());
 					copyMenuItem.setMnemonic('C');
 					pasteMenuItem.setMnemonic('V');
 					cutMenuItem.setMnemonic('X');
@@ -361,16 +380,8 @@ public class ToolPanel extends JPanel {
 					copyMenuItem.addActionListener(copyActionListener);
 					pasteMenuItem.addActionListener(pasteActionListener);
 					cutMenuItem.addActionListener(cutActionListener);
-					undoMenuItem.addActionListener((e) -> {
-						if (manager.canUndo()) {
-							manager.undo();
-						}
-					});
-					redoMenuItem.addActionListener((e) -> {
-						if (manager.canRedo()) {
-							manager.redo();
-						}
-					});
+					undoMenuItem.addActionListener(undoActionListener);
+					redoMenuItem.addActionListener(redoActionListener);
 					popupMenu.add(copyMenuItem);
 					popupMenu.add(pasteMenuItem);
 					popupMenu.add(cutMenuItem);
@@ -378,8 +389,11 @@ public class ToolPanel extends JPanel {
 					popupMenu.add(undoMenuItem);
 					popupMenu.add(redoMenuItem);
 				}
+				
+				@Override
 				public void mousePressed(MouseEvent e) {
 					if (e.getButton() == MouseEvent.BUTTON3) {
+						pasteMenuItem.setEnabled(clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor));
 						popupMenu.show(field, e.getX(), e.getY());
 					}
 				}
