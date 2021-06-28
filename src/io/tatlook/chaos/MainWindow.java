@@ -99,7 +99,10 @@ public class MainWindow extends JFrame {
 	public void updateToolPanel() {
 		toolPanel = new ToolPanel();
 		splitPane.setLeftComponent(toolPanel);
-		File file = ChaosFileParser.getCurrentFileParser().getFile();
+		setTitle(ChaosFileParser.getCurrentFileParser().getFile());
+	}
+	
+	public void setTitle(File file) {
 		if (file == null) {
 			super.setTitle("untitled - " + NAME);
 		} else {

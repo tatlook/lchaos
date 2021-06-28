@@ -82,6 +82,8 @@ public class ChaosFileSaver {
     	if (ChaosFileParser.getCurrentFileParser() instanceof NullChaosFileParser) {
 			FileHistoryManager.get().add(file);
 		}
+    	App.mainWindow.setTitle(file);
+    	
     	return true;
 	}
 }
