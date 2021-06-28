@@ -78,6 +78,10 @@ public class ChaosFileSaver {
     	ChaosFileSaver saver = new ChaosFileSaver(file);
     	saver.save();
     	ChaosData.current.setChanged(false);
+    	
+    	if (ChaosFileParser.getCurrentFileParser() instanceof NullChaosFileParser) {
+			FileHistoryManager.get().add(file);
+		}
     	return true;
 	}
 }

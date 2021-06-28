@@ -31,7 +31,7 @@ public class MenuBar extends JMenuBar {
 	 * 
 	 */
 	private static final long serialVersionUID = -7347092499428362250L;
-
+	
 	public MenuBar() {
 		JMenu fileMenu = new JMenu("File");
 		JMenu viewMenu = new JMenu("View");
@@ -42,17 +42,20 @@ public class MenuBar extends JMenuBar {
 		JMenuItem newMenuItem = new JMenuItem("New");
 		JMenuItem saveMenuItem = new JMenuItem("Save");
         JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenu openRecentMenu = FileHistoryManager.get().getMenu();
         JMenuItem saveImageMenuItem = new JMenuItem("Save image");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         newMenuItem.setMnemonic('N');
         saveMenuItem.setMnemonic('S');
         openMenuItem.setMnemonic('O');
+        openRecentMenu.setMnemonic('R');
         saveImageMenuItem.setMnemonic('I');
         exitMenuItem.setMnemonic('E');
         
         fileMenu.add(newMenuItem);
         fileMenu.add(saveMenuItem);
         fileMenu.add(openMenuItem);
+        fileMenu.add(openRecentMenu);
         fileMenu.add(saveImageMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
@@ -79,12 +82,7 @@ public class MenuBar extends JMenuBar {
         		return;
         	}
         	try {
-				ChaosFileParser parser = new ChaosFileParser(file);
-				parser.readChaos();
-				App.mainWindow.updateToolPanel();
-				App.mainWindow.getDrawer().setChange();
-        	} catch (ChaosFileDataException e1) {
-        		e1.openDialog();
+				openFile(file);
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
@@ -183,7 +181,7 @@ public class MenuBar extends JMenuBar {
 	 * 
 	 * @return false älä tee joatin
 	 */
-	private static boolean checkFileSave() {
+	public static boolean checkFileSave() {
 		if (ChaosData.current.isChanged()) {
 			int result = ErrorMessageDialog.createSaveDialog();
 			if (result == JOptionPane.YES_OPTION) {
@@ -193,5 +191,18 @@ public class MenuBar extends JMenuBar {
 			}
 		}
 		return true;
+	}
+	
+	public static void openFile(File file) throws FileNotFoundException {
+		try {
+			ChaosFileParser parser = new ChaosFileParser(file);
+			parser.readChaos();
+			App.mainWindow.updateToolPanel();
+			App.mainWindow.getDrawer().setChange();
+		} catch (ChaosFileDataException e) {
+			e.openDialog();
+		}
+		
+		FileHistoryManager.get().add(file);
 	}
 }
