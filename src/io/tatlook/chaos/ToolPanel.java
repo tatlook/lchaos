@@ -54,7 +54,7 @@ public class ToolPanel extends JPanel {
 	
 	private Box contentBox;
 	private Vector<RulePanel> rulePanels;
-	private JButton createRuleButton = new JButton("Create a rule");
+	private JButton createRuleButton = new JButton("Create a Rule");
 	private JPanel createRulePanel = new JPanel();
 	
 	public ToolPanel() {
@@ -399,7 +399,7 @@ public class ToolPanel extends JPanel {
 		public void updateUI() {
 			super.updateUI();
 			setMaximumSize(new Dimension(getMaximumSize().width, 110));
-			border = BorderFactory.createTitledBorder("Rule" + (panelIndex + 1));
+			border = BorderFactory.createTitledBorder("Rule " + (panelIndex + 1));
 			setBorder(border);
 			if (deleteButton == null) {
 				deleteButton = new JButton("✕");

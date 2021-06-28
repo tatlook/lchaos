@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 8480434536614023106L;
 	
-	private static final String NAME = "Iterated function system";
+	private static final String NAME = "Iterated Function System";
 	
 
 	public MainWindow() {

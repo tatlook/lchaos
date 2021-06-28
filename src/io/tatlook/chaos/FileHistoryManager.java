@@ -20,7 +20,7 @@ import javax.swing.JMenuItem;
  */
 public class FileHistoryManager {
 	private Vector<File> historyFiles = new Vector<>();
-	private JMenu openRecentMenu = new JMenu("Open recent");
+	private JMenu openRecentMenu = new JMenu("Open Recent");
 	private Vector<RecentMenuItem> openRecentMenuItems;
 	private File fileHistoryRecordFile = new File("data/filehistory");
 	
@@ -28,8 +28,8 @@ public class FileHistoryManager {
 	private static final int RECENT_MENU_ITEM_INDEX = 3;
 	
 	private FileHistoryManager() {
-		JMenuItem clearAllFilesMenuItem = new JMenuItem("Clear all files");
-		JMenuItem clearMissingFilesMenuItem = new JMenuItem("Clear missing file");
+		JMenuItem clearAllFilesMenuItem = new JMenuItem("Clear All Files");
+		JMenuItem clearMissingFilesMenuItem = new JMenuItem("Clear Missing Files");
 		clearAllFilesMenuItem.setMnemonic('C');
 		clearMissingFilesMenuItem.setMnemonic('M');
 		

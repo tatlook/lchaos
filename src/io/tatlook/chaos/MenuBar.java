@@ -43,7 +43,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem saveMenuItem = new JMenuItem("Save");
         JMenuItem openMenuItem = new JMenuItem("Open");
         JMenu openRecentMenu = FileHistoryManager.get().getMenu();
-        JMenuItem saveImageMenuItem = new JMenuItem("Save image");
+        JMenuItem saveImageMenuItem = new JMenuItem("Save Image");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         newMenuItem.setMnemonic('N');
         saveMenuItem.setMnemonic('S');
@@ -114,11 +114,11 @@ public class MenuBar extends JMenuBar {
         	mainWindowListener.windowClosed(App.mainWindow);
         });
         
-        JMenuItem cleanImageMenuItem = new JMenuItem("Clean display");
-        JMenuItem intoMiddleMenuItem = new JMenuItem("Into the middle");
-        JMenuItem chooseColorMenuItem = new JMenuItem("Select color");
-        JMenu imageSizeMenu = new JMenu("Image size");
-        JMenuItem fullScreenMenuItem = new JMenuItem("Full screen (F11)");
+        JMenuItem cleanImageMenuItem = new JMenuItem("Clean Display");
+        JMenuItem intoMiddleMenuItem = new JMenuItem("Into the Middle");
+        JMenuItem chooseColorMenuItem = new JMenuItem("Select Color");
+        JMenu imageSizeMenu = new JMenu("Image Size");
+        JMenuItem fullScreenMenuItem = new JMenuItem("Full Screen (F11)");
         cleanImageMenuItem.setMnemonic('C');
         intoMiddleMenuItem.setMnemonic('I');
         chooseColorMenuItem.setMnemonic('O');
