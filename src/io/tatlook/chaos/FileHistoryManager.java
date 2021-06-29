@@ -41,9 +41,6 @@ public class FileHistoryManager {
 		clearMissingFilesMenuItem.addActionListener((e) -> removeMissings());
 		
 		findRecentFiles();
-		for (RecentMenuItem recentMenuItem : openRecentMenuItems) {
-			openRecentMenu.add(recentMenuItem, RECENT_MENU_ITEM_INDEX);
-		}
 	}
 
 	@SuppressWarnings("serial")
@@ -64,24 +61,15 @@ public class FileHistoryManager {
 	}
 	
 	/**
-	 * Poistaa jotain sama kuin historyFiles[i]
+	 * Poistaa samat asiat kuin historyFiles[i] että vain yksi jäljellä
 	 * 
-	 * @param i
+	 * @param i Käytetään löytää historyFiles[i]
 	 */
 	private void clearPepeat(int i) {
 		for (int j = i + 1; j < historyFiles.size(); j++) {
 			if (historyFiles.get(i).equals(historyFiles.get(j))) {
 				remove(i);
 			}
-		}
-	}
-	
-	/**
-	 * Poistaa samat asiat että vain yksi jäljellä
-	 */
-	private void clearPepeat() {
-		for (int i = 0; i < historyFiles.size(); i++) {
-			clearPepeat(i);
 		}
 	}
 	
@@ -106,28 +94,21 @@ public class FileHistoryManager {
 		
 		try {
 			Scanner scanner = new Scanner(fileHistoryRecordFile);
+			// Lue tiedosto rivi riviltä
 			while (scanner.hasNextLine()) {
-				File file = new File(scanner.nextLine());
-				historyFiles.add(file);
-				openRecentMenuItems.add(new RecentMenuItem(file));
+				String filePath = scanner.nextLine();
+				// Ei huolta tyhjää riviä
+				if (filePath.equals("")) {
+					continue;
+				}
+				add(new File(filePath));
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		clearPepeat();
-		
-		// Järjestää tiedoston tietoja
-		try {
-			Writer output = new BufferedWriter(new FileWriter(fileHistoryRecordFile));
-			for (File file : historyFiles) {
-				output.append(file.getPath() + "\n");
-			}
-			output.close();
-		} catch (IOException e) {
-			ErrorMessageDialog.createExceptionDialog(e);
-		}
+
+		flushFileHistoryRecordFile();
 	}
 	
 	public void removeAll() {
@@ -135,6 +116,7 @@ public class FileHistoryManager {
 		openRecentMenuItems.removeAllElements();
 		openRecentMenu.removeAll();
 		openRecentMenu.setEnabled(false);
+		flushFileHistoryRecordFile();
 	}
 	
 	private void remove(int i) {
@@ -148,21 +130,30 @@ public class FileHistoryManager {
 				remove(i);
 			}
 		}
+		flushFileHistoryRecordFile();
 	}	
 
+	/**
+	 * Järjestää tiedoston tietoja
+	 */
+	private void flushFileHistoryRecordFile() {
+		try {
+			Writer out = new BufferedWriter(new FileWriter(fileHistoryRecordFile));
+			for (File file : historyFiles) {
+				out.append(file.getPath() + "\n");
+			}
+			out.close();
+		} catch (IOException e) {
+		}
+	}
+	
 	public void add(File file) {
 		historyFiles.add(file);
 		RecentMenuItem recentMenuItem = new RecentMenuItem(file);
 		openRecentMenuItems.add(recentMenuItem);
 		openRecentMenu.add(recentMenuItem, RECENT_MENU_ITEM_INDEX);
 		clearPepeat(historyFiles.indexOf(file));
-		
-		try {
-			Writer output = new BufferedWriter(new FileWriter(fileHistoryRecordFile, true));
-			output.append("\n" + file.getPath());
-			output.close();
-		} catch (IOException e) {
-		}
+		flushFileHistoryRecordFile();
 	}
 	
 	/**
