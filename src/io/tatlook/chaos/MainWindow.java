@@ -195,20 +195,4 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-	
-	public void waitDrawerStart() {
-		// Ennen kuin "thread" lähtee, pitä odotta ikkunan valmis
-		new Thread(() -> {
-			try {
-				// Ei saa tapahtu mitää, ennen kuin odotaminen loppu
-				synchronized (this) {
-					wait(1000);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// Nyt ikkuna on suurin pirtein valmis.
-			drawer.start();
-		}).start();
-	}
 }
