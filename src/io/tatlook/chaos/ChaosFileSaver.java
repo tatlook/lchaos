@@ -79,9 +79,7 @@ public class ChaosFileSaver {
     	saver.save();
     	ChaosData.current.setChanged(false);
     	
-    	if (ChaosFileParser.getCurrentFileParser() instanceof NullChaosFileParser) {
-			FileHistoryManager.get().add(file);
-		}
+    	FileHistoryManager.get().add(file);
     	App.mainWindow.setTitle(file);
     	
     	return true;
