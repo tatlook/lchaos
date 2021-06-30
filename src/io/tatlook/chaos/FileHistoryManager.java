@@ -101,7 +101,7 @@ public class FileHistoryManager {
 				if (filePath.equals("")) {
 					continue;
 				}
-				add(new File(filePath));
+				add0(new File(filePath));
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
@@ -147,12 +147,16 @@ public class FileHistoryManager {
 		}
 	}
 	
-	public void add(File file) {
+	private void add0(File file) {
 		historyFiles.add(file);
 		RecentMenuItem recentMenuItem = new RecentMenuItem(file);
 		openRecentMenuItems.add(recentMenuItem);
 		openRecentMenu.add(recentMenuItem, RECENT_MENU_ITEM_INDEX);
 		clearPepeat(historyFiles.indexOf(file));
+	}
+	
+	public void add(File file) {
+		add0(file);
 		flushFileHistoryRecordFile();
 	}
 	
