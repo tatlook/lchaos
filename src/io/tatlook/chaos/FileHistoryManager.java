@@ -108,6 +108,7 @@ public class FileHistoryManager {
 			e.printStackTrace();
 		}
 
+		checkMenuEnabled();
 		flushFileHistoryRecordFile();
 	}
 	
@@ -115,7 +116,7 @@ public class FileHistoryManager {
 		historyFiles.removeAllElements();
 		openRecentMenuItems.removeAllElements();
 		openRecentMenu.removeAll();
-		openRecentMenu.setEnabled(false);
+		checkMenuEnabled();
 		flushFileHistoryRecordFile();
 	}
 	
@@ -130,6 +131,7 @@ public class FileHistoryManager {
 				remove(i);
 			}
 		}
+		checkMenuEnabled();
 		flushFileHistoryRecordFile();
 	}	
 
@@ -151,6 +153,8 @@ public class FileHistoryManager {
 		historyFiles.add(file);
 		RecentMenuItem recentMenuItem = new RecentMenuItem(file);
 		openRecentMenuItems.add(recentMenuItem);
+		// Jos isEnabled() == false ja käytää add(), virhe on noin esiintyvän
+		openRecentMenu.setEnabled(true);
 		openRecentMenu.add(recentMenuItem, RECENT_MENU_ITEM_INDEX);
 		clearPepeat(historyFiles.indexOf(file));
 	}
@@ -158,6 +162,14 @@ public class FileHistoryManager {
 	public void add(File file) {
 		add0(file);
 		flushFileHistoryRecordFile();
+	}
+	
+	/**
+	 * Sopivissa olosuhteissa poista openRecentMenu käytöstä:
+	 * Jos ei ole historiaa, openRecentMenu ei enää tarvita.
+	 */
+	private void checkMenuEnabled() {
+		openRecentMenu.setEnabled(!historyFiles.isEmpty());
 	}
 	
 	/**
