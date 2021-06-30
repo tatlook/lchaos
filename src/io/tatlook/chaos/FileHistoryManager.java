@@ -50,9 +50,9 @@ public class FileHistoryManager {
 			super(file.getPath());
 			this.file = file;
 			addActionListener((e) -> {
-				MenuBar.checkFileSave();
+				ChaosFileSaver.checkFileSave();
 				try {
-					MenuBar.openFile(file);					
+					ChaosFileChooser.staticOpen(file);					
 				} catch (FileNotFoundException e1) {
 					ErrorMessageDialog.createExceptionDialog(e1);
 				}

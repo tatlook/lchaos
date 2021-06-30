@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  * @author Administrator
@@ -83,5 +84,21 @@ public class ChaosFileSaver {
     	App.mainWindow.setTitle(file);
     	
     	return true;
+	}
+	
+	/**
+	 * 
+	 * @return false älä tee joatin
+	 */
+	public static boolean checkFileSave() {
+		if (ChaosData.current.isChanged()) {
+			int result = ErrorMessageDialog.createSaveDialog();
+			if (result == JOptionPane.YES_OPTION) {
+				return staticSave();
+			} else if (result == JOptionPane.CANCEL_OPTION) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

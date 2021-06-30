@@ -4,6 +4,7 @@
 package io.tatlook.chaos;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -54,5 +55,18 @@ public class ChaosFileChooser {
 	 */
 	public File getChaosFile() {
 		return chaosFile;
+	}
+	
+	public static void staticOpen(File file) throws FileNotFoundException {
+		try {
+			ChaosFileParser parser = new ChaosFileParser(file);
+			parser.readChaos();
+			App.mainWindow.updateToolPanel();
+			App.mainWindow.getDrawer().setChange();
+		} catch (ChaosFileDataException e) {
+			e.openDialog();
+		}
+		
+		FileHistoryManager.get().add(file);
 	}
 }

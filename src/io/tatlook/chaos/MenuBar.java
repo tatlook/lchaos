@@ -16,7 +16,6 @@ import javax.swing.JColorChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 import io.tatlook.chaos.MainWindow.MainWindowListener;
@@ -61,7 +60,7 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(exitMenuItem);
         
         newMenuItem.addActionListener((e) -> {
-        	if (checkFileSave() == false) {
+        	if (ChaosFileSaver.checkFileSave() == false) {
 				return;
 			} 
         	
@@ -73,7 +72,7 @@ public class MenuBar extends JMenuBar {
         	ChaosFileSaver.staticSave();
         });
         openMenuItem.addActionListener((e) -> {
-        	checkFileSave();
+        	ChaosFileSaver.checkFileSave();
         	
         	ChaosFileChooser fileChooser = new ChaosFileChooser();
         	fileChooser.chose();
@@ -82,7 +81,7 @@ public class MenuBar extends JMenuBar {
         		return;
         	}
         	try {
-				openFile(file);
+				ChaosFileChooser.staticOpen(file);
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
@@ -175,34 +174,5 @@ public class MenuBar extends JMenuBar {
 
 		add(fileMenu);
 		add(viewMenu);
-	}
-	
-	/**
-	 * 
-	 * @return false älä tee joatin
-	 */
-	public static boolean checkFileSave() {
-		if (ChaosData.current.isChanged()) {
-			int result = ErrorMessageDialog.createSaveDialog();
-			if (result == JOptionPane.YES_OPTION) {
-				return ChaosFileSaver.staticSave();
-			} else if (result == JOptionPane.CANCEL_OPTION) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public static void openFile(File file) throws FileNotFoundException {
-		try {
-			ChaosFileParser parser = new ChaosFileParser(file);
-			parser.readChaos();
-			App.mainWindow.updateToolPanel();
-			App.mainWindow.getDrawer().setChange();
-		} catch (ChaosFileDataException e) {
-			e.openDialog();
-		}
-		
-		FileHistoryManager.get().add(file);
 	}
 }
