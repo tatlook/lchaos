@@ -42,7 +42,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	static class MainWindowListener extends WindowAdapter {
-		int result = JOptionPane.NO_OPTION;
+		private int result = -100;
 		@Override
 		public void windowClosing(WindowEvent e) {
 			windowClosing((JFrame) e.getWindow());
@@ -50,6 +50,7 @@ public class MainWindow extends JFrame {
 		
 		public void windowClosing(JFrame frame) {
 			if (!ChaosData.current.isChanged()) {
+				result = JOptionPane.NO_OPTION;
 				return;
 			}
 			result = ErrorMessageDialog.createSaveDialog();
@@ -59,7 +60,7 @@ public class MainWindow extends JFrame {
 				System.exit(0);
 			} else if (result == JOptionPane.YES_OPTION) {
 				if (ChaosFileSaver.staticSave() == true) {
-					System.exit(0);					
+					System.exit(0);
 				} else {
 					frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 				}
@@ -75,6 +76,10 @@ public class MainWindow extends JFrame {
 			if (result == JOptionPane.CANCEL_OPTION) {
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			} else if (result == -100) {
+			} else {
+				frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+				frame.setVisible(false);
 			}
 		}
 	}
