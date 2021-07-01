@@ -108,10 +108,11 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void setTitle(File file) {
-		if (file == null) {
-			super.setTitle("untitled - " + NAME);
+		String fileName = file != null ? file.getName() : "untitled";
+		if (ChaosData.current.isChanged()) {
+			super.setTitle("*" + fileName + " - " + NAME);
 		} else {
-			super.setTitle(file.getName() + " - " + NAME);			
+			super.setTitle(fileName + " - " + NAME);
 		}
 	}
 	

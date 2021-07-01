@@ -57,7 +57,11 @@ public class ChaosData {
     }
     
     public void setChanged(boolean changed) {
-		this.changed = changed; 
+    	boolean thischanged = this.changed;
+    	this.changed = changed;
+    	if (thischanged != changed) {
+    		App.mainWindow.setTitle(ChaosFileParser.getCurrentFileParser().getFile());    		
+    	}
 	}
     
     public boolean isChanged() {
