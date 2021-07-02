@@ -33,11 +33,20 @@ public class ImageFileChooser {
 					e.printStackTrace();
 				}
 			}
-            imageType = switch (getFileExtension(file).toLowerCase()) {
-				case "jpg", "jpeg", "jpe", "jfif" -> "jpg";
-				case "png" -> "png";
-				case "gif" -> "gif";
-				default -> "png";
+        	switch (getFileExtension(file).toLowerCase()) {
+				case "jpg":
+				case "jpeg":
+				case "jpe":
+				case "jfif": 
+					imageType = "jpg";
+					break;
+				case "gif":
+					imageType = "gif";
+					break;
+				case "png" :
+				default: 
+					imageType = "png";
+					break;
 			};
             System.out.println("Save: " + file.getAbsolutePath() + "\n\n");
         }
