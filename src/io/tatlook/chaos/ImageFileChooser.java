@@ -7,12 +7,13 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ImageFileChooser {
+	private static final StartDirectoryManager manager = new StartDirectoryManager("imagechoosedefault");
 	private String imageType;
 	private File imageFile;
 	public void chose() {
         JFileChooser fileChooser = new JFileChooser();
 
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(manager.getStartDirectory());
 
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
@@ -49,6 +50,7 @@ public class ImageFileChooser {
 					break;
 			};
             System.out.println("Save: " + file.getAbsolutePath() + "\n\n");
+            manager.setStartDirectory(fileChooser.getCurrentDirectory());
         }
         imageFile = file;
 	}

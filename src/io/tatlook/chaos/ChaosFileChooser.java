@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  */
 public class ChaosFileChooser {
+	private static final StartDirectoryManager manager = new StartDirectoryManager("chaoschoosedefault");
 	private File chaosFile;
 	private int dialogMode = JFileChooser.OPEN_DIALOG;
 	public ChaosFileChooser(int dialogMode) {
@@ -26,7 +27,7 @@ public class ChaosFileChooser {
 	public void chose() {
         JFileChooser fileChooser = new JFileChooser();
 
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(manager.getStartDirectory());
 
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
@@ -46,6 +47,8 @@ public class ChaosFileChooser {
             file = fileChooser.getSelectedFile();
 
             System.out.println("Open file: " + file.getAbsolutePath() + "\n\n");
+            
+            manager.setStartDirectory(fileChooser.getCurrentDirectory());
         }
         chaosFile = file;
 	}
