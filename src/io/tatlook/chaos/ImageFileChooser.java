@@ -18,9 +18,11 @@ public class ImageFileChooser {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
 
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG(*.jpg, *.jpeg, *.jpe, *.jfif)", "jpg", "jpeg", "jpe", "jfif"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("GIF(*.gif)", "gif"));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("PNG(*.png)", "png"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)", "jpg", "jpeg", "jpe", "jfif"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("TIFF (*.tiff, *.tif)", "tiff", "tif"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp, *.dib)", "bmp", "dib"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("GIF (*.gif)", "gif"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
 
         int result = fileChooser.showSaveDialog(App.mainWindow);
 
@@ -40,6 +42,14 @@ public class ImageFileChooser {
 				case "jpe":
 				case "jfif": 
 					imageType = "jpg";
+					break;
+				case "tif":
+				case "tiff":
+					imageType = "tif";
+					break;
+				case "bmp":
+				case "dib":
+					imageType = "bmp";
 					break;
 				case "gif":
 					imageType = "gif";
