@@ -40,8 +40,8 @@ public class Drawer extends JComponent implements Runnable {
 	private Image image;
 	private Color penColor = Color.red;
 	
-	public static int imageWidth = 3000;
-	public static int imageHeight = 3000;
+	private int imageWidth = 3000;
+	private int imageHeight = 3000;
 	
 	private int zoom = imageHeight;
 	private int imageX = imageWidth / 2;
@@ -237,6 +237,10 @@ public class Drawer extends JComponent implements Runnable {
 		imageWidth = imageHeight = zoom = size;
 		intoMiddle();
 		clean();
+	}
+	
+	public int getImageSize() {
+		return imageWidth;
 	}
 
 	public void setPenColor(Color color) {
