@@ -62,7 +62,7 @@ public class ToolPanel extends JPanel {
 		contentBox = Box.createVerticalBox();
 		JScrollPane scrollPane = new JScrollPane(contentBox,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentBox.setBorder(BROAD_SPACING_BORDER_BORDER);
 		add(scrollPane, BorderLayout.CENTER);
 		createSpeedControl();
@@ -75,7 +75,7 @@ public class ToolPanel extends JPanel {
 		for (int i = 0; i < ChaosData.current.getDist().length; i++) {
 			createRule(false);
 		}
-
+		
 		createRuleButton.addActionListener((e) -> createRule(true));
 		createRulePanel.add(createRuleButton);
 		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
@@ -95,7 +95,7 @@ public class ToolPanel extends JPanel {
 			slider.setValue(0);
 		}
 		slider.setMajorTickSpacing(2);
-        slider.setMinorTickSpacing(1);
+		slider.setMinorTickSpacing(1);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
 		slider.setPaintTrack(true);

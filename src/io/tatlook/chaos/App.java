@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 
 public class App {
 	static MainWindow mainWindow;
-    public static void main(String[] args) {
-    	mainWindow = new MainWindow();
+	public static void main(String[] args) {
+		mainWindow = new MainWindow();
 		
 		try {
 			if (args.length > 0) {
@@ -38,9 +38,9 @@ public class App {
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}
-    	
-    	mainWindow.UI();
-    	mainWindow.setVisible(true);
-    	mainWindow.getDrawer().start();
-    } 
+		
+		mainWindow.UI();
+		mainWindow.setVisible(true);
+		mainWindow.getDrawer().start();
+	} 
 }

@@ -11,32 +11,32 @@ public class ImageFileChooser {
 	private String imageType;
 	private File imageFile;
 	public void chose() {
-        JFileChooser fileChooser = new JFileChooser();
-
-        fileChooser.setCurrentDirectory(manager.getStartDirectory());
-
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setMultiSelectionEnabled(false);
-
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)", "jpg", "jpeg", "jpe", "jfif"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("TIFF (*.tiff, *.tif)", "tiff", "tif"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp, *.dib)", "bmp", "dib"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("GIF (*.gif)", "gif"));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
-
-        int result = fileChooser.showSaveDialog(App.mainWindow);
-
-        File file = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile();
-            if (!file.exists()) {
-            	try {
+		JFileChooser fileChooser = new JFileChooser();
+		
+		fileChooser.setCurrentDirectory(manager.getStartDirectory());
+		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setMultiSelectionEnabled(false);
+		
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)", "jpg", "jpeg", "jpe", "jfif"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("TIFF (*.tiff, *.tif)", "tiff", "tif"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Bitmap (*.bmp, *.dib)", "bmp", "dib"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("GIF (*.gif)", "gif"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
+		
+		int result = fileChooser.showSaveDialog(App.mainWindow);
+		
+		File file = null;
+		if (result == JFileChooser.APPROVE_OPTION) {
+			file = fileChooser.getSelectedFile();
+			if (!file.exists()) {
+				try {
 					file.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-        	switch (getFileExtension(file).toLowerCase()) {
+			switch (getFileExtension(file).toLowerCase()) {
 				case "jpg":
 				case "jpeg":
 				case "jpe":
@@ -59,19 +59,21 @@ public class ImageFileChooser {
 					imageType = "png";
 					break;
 			};
-            System.out.println("Save: " + file.getAbsolutePath() + "\n\n");
-            manager.setStartDirectory(fileChooser.getCurrentDirectory());
-        }
-        imageFile = file;
+			System.out.println("Save: " + file.getAbsolutePath() + "\n\n");
+			manager.setStartDirectory(fileChooser.getCurrentDirectory());
+		}
+		imageFile = file;
 	}
 	
 	private static String getFileExtension(File file) {
-        String fileName = file.getName();
-        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-        	return fileName.substring(fileName.lastIndexOf(".")+1);
-        else
-        	return "";
-    }
+		String fileName = file.getName();
+		int lastIndex = fileName.lastIndexOf(".");
+		if (lastIndex != -1 && lastIndex != 0) {
+			return fileName.substring(lastIndex + 1);
+		} else {
+			return "";
+		}
+	}
 	
 	/**
 	 * @return the imageFile
@@ -79,7 +81,7 @@ public class ImageFileChooser {
 	public File getImageFile() {
 		return imageFile;
 	}
-
+	
 	public String getImageType() {
 		return imageType;
 	}

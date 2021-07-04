@@ -61,7 +61,7 @@ public class ChaosFileSaver {
 			}
 			stream.println();
 		}
-
+		
 		stream.close();
 	}
 	
@@ -71,19 +71,19 @@ public class ChaosFileSaver {
 	 */
 	public static boolean staticSave() {
 		ChaosFileChooser fileChooser = new ChaosFileChooser(JFileChooser.SAVE_DIALOG);
-    	fileChooser.chose();
-    	File file = fileChooser.getChaosFile();
-    	if (file == null) {
+		fileChooser.chose();
+		File file = fileChooser.getChaosFile();
+		if (file == null) {
 			return false;
 		}
-    	ChaosFileSaver saver = new ChaosFileSaver(file);
-    	saver.save();
-    	ChaosData.current.setChanged(false);
-    	
-    	FileHistoryManager.get().add(file);
-    	App.mainWindow.setTitle(file);
-    	
-    	return true;
+		ChaosFileSaver saver = new ChaosFileSaver(file);
+		saver.save();
+		ChaosData.current.setChanged(false);
+		
+		FileHistoryManager.get().add(file);
+		App.mainWindow.setTitle(file);
+		
+		return true;
 	}
 	
 	/**

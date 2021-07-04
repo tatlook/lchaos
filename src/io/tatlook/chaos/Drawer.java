@@ -78,7 +78,7 @@ public class Drawer extends JComponent implements Runnable {
 			boolean first = true;
 			int lastX, lastY;
 			@Override
-            public void mouseDragged(MouseEvent e) {
+			public void mouseDragged(MouseEvent e) {
 				if (first) {
 					lastX = e.getX();
 					lastY = e.getY();
@@ -93,25 +93,25 @@ public class Drawer extends JComponent implements Runnable {
 					return;
 				}
 				
-                imageX += moveX;
-                imageY += moveY;
-                if (imageX > zoom * 2) {
-                	imageX = zoom * 2;
-                }
-                if (imageX < -zoom * 2) {
-        			imageX = -zoom * 2;
-        		}
-                if (imageY > zoom * 2) {
-                	imageY = zoom * 2;
-                }
-                if (imageY < -zoom * 2) {
-                	imageY = -zoom * 2;
-                }
-                
-                lastX = e.getX();
+				imageX += moveX;
+				imageY += moveY;
+				if (imageX > zoom * 2) {
+					imageX = zoom * 2;
+				}
+				if (imageX < -zoom * 2) {
+					imageX = -zoom * 2;
+				}
+				if (imageY > zoom * 2) {
+					imageY = zoom * 2;
+				}
+				if (imageY < -zoom * 2) {
+					imageY = -zoom * 2;
+				}
+				
+				lastX = e.getX();
 				lastY = e.getY();
-            }
-        });
+			}
+		});
 	}
 	
 	@Override
@@ -150,76 +150,76 @@ public class Drawer extends JComponent implements Runnable {
 	public void run() {
 		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
-	
-        double[] dist = ChaosData.current.getDist();
-        double[][] cx = ChaosData.current.getCX();
-        double[][] cy = ChaosData.current.getCY();
-
-        // Ensimäisen pisteen koordinaati
-        double x = 0.0, y = 0.0;
-        while (true) {
-        	g.setColor(penColor);
-        	// Piirtään pistettä kuvaan.
-        	for (int t = 0; t < imageHeight / 100; t++) { 
-        		// Säännöstä valitaan yksi, r on sen numero
-        		int r = discrete(dist); 
-        		
-        		// Laske seurava pisten koordinaati
-        		double x0 = cx[r][0] * x + cx[r][1] * y + cx[r][2]; 
-        		double y0 = cy[r][0] * x + cy[r][1] * y + cy[r][2]; 
-        		x = x0; 
-        		y = y0; 
-        		
-        		x0 *= imageWidth;
-        		y0 *= imageHeight;
-        		// Pirtään kuvassa
-        		g.drawLine((int)x0, imageHeight - (int)y0, (int)x0, imageHeight - (int)y0);
-        	}
-        	
-        	// Kun on jo riitävä pistettä lisääntyy kuvassa
-        	
-        	// Jos jotain parametri muutui, päivitää sen.
-    		if (hasChange) {
-    			g = image.getGraphics();
-    			dist = ChaosData.current.getDist();
-    			cx = ChaosData.current.getCX();
-    			cy = ChaosData.current.getCY();
-    			hasChange = false;
-    		}
-    		// Wait() funktio ei saa olla nolla.
-    		if (waitTime != 0) {
-    			try {
-    				synchronized (this) {
-    					wait(waitTime);
-    				}
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}	
-    		}
-    		// Lisää kuva komponenttiin
-    		repaint();
+		
+		double[] dist = ChaosData.current.getDist();
+		double[][] cx = ChaosData.current.getCX();
+		double[][] cy = ChaosData.current.getCY();
+		
+		// Ensimäisen pisteen koordinaati
+		double x = 0.0, y = 0.0;
+		while (true) {
+			g.setColor(penColor);
+			// Piirtään pistettä kuvaan.
+			for (int t = 0; t < imageHeight / 100; t++) { 
+				// Säännöstä valitaan yksi, r on sen numero
+				int r = discrete(dist); 
+				
+				// Laske seurava pisten koordinaati
+				double x0 = cx[r][0] * x + cx[r][1] * y + cx[r][2]; 
+				double y0 = cy[r][0] * x + cy[r][1] * y + cy[r][2]; 
+				x = x0; 
+				y = y0; 
+				
+				x0 *= imageWidth;
+				y0 *= imageHeight;
+				// Pirtään kuvassa
+				g.drawLine((int)x0, imageHeight - (int)y0, (int)x0, imageHeight - (int)y0);
+			}
+			
+			// Kun on jo riitävä pistettä lisääntyy kuvassa
+			
+			// Jos jotain parametri muutui, päivitää sen.
+			if (hasChange) {
+				g = image.getGraphics();
+				dist = ChaosData.current.getDist();
+				cx = ChaosData.current.getCX();
+				cy = ChaosData.current.getCY();
+				hasChange = false;
+			}
+			// Wait() funktio ei saa olla nolla.
+			if (waitTime != 0) {
+				try {
+					synchronized (this) {
+						wait(waitTime);
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}	
+			}
+			// Lisää kuva komponenttiin
+			repaint();
 		}
 	}
 	
 	private static int discrete(double[] probabilities) {
 		double sum = 0.0;
 		for (int i = 0; i < probabilities.length; i++) {
-            if (probabilities[i] < 0.0)
-                throw new IllegalArgumentException("array entry " + i + " must be nonnegative: " + probabilities[i]);
-            sum += probabilities[i];
-        }
+			if (probabilities[i] < 0.0)
+				throw new IllegalArgumentException("array entry " + i + " must be nonnegative: " + probabilities[i]);
+			sum += probabilities[i];
+		}
 		final double sumb = sum;
 		while (true) {
 			sum = 0.0;
 			if (sumb == 0.0) {
 				return 0;
 			}
-            double r = StdRandom.uniform(0.0, sumb);
-            for (int i = 0; i < probabilities.length; i++) {
-                sum = sum + probabilities[i];
-                if (sum > r) return i;
-            }
-        }
+		double r = StdRandom.uniform(0.0, sumb);
+			for (int i = 0; i < probabilities.length; i++) {
+				sum = sum + probabilities[i];
+				if (sum > r) return i;
+			}
+		}
 	}
 
 	public void clean() {

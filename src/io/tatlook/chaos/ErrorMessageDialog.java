@@ -41,11 +41,11 @@ public class ErrorMessageDialog {
 	
 	public static int createSaveDialog() {
 		int result = JOptionPane.showConfirmDialog(
-                App.mainWindow,
-                "If you don't save, your changes will be lost.",
-                "Save the changes?",
-                JOptionPane.YES_NO_CANCEL_OPTION
-        );
+				App.mainWindow,
+				"If you don't save, your changes will be lost.",
+				"Save the changes?",
+				JOptionPane.YES_NO_CANCEL_OPTION
+		);
 		return result;
 	}
 }

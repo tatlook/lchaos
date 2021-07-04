@@ -25,32 +25,32 @@ public class ChaosFileChooser {
 	}
 
 	public void chose() {
-        JFileChooser fileChooser = new JFileChooser();
-
-        fileChooser.setCurrentDirectory(manager.getStartDirectory());
-
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setMultiSelectionEnabled(false);
-
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plain text(*.txt)", "txt"));
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Chaos file(*.ch)", "ch"));
-
-        
-        int result;
-        if (dialogMode == JFileChooser.OPEN_DIALOG) {
-            result = fileChooser.showOpenDialog(App.mainWindow);
-        } else {
-        	result = fileChooser.showSaveDialog(App.mainWindow);
-        }
-        File file = null;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile();
-
-            System.out.println("Open file: " + file.getAbsolutePath() + "\n\n");
-            
-            manager.setStartDirectory(fileChooser.getCurrentDirectory());
-        }
-        chaosFile = file;
+		JFileChooser fileChooser = new JFileChooser();
+		
+		fileChooser.setCurrentDirectory(manager.getStartDirectory());
+		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setMultiSelectionEnabled(false);
+		
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plain text(*.txt)", "txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Chaos file(*.ch)", "ch"));
+		
+		
+		int result;
+		if (dialogMode == JFileChooser.OPEN_DIALOG) {
+			result = fileChooser.showOpenDialog(App.mainWindow);
+		} else {
+			result = fileChooser.showSaveDialog(App.mainWindow);
+		}
+		File file = null;
+		if (result == JFileChooser.APPROVE_OPTION) {
+			file = fileChooser.getSelectedFile();
+			
+			System.out.println("Open file: " + file.getAbsolutePath() + "\n\n");
+			
+			manager.setStartDirectory(fileChooser.getCurrentDirectory());
+		}
+		chaosFile = file;
 	}
 	
 	/**
