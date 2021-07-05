@@ -26,7 +26,7 @@ public class FileHistoryManager {
 	private File fileHistoryRecordFile = new File("data/filehistory");
 	
 	private static final FileHistoryManager MANAGER = new FileHistoryManager();
-	private static final int RECENT_MENU_ITEM_INDEX = 3;
+	private static final int RECENT_MENU_ITEM_INDEX = 0;
 	
 	private FileHistoryManager() {
 		JMenuItem clearAllFilesMenuItem = new JMenuItem("Clear All Files");
@@ -34,9 +34,9 @@ public class FileHistoryManager {
 		clearAllFilesMenuItem.setMnemonic('C');
 		clearMissingFilesMenuItem.setMnemonic('M');
 		
+		openRecentMenu.addSeparator();
 		openRecentMenu.add(clearAllFilesMenuItem);
 		openRecentMenu.add(clearMissingFilesMenuItem);
-		openRecentMenu.addSeparator();
 		
 		clearAllFilesMenuItem.addActionListener((e) -> removeAll());
 		clearMissingFilesMenuItem.addActionListener((e) -> removeMissings());
