@@ -287,13 +287,12 @@ public class ToolPanel extends JPanel {
 			JMenuItem undoMenuItem = new JMenuItem("Undo    (Ctrl+Z)");
 			JMenuItem redoMenuItem = new JMenuItem("Redo    (Ctrl+Y)");
 			field.getDocument().addUndoableEditListener((e) -> {
-				manager.addEdit(e.getEdit());
+				manager.undoableEditHappened(e);
 				undoMenuItem.setEnabled(manager.canUndo());
 				redoMenuItem.setEnabled(manager.canRedo());
 			});
 			
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			ActionListener pasteActionListener = (e) -> field.paste();
 			ActionListener cutActionListener = (e) -> {
 				String selected = field.getSelectedText();
 				// Jos ei ole valinnut mitään, leikkaa kaikki tekstikenttästä pois.
@@ -340,9 +339,6 @@ public class ToolPanel extends JPanel {
 						case KeyEvent.VK_C :
 							copyActionListener.actionPerformed(null);
 							break;
-						case KeyEvent.VK_V :
-							pasteActionListener.actionPerformed(null);
-							break;
 						case KeyEvent.VK_X :
 							cutActionListener.actionPerformed(null);
 							break;
@@ -373,7 +369,7 @@ public class ToolPanel extends JPanel {
 					undoMenuItem.setMnemonic('Z');
 					redoMenuItem.setMnemonic('Y');
 					copyMenuItem.addActionListener(copyActionListener);
-					pasteMenuItem.addActionListener(pasteActionListener);
+					pasteMenuItem.addActionListener((e) -> field.paste());
 					cutMenuItem.addActionListener(cutActionListener);
 					undoMenuItem.addActionListener(undoActionListener);
 					redoMenuItem.addActionListener(redoActionListener);
