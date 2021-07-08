@@ -6,6 +6,8 @@ package io.tatlook.chaos;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
@@ -50,28 +52,22 @@ public class Drawer extends JComponent implements Runnable {
 	private boolean hasChange = true;
 	
 	public Drawer() {
+		// Kuva suurennee/pienennee, kun paina Ctrl++/Ctrl+-
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventPostProcessor((e) -> {
+			if (!e.isControlDown()) {
+				return true;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_PLUS) {
+				zoom(-1, getWidth() / 2, getHeight() / 2);
+			} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+				zoom(1, getWidth() / 2, getHeight() / 2);
+			}
+			return true;
+		});
 		// Kuva suurennee/pienennee, kun hiiren rullaa selaa.
 		addMouseWheelListener((e) -> {
-			zoom -= e.getWheelRotation() * imageHeight / 30;
-			int minSize = Math.min(getWidth(), getHeight());
-			int maxSize = Math.max(getWidth(), getHeight());
-			if (zoom < minSize / 4 * 3) {
-				zoom = minSize / 4 * 3;
-				return;
-			}
-			if (zoom > imageHeight * 3) {
-				zoom = imageHeight * 3;
-				return;
-			}
-			int moveX = imageWidth / 15 * e.getX() / maxSize;
-			int moveY = imageHeight / 15 * e.getY() / maxSize;
-			if (e.getWheelRotation() < 0) {
-				imageX += moveX;
-				imageY += moveY;
-			} else {
-				imageX -= moveX;
-				imageY -= moveY;
-			}
+			zoom(e.getWheelRotation(), e.getX(), e.getY());
 		});
 		// Kuva muuta, kun hiiri vetää.
 		addMouseMotionListener(new MouseMotionAdapter() {
@@ -112,6 +108,29 @@ public class Drawer extends JComponent implements Runnable {
 				lastY = e.getY();
 			}
 		});
+	}
+	
+	public void zoom(int rotation, int x, int y) {
+		zoom -= rotation * imageHeight / 30;
+		int minSize = Math.min(getWidth(), getHeight());
+		int maxSize = Math.max(getWidth(), getHeight());
+		if (zoom < minSize / 4 * 3) {
+			zoom = minSize / 4 * 3;
+			return;
+		}
+		if (zoom > imageHeight * 3) {
+			zoom = imageHeight * 3;
+			return;
+		}
+		int moveX = imageWidth / 15 * x / maxSize;
+		int moveY = imageHeight / 15 * y / maxSize;
+		if (rotation < 0) {
+			imageX += moveX;
+			imageY += moveY;
+		} else {
+			imageX -= moveX;
+			imageY -= moveY;
+		}
 	}
 	
 	@Override
