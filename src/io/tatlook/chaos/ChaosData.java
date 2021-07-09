@@ -5,6 +5,8 @@ package io.tatlook.chaos;
 
 import java.util.Vector;
 
+import io.tatlook.chaos.parser.ChaosFileParser;
+
 /**
  * @author Administrator
  *

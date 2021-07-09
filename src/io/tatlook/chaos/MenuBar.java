@@ -19,6 +19,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import io.tatlook.chaos.MainWindow.MainWindowListener;
+import io.tatlook.chaos.parser.NullFileParser;
+import io.tatlook.chaos.saver.ChaosFileSaver;
 
 /**
  * @author Administrator
@@ -64,7 +66,7 @@ public class MenuBar extends JMenuBar {
 				return;
 			} 
 			
-			new NullChaosFileParser().readChaos();
+			new NullFileParser().readChaos();
 			App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
 		});

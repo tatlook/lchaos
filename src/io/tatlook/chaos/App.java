@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
+import io.tatlook.chaos.parser.ChaosFileParser;
+import io.tatlook.chaos.parser.NullFileParser;
+
 public class App {
-	static MainWindow mainWindow;
+	public static MainWindow mainWindow;
 	public static void main(String[] args) {
 		mainWindow = new MainWindow();
 		
@@ -27,10 +30,10 @@ public class App {
 					}
 				}
 			}
-			new NullChaosFileParser();
+			new NullFileParser();
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
-			new NullChaosFileParser();
+			new NullFileParser();
 		}
 		
 		try {

@@ -1,22 +1,31 @@
 /**
  * 
  */
-package io.tatlook.chaos;
+package io.tatlook.chaos.saver;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import io.tatlook.chaos.App;
+import io.tatlook.chaos.ChaosData;
+import io.tatlook.chaos.ChaosFileChooser;
+import io.tatlook.chaos.ErrorMessageDialog;
+import io.tatlook.chaos.FileHistoryManager;
 
 /**
  * @author Administrator
  *
  */
-public class ChaosFileSaver {
-	private PrintStream stream;
+public abstract class AbstractFileSaver {
+	protected PrintStream out;
+	protected File file;
 	
-	public ChaosFileSaver(File file) {
+	public AbstractFileSaver(File file) {
+		this.file = file;
 		try {
 			if (file == null) {
 				throw new AssertionError();
@@ -24,46 +33,13 @@ public class ChaosFileSaver {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			stream = new PrintStream(file);
+			out = new PrintStream(file);
 		} catch (IOException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
 		}
 	}
-	public void save() {
-		double[] dist = ChaosData.current.getDist();
-		double[][] cx = ChaosData.current.getCX();
-		double[][] cy = ChaosData.current.getCY();
-		
-		stream.println(dist.length);
-		stream.print("    ");
-		for (int i = 0; i < dist.length; i++) {
-			stream.print(dist[i]);
-			stream.print(' ');
-		}
-		stream.println();
-		
-		stream.println(cx.length + " " + 3);
-		for (int i = 0; i < cx.length; i++) {
-			stream.print("   ");
-			for (int j = 0; j < 3; j++) {
-				stream.print(' ');
-				stream.print(cx[i][j]);
-			}
-			stream.println();
-		}
-		
-		stream.println(cy.length + " " + 3);
-		for (int i = 0; i < cy.length; i++) {
-			stream.print("   ");
-			for (int j = 0; j < 3; j++) {
-				stream.print(' ');
-				stream.print(cy[i][j]);
-			}
-			stream.println();
-		}
-		
-		stream.close();
-	}
+	
+	public abstract void save();
 	
 	/**
 	 * 
@@ -76,7 +52,16 @@ public class ChaosFileSaver {
 		if (file == null) {
 			return false;
 		}
-		ChaosFileSaver saver = new ChaosFileSaver(file);
+		AbstractFileSaver saver;
+		switch (AbstractFileSaver.getFileExtension(file).toLowerCase()) {
+			case "ifs":
+				saver = new FractintFileSaver(file);
+				break;
+			case "ch":
+			default: 
+				saver = new ChaosFileSaver(file);
+				break;
+		};
 		saver.save();
 		ChaosData.current.setChanged(false);
 		
@@ -100,5 +85,15 @@ public class ChaosFileSaver {
 			}
 		}
 		return true;
+	}
+	
+	public static String getFileExtension(File file) {
+		String fileName = file.getName();
+		int lastIndex = fileName.lastIndexOf(".");
+		if (lastIndex != -1 && lastIndex != 0) {
+			return fileName.substring(lastIndex + 1);
+		} else {
+			return "";
+		}
 	}
 }

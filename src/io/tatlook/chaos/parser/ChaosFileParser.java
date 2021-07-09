@@ -1,32 +1,21 @@
 /**
  * 
  */
-package io.tatlook.chaos;
+package io.tatlook.chaos.parser;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+
+import io.tatlook.chaos.ChaosData;
+import io.tatlook.chaos.ChaosFileDataException;
 
 /**
  * @author Administrator
  *
  */
-public class ChaosFileParser {
-	protected static ChaosFileParser currentFileParser;
-	
-	private File chaosFile;
-	private Scanner scanner;
-	private FileInputStream inputStream;
-	protected ChaosData data;
+public class ChaosFileParser extends AbstractFileParser {
 	public ChaosFileParser(File file) throws FileNotFoundException {
-		chaosFile = file;
-		inputStream = new FileInputStream(file);
-		scanner = new Scanner(inputStream);
-		currentFileParser = this;
-	}
-	
-	protected ChaosFileParser() {
+		super(file);
 	}
 	
 	private double[] readDouble1D() throws ChaosFileDataException {
@@ -83,29 +72,5 @@ public class ChaosFileParser {
 		ChaosData.current = data;
 		
 		scanner.close();
-	}
-	
-	/**
-	 * @return the currentFileParser
-	 */
-	public static ChaosFileParser getCurrentFileParser() {
-		return currentFileParser;
-	}
-	
-	public File getFile() {
-		return chaosFile;
-	}
-}
-
-class NullChaosFileParser extends ChaosFileParser {
-	public NullChaosFileParser() {
-		super();
-		currentFileParser = this;
-	}
-	
-	@Override
-	public void readChaos() {
-		data = new ChaosData();
-		ChaosData.current = data;
 	}
 }

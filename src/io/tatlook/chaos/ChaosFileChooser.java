@@ -9,6 +9,11 @@ import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import io.tatlook.chaos.parser.AbstractFileParser;
+import io.tatlook.chaos.parser.ChaosFileParser;
+import io.tatlook.chaos.parser.FractintFileParser;
+import io.tatlook.chaos.saver.AbstractFileSaver;
+
 /**
  * @author Administrator
  *
@@ -32,8 +37,9 @@ public class ChaosFileChooser {
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setMultiSelectionEnabled(false);
 		
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plain text(*.txt)", "txt"));
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Chaos file(*.ch)", "ch"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plain Text(*.txt)", "txt"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Fractint IFS File(*.ifs)", "ifs"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Chaos File(*.ch)", "ch"));
 		
 		
 		int result;
@@ -62,7 +68,16 @@ public class ChaosFileChooser {
 	
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
-			ChaosFileParser parser = new ChaosFileParser(file);
+			AbstractFileParser parser;
+			switch (AbstractFileSaver.getFileExtension(file).toLowerCase()) {
+				case "ifs":
+					parser = new FractintFileParser(file);
+					break;
+				case "ch":
+				default: 
+					parser = new ChaosFileParser(file);
+					break;
+			};
 			parser.readChaos();
 			App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
