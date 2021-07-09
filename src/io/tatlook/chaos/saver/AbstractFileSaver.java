@@ -53,7 +53,7 @@ public abstract class AbstractFileSaver {
 			return false;
 		}
 		AbstractFileSaver saver;
-		switch (AbstractFileSaver.getFileExtension(file).toLowerCase()) {
+		switch (getFileExtension(file)) {
 			case "ifs":
 				saver = new FractintFileSaver(file);
 				break;
@@ -91,7 +91,7 @@ public abstract class AbstractFileSaver {
 		String fileName = file.getName();
 		int lastIndex = fileName.lastIndexOf(".");
 		if (lastIndex != -1 && lastIndex != 0) {
-			return fileName.substring(lastIndex + 1);
+			return fileName.substring(lastIndex + 1).toLowerCase();
 		} else {
 			return "";
 		}

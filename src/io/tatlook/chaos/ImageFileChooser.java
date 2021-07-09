@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import io.tatlook.chaos.saver.AbstractFileSaver;
+
 public class ImageFileChooser {
 	private static final StartDirectoryManager manager = new StartDirectoryManager("imagechoosedefault");
 	private String imageType;
@@ -36,7 +38,7 @@ public class ImageFileChooser {
 					e.printStackTrace();
 				}
 			}
-			switch (getFileExtension(file).toLowerCase()) {
+			switch (AbstractFileSaver.getFileExtension(file)) {
 				case "jpg":
 				case "jpeg":
 				case "jpe":
@@ -63,16 +65,6 @@ public class ImageFileChooser {
 			manager.setStartDirectory(fileChooser.getCurrentDirectory());
 		}
 		imageFile = file;
-	}
-	
-	private static String getFileExtension(File file) {
-		String fileName = file.getName();
-		int lastIndex = fileName.lastIndexOf(".");
-		if (lastIndex != -1 && lastIndex != 0) {
-			return fileName.substring(lastIndex + 1);
-		} else {
-			return "";
-		}
 	}
 	
 	/**

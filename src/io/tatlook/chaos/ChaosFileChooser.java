@@ -69,7 +69,7 @@ public class ChaosFileChooser {
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
 			AbstractFileParser parser;
-			switch (AbstractFileSaver.getFileExtension(file).toLowerCase()) {
+			switch (AbstractFileSaver.getFileExtension(file)) {
 				case "ifs":
 					parser = new FractintFileParser(file);
 					break;
