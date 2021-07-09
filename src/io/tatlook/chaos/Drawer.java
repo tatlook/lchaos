@@ -56,14 +56,14 @@ public class Drawer extends JComponent implements Runnable {
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventPostProcessor((e) -> {
 			if (!e.isControlDown()) {
-				return true;
+				return false;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_PLUS) {
 				zoom(-1, getWidth() / 2, getHeight() / 2);
 			} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
 				zoom(1, getWidth() / 2, getHeight() / 2);
 			}
-			return true;
+			return false;
 		});
 		// Kuva suurennee/pienennee, kun hiiren rullaa selaa.
 		addMouseWheelListener((e) -> {

@@ -187,20 +187,20 @@ public class MainWindow extends JFrame {
 				stal++;
 				if (stal != 1) {
 					stal = 0;
-					return true;
+					return false;
 				}
 				if (isUndecorated()) {
 					if (e.getKeyCode() != KeyEvent.VK_F11 && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
-						return true;
+						return false;
 					}
 					fullScreenRunnable.run();
 				} else {
 					if (e.getKeyCode() != KeyEvent.VK_F11) {
-						return true;
+						return false;
 					}
 					fullScreenRunnable.run();
 				}
-				return true; 
+				return false;
 			}
 		});
 	}
