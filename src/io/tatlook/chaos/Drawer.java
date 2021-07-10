@@ -106,6 +106,8 @@ public class Drawer extends JComponent implements Runnable {
 				
 				lastX = e.getX();
 				lastY = e.getY();
+				
+				repaint();
 			}
 		});
 	}
@@ -131,6 +133,8 @@ public class Drawer extends JComponent implements Runnable {
 			imageX -= moveX;
 			imageY -= moveY;
 		}
+		
+		repaint();
 	}
 	
 	@Override
@@ -205,15 +209,19 @@ public class Drawer extends JComponent implements Runnable {
 				cy = ChaosData.current.getCY();
 				hasChange = false;
 			}
-			// Wait() funktio ei saa olla nolla.
-			if (waitTime != 0) {
-				try {
-					synchronized (this) {
+			try {
+				synchronized (this) {
+					// Kun piirtäminen pysähtyy, pitää odota ikuisesti.
+					while (waitLevel == 0) {
+						wait(100);
+					}
+					// Wait() funktio ei saa olla nolla.
+					if (waitTime != 0) {
 						wait(waitTime);
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}	
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			// Lisää kuva komponenttiin
 			repaint();
@@ -243,7 +251,7 @@ public class Drawer extends JComponent implements Runnable {
 
 	public void clean() {
 		image = createImage(imageWidth, imageHeight);
-		
+		repaint();
 		setChange();
 	}
 
