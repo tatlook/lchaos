@@ -273,6 +273,7 @@ public class Drawer extends JComponent implements Runnable {
 	public void intoMiddle() {
 		imageX = (zoom - getWidth()) / 2;
 		imageY = (zoom - getHeight()) / 2;
+		repaint();
 	}
 
 	public void setImageSize(int size) {
