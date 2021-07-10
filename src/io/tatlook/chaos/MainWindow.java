@@ -160,8 +160,8 @@ public class MainWindow extends JFrame {
 		}
 	};
 	
-	public Runnable getFullScreenRunnable() {
-		return fullScreenRunnable;
+	public void fullScreen() {
+		fullScreenRunnable.run();
 	}
 
 	public void UI() {
@@ -193,12 +193,12 @@ public class MainWindow extends JFrame {
 					if (e.getKeyCode() != KeyEvent.VK_F11 && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
 						return false;
 					}
-					fullScreenRunnable.run();
+					fullScreen();
 				} else {
 					if (e.getKeyCode() != KeyEvent.VK_F11) {
 						return false;
 					}
-					fullScreenRunnable.run();
+					fullScreen();
 				}
 				return false;
 			}

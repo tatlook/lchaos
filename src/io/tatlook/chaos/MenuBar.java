@@ -172,7 +172,7 @@ public class MenuBar extends JMenuBar {
 			}
 		});
 		fullScreenMenuItem.addActionListener((e) -> {
-			App.mainWindow.getFullScreenRunnable().run();
+			App.mainWindow.fullScreen();
 		});
 		
 		add(fileMenu);
