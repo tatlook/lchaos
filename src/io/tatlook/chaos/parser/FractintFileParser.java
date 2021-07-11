@@ -47,7 +47,18 @@ public class FractintFileParser extends AbstractFileParser {
 	}
 	
 	private void scanLine(String line) throws ChaosFileDataException {
+		{
+			// Poista kommentti
+			int index = line.indexOf(';');
+			if (index != -1) {
+				line = line.substring(0, index);
+			}
+		}
 		Scanner lineScanner = new Scanner(line);
+		if (!lineScanner.hasNext()) {
+			lineScanner.close();
+			return;
+		}
 		
 		Double[] cx = new Double[3];
 		cx[0] = readNumber(lineScanner);
