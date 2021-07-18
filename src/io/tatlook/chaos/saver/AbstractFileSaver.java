@@ -78,7 +78,7 @@ public abstract class AbstractFileSaver {
 				break;
 		};
 		saver.save();
-		ChaosData.current.setChanged(false);
+		ChaosData.getCurrent().setChanged(false);
 		
 		FileHistoryManager.get().add(file);
 		App.mainWindow.setTitle(file);
@@ -91,7 +91,7 @@ public abstract class AbstractFileSaver {
 	 * @return false älä tee joatin
 	 */
 	public static boolean checkFileSave() {
-		if (ChaosData.current.isChanged()) {
+		if (ChaosData.getCurrent().isChanged()) {
 			int result = ErrorMessageDialog.createSaveDialog();
 			if (result == JOptionPane.YES_OPTION) {
 				return staticSave();

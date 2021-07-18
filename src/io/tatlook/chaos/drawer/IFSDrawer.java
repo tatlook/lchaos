@@ -196,9 +196,9 @@ public class IFSDrawer extends AbstractDrawer {
 		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
 		
-		double[] dist = ChaosData.current.getDist();
-		double[][] cx = ChaosData.current.getCX();
-		double[][] cy = ChaosData.current.getCY();
+		double[] dist = ChaosData.getCurrent().getDist();
+		double[][] cx = ChaosData.getCurrent().getCX();
+		double[][] cy = ChaosData.getCurrent().getCY();
 		
 		// Ensimäisen pisteen koordinaati
 		double x = 0.0, y = 0.0;
@@ -230,9 +230,9 @@ public class IFSDrawer extends AbstractDrawer {
 			// Jos jotain parametri muutui, päivitää sen.
 			if (hasChange) {
 				g = image.getGraphics();
-				dist = ChaosData.current.getDist();
-				cx = ChaosData.current.getCX();
-				cy = ChaosData.current.getCY();
+				dist = ChaosData.getCurrent().getDist();
+				cx = ChaosData.getCurrent().getCX();
+				cy = ChaosData.getCurrent().getCY();
 				hasChange = false;
 			}
 			try {

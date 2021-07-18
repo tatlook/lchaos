@@ -92,6 +92,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import io.tatlook.chaos.ChaosFileDataException;
+import io.tatlook.chaos.data.AbstractData;
 import io.tatlook.chaos.data.ChaosData;
 
 /**
@@ -154,7 +155,7 @@ public class ChaosFileParser extends IFSFileParser {
 		if (data.getDist() == null || data.getCX() == null || data.getCY() == null) {
 			throw new NullPointerException();
 		}
-		ChaosData.current = data;
+		AbstractData.setCurrent(data);
 		
 		scanner.close();
 	}

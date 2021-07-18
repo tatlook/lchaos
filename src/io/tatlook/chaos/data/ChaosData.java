@@ -20,21 +20,14 @@ package io.tatlook.chaos.data;
 
 import java.util.Vector;
 
-import io.tatlook.chaos.App;
-import io.tatlook.chaos.parser.ChaosFileParser;
-
 /**
  * @author Administrator
  *
  */
 public class ChaosData extends AbstractData {
-	public static ChaosData current;
-	
 	private Vector<Double> distVector;
 	private Vector<Double[]> cxVector;
 	private Vector<Double[]> cyVector;
-	
-	private boolean changed;
 	
 	public ChaosData(double[] dist, double[][] cx, double[][] cy) {
 		if (dist.length != cx.length || dist.length != cy.length) {
@@ -72,18 +65,6 @@ public class ChaosData extends AbstractData {
 	
 	public Vector<Double[]> getCYVector() {
 		return cyVector;
-	}
-	
-	public void setChanged(boolean changed) {
-		boolean thischanged = this.changed;
-		this.changed = changed;
-		if (thischanged != changed) {
-			App.mainWindow.setTitle(ChaosFileParser.getCurrentFileParser().getFile());    		
-		}
-	}
-	
-	public boolean isChanged() {
-		return changed;
 	}
 	
 	public void addRule(double dist, Double[] cx, Double[] cy) {
@@ -141,5 +122,12 @@ public class ChaosData extends AbstractData {
 			vector.add(d2);
 		}
 		return vector;
+	}
+
+	public static ChaosData getCurrent() {
+		if (!(current instanceof ChaosData)) {
+			throw new IllegalStateException();
+		}
+		return (ChaosData) current;
 	}
 }

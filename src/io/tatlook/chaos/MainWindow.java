@@ -36,7 +36,6 @@ import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
 import io.tatlook.chaos.data.AbstractData;
-import io.tatlook.chaos.data.ChaosData;
 import io.tatlook.chaos.data.LSystemData;
 import io.tatlook.chaos.drawer.AbstractDrawer;
 import io.tatlook.chaos.drawer.IFSDrawer;
@@ -74,7 +73,7 @@ public class MainWindow extends JFrame {
 		}
 		
 		public void windowClosing(JFrame frame) {
-			if (!ChaosData.current.isChanged()) {
+			if (!AbstractData.getCurrent().isChanged()) {
 				result = JOptionPane.NO_OPTION;
 				return;
 			}
@@ -127,7 +126,7 @@ public class MainWindow extends JFrame {
 	private JMenuBar menuBar;
 	
 	public void updateToolPanel() {
-		if (AbstractData.current instanceof LSystemData) {
+		if (AbstractData.getCurrent() instanceof LSystemData) {
 			editor = new LSystemEditor();
 		} else {
 			editor = new IFSEditor();			
@@ -138,7 +137,7 @@ public class MainWindow extends JFrame {
 	
 	public void setTitle(File file) {
 		String fileName = file != null ? file.getName() : "untitled";
-		if (ChaosData.current.isChanged()) {
+		if (AbstractData.getCurrent().isChanged()) {
 			super.setTitle("*" + fileName + " - " + NAME);
 		} else {
 			super.setTitle(fileName + " - " + NAME);

@@ -18,15 +18,14 @@
 
 package io.tatlook.chaos.data;
 
-import java.util.HashMap;
+import java.util.Vector;
 
 /**
  * @author Administrator
  *
  */
 public class LSystemData extends AbstractData {
-
-	private HashMap<Character, String> rules;
+	private Vector<Rule> rules;
 	private String axiom;
 	private int angle;
 
@@ -34,15 +33,15 @@ public class LSystemData extends AbstractData {
 	 * 
 	 */
 	public LSystemData() {
-		rules = new HashMap<>();
+		rules = new Vector<>();
 	}
 
-	public HashMap<Character, String> getRules() {
+	public Vector<Rule> getRules() {
 		return rules;
 	}
 
 	public void addRule(char from, String to) {
-		rules.put(from, to);
+		rules.add(new Rule(from, to));
 	}
 
 	public void addRule() {
@@ -69,5 +68,26 @@ public class LSystemData extends AbstractData {
 	 */
 	public int getAngle() {
 		return angle;
+	}
+
+	@Override
+	public void removeRule(int index) {
+		rules.remove(index);
+	}
+	
+	public class Rule {
+		public char from;
+		public String to;
+		public Rule(char from, String to) {
+			this.from = from;
+			this.to = to;
+		}
+	}
+	
+	public static LSystemData getCurrent() {
+		if (!(current instanceof LSystemData)) {
+			throw new IllegalStateException();
+		}
+		return (LSystemData) current;
 	}
 }

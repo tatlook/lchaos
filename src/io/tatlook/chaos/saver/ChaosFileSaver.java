@@ -33,9 +33,9 @@ public class ChaosFileSaver extends AbstractFileSaver {
 	
 	@Override
 	public void save() {
-		double[] dist = ChaosData.current.getDist();
-		double[][] cx = ChaosData.current.getCX();
-		double[][] cy = ChaosData.current.getCY();
+		double[] dist = ChaosData.getCurrent().getDist();
+		double[][] cx = ChaosData.getCurrent().getCX();
+		double[][] cy = ChaosData.getCurrent().getCY();
 		
 		out.println(dist.length);
 		out.print("    ");

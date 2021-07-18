@@ -20,6 +20,7 @@ package io.tatlook.chaos.parser;
 
 import java.io.File;
 
+import io.tatlook.chaos.data.AbstractData;
 import io.tatlook.chaos.data.ChaosData;
 
 /**
@@ -33,7 +34,7 @@ public class NullFileParser extends AbstractFileParser {
 	
 	@Override
 	public void readChaos() {
-		ChaosData.current = new ChaosData();
+		AbstractData.setCurrent(new ChaosData());
 	}
 	
 	@Override

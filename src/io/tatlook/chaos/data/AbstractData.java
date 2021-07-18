@@ -18,13 +18,17 @@
 
 package io.tatlook.chaos.data;
 
+import io.tatlook.chaos.App;
+import io.tatlook.chaos.parser.ChaosFileParser;
+
 /**
  * @author Administrator
  *
  */
 public abstract class AbstractData {
-	public static AbstractData current;
+	protected static AbstractData current;
 
+	protected boolean changed;
 	/**
 	 * 
 	 */
@@ -32,4 +36,32 @@ public abstract class AbstractData {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void setChanged(boolean changed) {
+		boolean thischanged = this.changed;
+		this.changed = changed;
+		if (thischanged != changed) {
+			App.mainWindow.setTitle(ChaosFileParser.getCurrentFileParser().getFile());    		
+		}
+	}
+	
+	public boolean isChanged() {
+		return changed;
+	}
+	
+	public abstract void addRule();
+	public abstract void removeRule(int index);
+
+	/**
+	 * @return the current
+	 */
+	public static AbstractData getCurrent() {
+		return current;
+	}
+
+	/**
+	 * @param current the current to set
+	 */
+	public static void setCurrent(AbstractData current) {
+		AbstractData.current = current;
+	}
 }

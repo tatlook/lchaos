@@ -18,6 +18,17 @@
 
 package io.tatlook.chaos.editor;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.Box;
+import javax.swing.JLabel;
+
+import io.tatlook.chaos.App;
+import io.tatlook.chaos.data.AbstractData;
+import io.tatlook.chaos.data.ChaosData;
+import io.tatlook.chaos.data.LSystemData;
+
 /**
  * @author Administrator
  *
@@ -35,11 +46,94 @@ public class LSystemEditor extends AbstractEditor {
 	public LSystemEditor() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
-	protected void createRule(boolean itIsNew) {
-		// TODO Auto-generated method stub
-
+	protected void createRulePanels() {
+		for (int i = 0; i < LSystemData.getCurrent().getRules().size(); i++) {
+			createRule(false);
+		}
 	}
 
+	@SuppressWarnings("serial")
+	class RulePanel extends AbstractRulePanel {
+		int panelIndex = rulePanels.size();
+		
+		public RulePanel() {
+			super();
+			
+			{
+				final int buttonMaximumHeight = 22;
+				deleteButton.setMaximumSize(new Dimension(buttonMaximumHeight, buttonMaximumHeight));
+				deleteButton.setSize(buttonMaximumHeight, buttonMaximumHeight);
+				deleteButton.addActionListener((e) -> {
+					if (rulePanels.size() <= 0) {
+						throw new AssertionError();
+					}
+					// Poista tiedoista
+					ChaosData.getCurrent().removeRule(panelIndex);
+					// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
+					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
+						AbstractRulePanel panel = rulePanels.get(i);
+						panel.panelIndex--;
+						// Virkistää näyttön
+						panel.updateUI();
+					}	
+					
+					contentBox.remove(this);
+					rulePanels.remove(this);
+					rulePanels.get(0).updateUI();
+					contentBox.updateUI();
+					
+					App.mainWindow.getDrawer().setChange();
+					LSystemData.getCurrent().setChanged(true);
+				});
+				
+				Box box = Box.createHorizontalBox();
+				box.add(new JLabel("From"));
+				box.add(createSpacing());
+				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(panelIndex).from, (value) -> {
+					try {
+						LSystemData.getCurrent().getRules().get(panelIndex).from = value.charAt(0);
+					} catch (IndexOutOfBoundsException e) {
+						throw new NumberFormatException();
+					}
+				}));
+				box.add(createSpacing());
+				box.add(deleteButton);
+				box.add(createSpacing());
+				box.setBorder(STD_SPACING_BORDER);
+				add(box, BorderLayout.NORTH);
+			}
+			{
+				Box box = Box.createHorizontalBox();
+				box.add(new JLabel("To"));
+				box.add(createSpacing());
+				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(panelIndex).to, (value) -> {
+					LSystemData.getCurrent().getRules().get(panelIndex).to = value;
+				}));
+				box.setBorder(STD_SPACING_BORDER);
+				add(box);
+			}
+			System.out.print(rulePanels.size());
+		}
+	}
+	
+	@Override
+	protected void createRule(boolean itIsNew) {
+		System.out.println("LSystemEditor.createRule()");
+		
+		if (itIsNew) {
+			AbstractData.getCurrent().addRule();
+			App.mainWindow.getDrawer().setChange();
+			AbstractData.getCurrent().setChanged(true);
+		}
+		
+		RulePanel panel = new RulePanel();
+		contentBox.remove(createRulePanel);
+		contentBox.add(panel);
+		contentBox.add(createRulePanel);
+		rulePanels.add(panel);
+		rulePanels.get(0).updateUI();
+		panel.updateUI();
+	}
 }

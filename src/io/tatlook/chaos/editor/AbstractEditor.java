@@ -36,6 +36,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -50,7 +51,7 @@ import javax.swing.undo.UndoManager;
 
 import io.tatlook.chaos.App;
 import io.tatlook.chaos.util.SetRunnable;
-import io.tatlook.chaos.data.ChaosData;
+import io.tatlook.chaos.data.AbstractData;
 
 /**
  * @author Administrator
@@ -70,7 +71,7 @@ public abstract class AbstractEditor extends JPanel {
 
 	
 	protected Box contentBox;
-	protected Vector<AbstractRulePanel> rulePanels;
+	protected Vector<AbstractRulePanel> rulePanels = new Vector<>();
 	protected JButton createRuleButton = new JButton("Create a Rule");
 	protected JPanel createRulePanel = new JPanel();
 	
@@ -86,16 +87,13 @@ public abstract class AbstractEditor extends JPanel {
 		contentBox.setBorder(BROAD_SPACING_BORDER_BORDER);
 		add(scrollPane, BorderLayout.CENTER);
 		createSpeedControl();
+		createRulePanels();
 		createCreateRulePanel();
 	}
 	
+	protected abstract void createRulePanels();
+	
 	private void createCreateRulePanel() {
-		rulePanels = new Vector<>();
-		
-		for (int i = 0; i < ChaosData.current.getDist().length; i++) {
-			createRule(false);
-		}
-		
 		createRuleButton.addActionListener((e) -> createRule(true));
 		createRulePanel.add(createRuleButton);
 		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
@@ -128,6 +126,12 @@ public abstract class AbstractEditor extends JPanel {
 		speedControlPanel.add(slider);
 		
 		contentBox.add(speedControlPanel);
+	}
+	
+	protected JLabel createSpacing() {
+		JLabel spacing = new JLabel();
+		spacing.setBorder(HORIZONTAL_SPACING_BORDER);
+		return spacing;
 	}
 	
 	@SuppressWarnings("serial")
@@ -168,7 +172,7 @@ public abstract class AbstractEditor extends JPanel {
 							return;
 						}
 						App.mainWindow.getDrawer().setChange();
-						ChaosData.current.setChanged(true);
+						AbstractData.getCurrent().setChanged(true);
 					}
 				});
 			}

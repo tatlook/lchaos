@@ -6,6 +6,7 @@ encoding//src/io/tatlook/chaos/drawer/AbstractDrawer.java=UTF-8
 encoding//src/io/tatlook/chaos/drawer/IFSDrawer.java=UTF-8
 encoding//src/io/tatlook/chaos/editor/AbstractEditor.java=UTF-8
 encoding//src/io/tatlook/chaos/editor/IFSEditor.java=UTF-8
+encoding//src/io/tatlook/chaos/editor/LSystemEditor.java=UTF-8
 encoding//src/io/tatlook/chaos/parser/FractintFileParser.java=UTF-8
 encoding//src/io/tatlook/chaos/parser/LSystemFileParser.java=UTF-8
 encoding//src/io/tatlook/chaos/saver/AbstractFileSaver.java=UTF-8
