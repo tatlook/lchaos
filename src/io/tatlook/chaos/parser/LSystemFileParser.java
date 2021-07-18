@@ -41,6 +41,7 @@ public class LSystemFileParser extends AbstractFileParser {
 		super(file);
 	}
 	
+	@SuppressWarnings("resource")
 	private void scanLine(String line) throws ChaosFileDataException {
 		{
 			// Poista kommentti
@@ -51,10 +52,39 @@ public class LSystemFileParser extends AbstractFileParser {
 		}
 		Scanner lineScanner = new Scanner(line);
 		if (!lineScanner.hasNext()) {
-			lineScanner.close();
 			return;
 		}
 		
+		String firstString = lineScanner.next();
+		if (firstString.equalsIgnoreCase("axiom")) {
+			if (!lineScanner.hasNext()) {
+				throw new ChaosFileDataException(chaosFile);
+			}
+			data.setAxiom(lineScanner.next());
+			return;
+		} else if (firstString.equalsIgnoreCase("angle")) {
+			if (!lineScanner.hasNextInt()) {
+				throw new ChaosFileDataException(chaosFile);
+			}
+			data.setAngle(lineScanner.nextInt());
+			return;
+		} else {
+			lineScanner.close();
+			lineScanner = new Scanner(line);
+		}
+		
+		if (!lineScanner.hasNext()) {
+			throw new ChaosFileDataException(chaosFile);
+		}
+		
+		String equation = lineScanner.next();
+		if (equation.length() < 3) {
+			throw new ChaosFileDataException(chaosFile);
+		}
+		char from = equation.charAt(0);
+		String to = equation.substring(2);
+		
+		data.addRule(from, to);
 		
 		lineScanner.close();
 	}

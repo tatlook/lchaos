@@ -27,6 +27,8 @@ import java.util.HashMap;
 public class LSystemData extends AbstractData {
 
 	private HashMap<Character, String> rules;
+	private String axiom;
+	private int angle;
 
 	/**
 	 * 
@@ -45,5 +47,27 @@ public class LSystemData extends AbstractData {
 
 	public void addRule() {
 		addRule('F', "");
+	}
+
+	public void setAxiom(String axiom) {
+		this.axiom = axiom;
+	}
+
+	/**
+	 * @return the axiom
+	 */
+	public String getAxiom() {
+		return axiom;
+	}
+
+	public void setAngle(int angle) {
+		this.angle = angle;
+	}
+
+	/**
+	 * @return the angle
+	 */
+	public int getAngle() {
+		return angle;
 	}
 }
