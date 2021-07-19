@@ -21,6 +21,10 @@ package io.tatlook.chaos.drawer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JComponent;
 
@@ -44,7 +48,7 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 	 * Kuinka pitkä aika pitä odota (millisekunti)
 	 */
 	protected int waitTime = 1000;
-	protected int waitLevel = 0;
+	protected int level = 0;
 	
 	/**
 	 * Kuva, johon pirtään pistettä
@@ -69,7 +73,89 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 	 * 
 	 */
 	public AbstractDrawer() {
-		// TODO Auto-generated constructor stub
+		// Kuva suurennee/pienennee, kun paina Ctrl++/Ctrl+-
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventPostProcessor((e) -> {
+			if (!e.isControlDown()) {
+				return false;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_PLUS) {
+				zoom(-1, getWidth() / 2, getHeight() / 2);
+			} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
+				zoom(1, getWidth() / 2, getHeight() / 2);
+			}
+			return false;
+		});
+		// Kuva suurennee/pienennee, kun hiiren rullaa selaa.
+		addMouseWheelListener((e) -> {
+			zoom(e.getWheelRotation(), e.getX(), e.getY());
+		});
+		// Kuva muuta, kun hiiri vetää.
+		addMouseMotionListener(new MouseMotionAdapter() {
+			boolean first = true;
+			int lastX, lastY;
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if (first) {
+					lastX = e.getX();
+					lastY = e.getY();
+					first = false;
+					return;
+				}
+				int moveX = lastX - e.getX();
+				int moveY = lastY - e.getY();
+				if (Math.abs(moveX) > 50 || Math.abs(moveY) > 50) {
+					lastX = e.getX();
+					lastY = e.getY();
+					return;
+				}
+				
+				imageX += moveX;
+				imageY += moveY;
+				if (imageX > zoom * 2) {
+					imageX = zoom * 2;
+				}
+				if (imageX < -zoom * 2) {
+					imageX = -zoom * 2;
+				}
+				if (imageY > zoom * 2) {
+					imageY = zoom * 2;
+				}
+				if (imageY < -zoom * 2) {
+					imageY = -zoom * 2;
+				}
+				
+				lastX = e.getX();
+				lastY = e.getY();
+				
+				repaint();
+			}
+		});
+	}
+	
+	public void zoom(int rotation, int x, int y) {
+		zoom -= rotation * imageHeight / 30;
+		int minSize = Math.min(getWidth(), getHeight());
+		int maxSize = Math.max(getWidth(), getHeight());
+		if (zoom < minSize / 4 * 3) {
+			zoom = minSize / 4 * 3;
+			return;
+		}
+		if (zoom > imageHeight * 3) {
+			zoom = imageHeight * 3;
+			return;
+		}
+		int moveX = imageWidth / 15 * x / maxSize;
+		int moveY = imageHeight / 15 * y / maxSize;
+		if (rotation < 0) {
+			imageX += moveX;
+			imageY += moveY;
+		} else {
+			imageX -= moveX;
+			imageY -= moveY;
+		}
+		
+		repaint();
 	}
 	
 	@Override
@@ -125,18 +211,18 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 	}
 	
 	/**
-	 * @return the waitLevel
+	 * @return the level
 	 */
-	public int getWaitLevel() {
-		return waitLevel;
+	public int getLevel() {
+		return level;
 	}
 
 	/**
-	 * @param waitLevel the waitLevel to set
+	 * @param level the level to set
 	 */
-	public void setWaitLevel(int waitLevel) {
-		this.waitLevel = waitLevel;
-		this.waitTime = ((11 - waitLevel) * 500 + 1) / imageHeight;
+	public void setLevel(int level) {
+		this.level = level;
+		this.waitTime = ((11 - level) * 500 + 1) / imageHeight;
 	}
 
 
@@ -171,5 +257,10 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 	 */
 	public double getYOffset() {
 		return yOffset;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void stop() {
+		drawThread.stop();
 	}
 }

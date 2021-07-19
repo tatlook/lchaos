@@ -29,7 +29,7 @@ import io.tatlook.chaos.App;
 import io.tatlook.chaos.ChaosFileChooser;
 import io.tatlook.chaos.ErrorMessageDialog;
 import io.tatlook.chaos.FileHistoryManager;
-import io.tatlook.chaos.data.ChaosData;
+import io.tatlook.chaos.data.AbstractData;
 
 /**
  * @author Administrator
@@ -78,7 +78,7 @@ public abstract class AbstractFileSaver {
 				break;
 		};
 		saver.save();
-		ChaosData.getCurrent().setChanged(false);
+		AbstractData.getCurrent().setChanged(false);
 		
 		FileHistoryManager.get().add(file);
 		App.mainWindow.setTitle(file);
@@ -91,7 +91,7 @@ public abstract class AbstractFileSaver {
 	 * @return false älä tee joatin
 	 */
 	public static boolean checkFileSave() {
-		if (ChaosData.getCurrent().isChanged()) {
+		if (AbstractData.getCurrent().isChanged()) {
 			int result = ErrorMessageDialog.createSaveDialog();
 			if (result == JOptionPane.YES_OPTION) {
 				return staticSave();

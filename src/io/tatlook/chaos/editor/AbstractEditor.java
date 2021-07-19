@@ -41,7 +41,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
@@ -86,7 +85,6 @@ public abstract class AbstractEditor extends JPanel {
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentBox.setBorder(BROAD_SPACING_BORDER_BORDER);
 		add(scrollPane, BorderLayout.CENTER);
-		createSpeedControl();
 		createRulePanels();
 		createCreateRulePanel();
 	}
@@ -98,34 +96,6 @@ public abstract class AbstractEditor extends JPanel {
 		createRulePanel.add(createRuleButton);
 		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
 		contentBox.add(createRulePanel);
-	}
-	
-
-	private void createSpeedControl() {
-		JPanel speedControlPanel = new JPanel();
-		speedControlPanel.setBorder(BorderFactory.createTitledBorder("Speed"));
-		speedControlPanel.setMaximumSize(new Dimension(speedControlPanel.getMaximumSize().width, 90));
-		
-		JSlider slider = new JSlider(0, 10);
-		if (App.mainWindow.getDrawer() != null) {
-			int waitLevel = App.mainWindow.getDrawer().getWaitLevel();
-			slider.setValue(waitLevel);			
-		} else {
-			slider.setValue(0);
-		}
-		slider.setMajorTickSpacing(2);
-		slider.setMinorTickSpacing(1);
-		slider.setPaintLabels(true);
-		slider.setPaintTicks(true);
-		slider.setPaintTrack(true);
-		slider.addChangeListener((e) -> {
-			int waitLevel = slider.getValue();
-			App.mainWindow.getDrawer().setWaitLevel(waitLevel);
-		});
-		
-		speedControlPanel.add(slider);
-		
-		contentBox.add(speedControlPanel);
 	}
 	
 	protected JLabel createSpacing() {

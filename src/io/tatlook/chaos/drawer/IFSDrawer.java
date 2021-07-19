@@ -88,10 +88,6 @@
 package io.tatlook.chaos.drawer;
 
 import java.awt.Graphics;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 
 import io.tatlook.chaos.data.ChaosData;
 
@@ -106,89 +102,7 @@ public class IFSDrawer extends AbstractDrawer {
 	private static final long serialVersionUID = 3839460539960225035L;
 	
 	public IFSDrawer() {
-		// Kuva suurennee/pienennee, kun paina Ctrl++/Ctrl+-
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventPostProcessor((e) -> {
-			if (!e.isControlDown()) {
-				return false;
-			}
-			if (e.getKeyCode() == KeyEvent.VK_PLUS) {
-				zoom(-1, getWidth() / 2, getHeight() / 2);
-			} else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
-				zoom(1, getWidth() / 2, getHeight() / 2);
-			}
-			return false;
-		});
-		// Kuva suurennee/pienennee, kun hiiren rullaa selaa.
-		addMouseWheelListener((e) -> {
-			zoom(e.getWheelRotation(), e.getX(), e.getY());
-		});
-		// Kuva muuta, kun hiiri vetää.
-		addMouseMotionListener(new MouseMotionAdapter() {
-			boolean first = true;
-			int lastX, lastY;
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				if (first) {
-					lastX = e.getX();
-					lastY = e.getY();
-					first = false;
-					return;
-				}
-				int moveX = lastX - e.getX();
-				int moveY = lastY - e.getY();
-				if (Math.abs(moveX) > 50 || Math.abs(moveY) > 50) {
-					lastX = e.getX();
-					lastY = e.getY();
-					return;
-				}
-				
-				imageX += moveX;
-				imageY += moveY;
-				if (imageX > zoom * 2) {
-					imageX = zoom * 2;
-				}
-				if (imageX < -zoom * 2) {
-					imageX = -zoom * 2;
-				}
-				if (imageY > zoom * 2) {
-					imageY = zoom * 2;
-				}
-				if (imageY < -zoom * 2) {
-					imageY = -zoom * 2;
-				}
-				
-				lastX = e.getX();
-				lastY = e.getY();
-				
-				repaint();
-			}
-		});
-	}
-	
-	public void zoom(int rotation, int x, int y) {
-		zoom -= rotation * imageHeight / 30;
-		int minSize = Math.min(getWidth(), getHeight());
-		int maxSize = Math.max(getWidth(), getHeight());
-		if (zoom < minSize / 4 * 3) {
-			zoom = minSize / 4 * 3;
-			return;
-		}
-		if (zoom > imageHeight * 3) {
-			zoom = imageHeight * 3;
-			return;
-		}
-		int moveX = imageWidth / 15 * x / maxSize;
-		int moveY = imageHeight / 15 * y / maxSize;
-		if (rotation < 0) {
-			imageX += moveX;
-			imageY += moveY;
-		} else {
-			imageX -= moveX;
-			imageY -= moveY;
-		}
-		
-		repaint();
+		super();
 	}
 	
 	@Override
@@ -238,7 +152,7 @@ public class IFSDrawer extends AbstractDrawer {
 			try {
 				synchronized (this) {
 					// Kun piirtäminen pysähtyy, pitää odota ikuisesti.
-					while (waitLevel == 0) {
+					while (level == 0) {
 						wait(100);
 					}
 					// Wait() funktio ei saa olla nolla.

@@ -21,12 +21,14 @@ package io.tatlook.chaos.editor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import io.tatlook.chaos.App;
 import io.tatlook.chaos.data.AbstractData;
-import io.tatlook.chaos.data.ChaosData;
 import io.tatlook.chaos.data.LSystemData;
 
 /**
@@ -49,9 +51,38 @@ public class LSystemEditor extends AbstractEditor {
 	
 	@Override
 	protected void createRulePanels() {
+		createSpeedControl();
 		for (int i = 0; i < LSystemData.getCurrent().getRules().size(); i++) {
 			createRule(false);
 		}
+	}
+	
+	private void createSpeedControl() {
+		JPanel speedControlPanel = new JPanel();
+		speedControlPanel.setBorder(BorderFactory.createTitledBorder("Order"));
+		speedControlPanel.setMaximumSize(new Dimension(speedControlPanel.getMaximumSize().width, 90));
+		
+		JSlider slider = new JSlider(0, 10);
+		if (App.mainWindow.getDrawer() != null) {
+			int order = App.mainWindow.getDrawer().getLevel();
+			slider.setValue(order);
+		} else {
+			slider.setValue(0);
+		}
+		slider.setMajorTickSpacing(2);
+		slider.setMinorTickSpacing(1);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setPaintTrack(true);
+		slider.addChangeListener((e) -> {
+			int order = slider.getValue();
+			App.mainWindow.getDrawer().setLevel(order);
+			App.mainWindow.getDrawer().setChange();
+		});
+		
+		speedControlPanel.add(slider);
+		
+		contentBox.add(speedControlPanel);
 	}
 
 	@SuppressWarnings("serial")
@@ -70,7 +101,7 @@ public class LSystemEditor extends AbstractEditor {
 						throw new AssertionError();
 					}
 					// Poista tiedoista
-					ChaosData.getCurrent().removeRule(panelIndex);
+					LSystemData.getCurrent().removeRule(panelIndex);
 					// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
 					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
 						AbstractRulePanel panel = rulePanels.get(i);

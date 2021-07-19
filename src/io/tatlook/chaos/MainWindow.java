@@ -39,6 +39,7 @@ import io.tatlook.chaos.data.AbstractData;
 import io.tatlook.chaos.data.LSystemData;
 import io.tatlook.chaos.drawer.AbstractDrawer;
 import io.tatlook.chaos.drawer.IFSDrawer;
+import io.tatlook.chaos.drawer.LSystemDrawer;
 import io.tatlook.chaos.editor.IFSEditor;
 import io.tatlook.chaos.editor.LSystemEditor;
 import io.tatlook.chaos.parser.ChaosFileParser;
@@ -128,8 +129,20 @@ public class MainWindow extends JFrame {
 	public void updateToolPanel() {
 		if (AbstractData.getCurrent() instanceof LSystemData) {
 			editor = new LSystemEditor();
+			if (drawer != null && !(drawer instanceof LSystemDrawer)) {
+				drawer.stop();
+				drawer = new LSystemDrawer();
+				splitPane.setRightComponent(drawer);
+				drawer.start();
+			}
 		} else {
-			editor = new IFSEditor();			
+			editor = new IFSEditor();
+			if (drawer != null && !(drawer instanceof IFSDrawer)) {
+				drawer.stop();
+				drawer = new IFSDrawer();
+				splitPane.setRightComponent(drawer);
+				drawer.start();
+			}
 		}
 		splitPane.setLeftComponent(editor);
 		setTitle(ChaosFileParser.getCurrentFileParser().getFile());
