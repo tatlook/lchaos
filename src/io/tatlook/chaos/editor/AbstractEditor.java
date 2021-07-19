@@ -105,51 +105,42 @@ public abstract class AbstractEditor extends JPanel {
 	}
 	
 	@SuppressWarnings("serial")
-	protected abstract class AbstractRulePanel extends JPanel {
-		int panelIndex = rulePanels.size();
-		private Border border;
-		protected JButton deleteButton = new JButton("✕");
+	protected class EditTextField extends JTextField {
+		final int fieldMinimumWidth = 100;
+		final int fieldMaximumHeight = 22;
 		
-		protected class EditTextField extends JTextField {
-			final int fieldMinimumWidth = 100;
-			final int fieldMaximumHeight = 22;
+		public EditTextField(String value, SetRunnable doSet) {
+			super(value);
 			
-			public EditTextField(String value, SetRunnable doSet) {
-				super(value);
+			setMinimumSize(new Dimension(fieldMinimumWidth, 0));
+			setMaximumSize(new Dimension(getMaximumSize().width, fieldMaximumHeight));
+			
+			addListeners(this);
+			getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					changedUpdate(e);
+				}
 				
-				setMinimumSize(new Dimension(fieldMinimumWidth, 0));
-				setMaximumSize(new Dimension(getMaximumSize().width, fieldMaximumHeight));
-			
-				addListeners(this);
-				getDocument().addDocumentListener(new DocumentListener() {
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						changedUpdate(e);
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					changedUpdate(e);
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					try {
+						doSet.set(getText());
+						setBorder(new JTextField().getBorder());
+					} catch (NumberFormatException e2) {
+						setBorder(BorderFactory.createLineBorder(new Color(180, 180, 255), 3));
+						return;
 					}
-					
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						changedUpdate(e);
-					}
-					
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						try {
-							doSet.set(getText());
-							setBorder(new JTextField().getBorder());
-						} catch (NumberFormatException e2) {
-							setBorder(BorderFactory.createLineBorder(new Color(180, 180, 255), 3));
-							return;
-						}
-						App.mainWindow.getDrawer().setChange();
-						AbstractData.getCurrent().setChanged(true);
-					}
-				});
-			}
-		};
-		
-		public AbstractRulePanel() {
-			super(new BorderLayout());
+					App.mainWindow.getDrawer().setChange();
+					AbstractData.getCurrent().setChanged(true);
+				}
+				
+			});
 		}
 		
 		protected void addListeners(JTextField field) {
@@ -260,6 +251,18 @@ public abstract class AbstractEditor extends JPanel {
 					}
 				}
 			});
+		}
+	};
+	
+	@SuppressWarnings("serial")
+	protected abstract class AbstractRulePanel extends JPanel {
+		int panelIndex = rulePanels.size();
+		private Border border;
+		protected JButton deleteButton = new JButton("✕");
+		
+		
+		public AbstractRulePanel() {
+			super(new BorderLayout());
 		}
 		
 		@Override

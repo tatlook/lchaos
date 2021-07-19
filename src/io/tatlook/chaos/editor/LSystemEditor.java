@@ -51,13 +51,43 @@ public class LSystemEditor extends AbstractEditor {
 	
 	@Override
 	protected void createRulePanels() {
-		createSpeedControl();
+		createOrderControl();
+		createAxiomAngleControl();
 		for (int i = 0; i < LSystemData.getCurrent().getRules().size(); i++) {
 			createRule(false);
 		}
 	}
 	
-	private void createSpeedControl() {
+	private void createAxiomAngleControl() {
+		JPanel controlPanel = new JPanel(new BorderLayout());
+		controlPanel.setBorder(BorderFactory.createTitledBorder("Other Parameters"));
+		controlPanel.setMaximumSize(new Dimension(controlPanel.getMaximumSize().width, 90));
+		
+		{
+			Box box = Box.createHorizontalBox();
+			box.add(new JLabel("Axiom"));
+			box.add(createSpacing());
+			box.add(new EditTextField(LSystemData.getCurrent().getAxiom(), (value) -> {
+				LSystemData.getCurrent().setAxiom(value);
+			}));
+			box.setBorder(STD_SPACING_BORDER);
+			controlPanel.add(box, BorderLayout.SOUTH);
+		}
+		{
+			Box box = Box.createHorizontalBox();
+			box.add(new JLabel("Angle"));
+			box.add(createSpacing());
+			box.add(new EditTextField("" + LSystemData.getCurrent().getAngle(), (value) -> {
+				LSystemData.getCurrent().setAngle(Integer.parseInt(value));
+			}));
+			box.setBorder(STD_SPACING_BORDER);
+			controlPanel.add(box, BorderLayout.NORTH);
+		}
+		
+		contentBox.add(controlPanel);
+	}
+	
+	private void createOrderControl() {
 		JPanel speedControlPanel = new JPanel();
 		speedControlPanel.setBorder(BorderFactory.createTitledBorder("Order"));
 		speedControlPanel.setMaximumSize(new Dimension(speedControlPanel.getMaximumSize().width, 90));
@@ -143,7 +173,7 @@ public class LSystemEditor extends AbstractEditor {
 					LSystemData.getCurrent().getRules().get(panelIndex).to = value;
 				}));
 				box.setBorder(STD_SPACING_BORDER);
-				add(box);
+				add(box, BorderLayout.SOUTH);
 			}
 			System.out.print(rulePanels.size());
 		}
