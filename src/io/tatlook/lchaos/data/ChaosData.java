@@ -29,7 +29,8 @@ public class ChaosData extends AbstractData {
 	private Vector<Double[]> cxVector;
 	private Vector<Double[]> cyVector;
 	
-	public ChaosData(double[] dist, double[][] cx, double[][] cy) {
+	private ChaosData(double[] dist, double[][] cx, double[][] cy, ChaosData origin) {
+		super(origin);
 		if (dist.length != cx.length || dist.length != cy.length) {
 			System.err.println("d:" + dist.length + " x:" + cx.length + " y:" + cy.length);
 			throw new AssertionError();
@@ -37,6 +38,10 @@ public class ChaosData extends AbstractData {
 		distVector = arrayToVector1D(dist);
 		cxVector = arrayToVector2D(cx);
 		cyVector = arrayToVector2D(cy);
+	}
+	
+	public ChaosData(double[] dist, double[][] cx, double[][] cy) {
+		this(dist, cx, cy, new ChaosData(dist, cx, cy, null));
 	}
 	
 	public ChaosData() {
@@ -73,6 +78,7 @@ public class ChaosData extends AbstractData {
 		cyVector.add(cy);
 	}
 	
+	@Override
 	public void addRule() {
 		Double[] cx = { 0.0, 0.0, 0.0 };
 		Double[] cy = { 0.0, 0.0, 0.0 };
@@ -122,6 +128,36 @@ public class ChaosData extends AbstractData {
 			vector.add(d2);
 		}
 		return vector;
+	}
+	
+	@Override
+	protected boolean equalsToOrigin() {
+		ChaosData origin = (ChaosData) this.origin;
+		if (!distVector.equals(origin.distVector)) {
+			return false;
+		}
+		if (!vectorEquals2D(cxVector, origin.cxVector)) {
+			return false;
+		}
+		if (!vectorEquals2D(cyVector, origin.cyVector)) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean vectorEquals2D(Vector<Double[]> vector1, Vector<Double[]> vector2) {
+		for (int i = 0; i < vector2.size(); i++) {
+			Double[] ds1 = vector1.get(i);
+			Double[] ds2 = vector2.get(i);
+			for (int j = 0; j < ds1.length; j++) {
+				double v1 = ds1[j];
+				double v2 = ds2[j];
+				if (v1 != v2) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static ChaosData getCurrent() {

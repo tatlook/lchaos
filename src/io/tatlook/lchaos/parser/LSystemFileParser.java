@@ -118,6 +118,7 @@ public class LSystemFileParser extends AbstractFileParser {
 			if (data.getRules().isEmpty()) {
 				data.addRule();
 			}
+			data.setCurrentToOrigin();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

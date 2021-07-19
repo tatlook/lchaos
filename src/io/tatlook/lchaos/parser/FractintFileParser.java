@@ -112,6 +112,7 @@ public class FractintFileParser extends IFSFileParser {
 			if (data.getDist().length == 0) {
 				data.addRule();
 			}
+			data.setCurrentToOrigin();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

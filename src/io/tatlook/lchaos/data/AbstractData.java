@@ -19,34 +19,50 @@
 package io.tatlook.lchaos.data;
 
 import io.tatlook.lchaos.App;
-import io.tatlook.lchaos.parser.ChaosFileParser;
+import io.tatlook.lchaos.parser.AbstractFileParser;
 
 /**
  * @author Administrator
  *
  */
-public abstract class AbstractData {
+public abstract class AbstractData implements Cloneable {
 	protected static AbstractData current;
 
 	protected boolean changed;
+	protected AbstractData origin;
 	/**
 	 * 
 	 */
-	public AbstractData() {
-		// TODO Auto-generated constructor stub
+	protected AbstractData(AbstractData origin) {
+		this.origin = origin;
+	}
+	
+	public void setCurrentToOrigin() {
+		try {
+			origin = (AbstractData) clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setChanged(boolean changed) {
 		boolean thischanged = this.changed;
+		if (changed == true) {
+			if (equalsToOrigin()) {
+				changed = false;
+			}
+		}
 		this.changed = changed;
 		if (thischanged != changed) {
-			App.mainWindow.setTitle(ChaosFileParser.getCurrentFileParser().getFile());    		
+			App.mainWindow.setTitle(AbstractFileParser.getCurrentFileParser().getFile());
 		}
 	}
 	
 	public boolean isChanged() {
 		return changed;
 	}
+	
+	protected abstract boolean equalsToOrigin();
 	
 	public abstract void addRule();
 	public abstract void removeRule(int index);

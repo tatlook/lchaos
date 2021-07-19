@@ -29,11 +29,16 @@ public class LSystemData extends AbstractData {
 	private String axiom;
 	private int angle;
 
+	private LSystemData(LSystemData origin) {
+		super(origin);
+		rules = new Vector<>();
+	}
+	
 	/**
 	 * 
 	 */
 	public LSystemData() {
-		rules = new Vector<>();
+		this(new LSystemData(null));
 	}
 
 	public Vector<Rule> getRules() {
@@ -82,8 +87,41 @@ public class LSystemData extends AbstractData {
 			this.from = from;
 			this.to = to;
 		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (!(obj instanceof Rule)) {
+				return false;
+			}
+			Rule other = (Rule) obj;
+			if (from != other.from) {
+				return false;
+			}
+			if (!to.equals(other.to)) {
+				return false;
+			}
+			return true;
+		}
 	}
 	
+	@Override
+	protected boolean equalsToOrigin() {
+		LSystemData origin = (LSystemData) this.origin;
+		if (angle != origin.angle) {
+			return false;
+		}
+		if (!axiom.equals(origin.axiom)) {
+			return false;
+		}
+		if (!rules.equals(origin.rules)) {
+			return false;
+		}
+		return true;
+	}
+
 	public static LSystemData getCurrent() {
 		if (!(current instanceof LSystemData)) {
 			throw new IllegalStateException();
