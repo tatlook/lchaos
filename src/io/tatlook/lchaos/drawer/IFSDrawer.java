@@ -89,7 +89,7 @@ package io.tatlook.lchaos.drawer;
 
 import java.awt.Graphics;
 
-import io.tatlook.lchaos.data.ChaosData;
+import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator
@@ -110,9 +110,9 @@ public class IFSDrawer extends AbstractDrawer {
 		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
 		
-		double[] dist = ChaosData.getCurrent().getDist();
-		double[][] cx = ChaosData.getCurrent().getCX();
-		double[][] cy = ChaosData.getCurrent().getCY();
+		double[] dist = IFSData.getCurrent().getDist();
+		double[][] cx = IFSData.getCurrent().getCX();
+		double[][] cy = IFSData.getCurrent().getCY();
 		
 		// Ensimäisen pisteen koordinaati
 		double x = 0.0, y = 0.0;
@@ -144,9 +144,9 @@ public class IFSDrawer extends AbstractDrawer {
 			// Jos jotain parametri muutui, päivitää sen.
 			if (hasChange) {
 				g = image.getGraphics();
-				dist = ChaosData.getCurrent().getDist();
-				cx = ChaosData.getCurrent().getCX();
-				cy = ChaosData.getCurrent().getCY();
+				dist = IFSData.getCurrent().getDist();
+				cx = IFSData.getCurrent().getCX();
+				cy = IFSData.getCurrent().getCY();
 				hasChange = false;
 			}
 			try {

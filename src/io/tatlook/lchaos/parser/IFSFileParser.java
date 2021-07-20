@@ -21,14 +21,14 @@ package io.tatlook.lchaos.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import io.tatlook.lchaos.data.ChaosData;
+import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator
  *
  */
 public abstract class IFSFileParser extends AbstractFileParser {
-	protected ChaosData data;
+	protected IFSData data;
 	
 	public IFSFileParser(File file) throws FileNotFoundException {
 		super(file);

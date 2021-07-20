@@ -21,7 +21,7 @@ package io.tatlook.lchaos.parser;
 import java.io.File;
 
 import io.tatlook.lchaos.data.AbstractData;
-import io.tatlook.lchaos.data.ChaosData;
+import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator
@@ -34,7 +34,7 @@ public class NullFileParser extends AbstractFileParser {
 	
 	@Override
 	public void readChaos() {
-		AbstractData.setCurrent(new ChaosData());
+		AbstractData.setCurrent(new IFSData());
 	}
 	
 	@Override

@@ -20,7 +20,7 @@ package io.tatlook.lchaos.saver;
 
 import java.io.File;
 
-import io.tatlook.lchaos.data.ChaosData;
+import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator
@@ -33,9 +33,9 @@ public class ChaosFileSaver extends AbstractFileSaver {
 	
 	@Override
 	public void save() {
-		double[] dist = ChaosData.getCurrent().getDist();
-		double[][] cx = ChaosData.getCurrent().getCX();
-		double[][] cy = ChaosData.getCurrent().getCY();
+		double[] dist = IFSData.getCurrent().getDist();
+		double[][] cx = IFSData.getCurrent().getCX();
+		double[][] cy = IFSData.getCurrent().getCY();
 		
 		out.println(dist.length);
 		out.print("    ");

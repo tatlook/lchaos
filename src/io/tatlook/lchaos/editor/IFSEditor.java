@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
-import io.tatlook.lchaos.data.ChaosData;
+import io.tatlook.lchaos.data.IFSData;
 
 import java.util.Vector;
 
@@ -50,7 +50,7 @@ public class IFSEditor extends AbstractEditor {
 	@Override
 	protected void createRulePanels() {
 		createSpeedControl();
-		for (int i = 0; i < ChaosData.getCurrent().getDist().length; i++) {
+		for (int i = 0; i < IFSData.getCurrent().getDist().length; i++) {
 			createRule(false);
 		}
 	}
@@ -98,7 +98,7 @@ public class IFSEditor extends AbstractEditor {
 						throw new AssertionError();
 					}
 					// Poista tiedoista
-					ChaosData.getCurrent().removeRule(panelIndex);
+					IFSData.getCurrent().removeRule(panelIndex);
 					// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
 					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
 						AbstractRulePanel panel = rulePanels.get(i);
@@ -113,18 +113,18 @@ public class IFSEditor extends AbstractEditor {
 					contentBox.updateUI();
 					
 					App.mainWindow.getDrawer().setChange();
-					ChaosData.getCurrent().setChanged(true);
+					IFSData.getCurrent().setChanged(true);
 				});
 				
 				Box box = Box.createHorizontalBox();
 				box.add(new JLabel("Possibility"));
 				box.add(createSpacing());
-				box.add(new EditTextField("" + ChaosData.getCurrent().getDist()[panelIndex], (value) -> {
+				box.add(new EditTextField("" + IFSData.getCurrent().getDist()[panelIndex], (value) -> {
 					Double value2 = Double.valueOf(value);
 					if (value2 < 0) {
 						throw new NumberFormatException();
 					}
-					Vector<Double> vector = ChaosData.getCurrent().getDistVector();
+					Vector<Double> vector = IFSData.getCurrent().getDistVector();
 					Double dists = vector.get(panelIndex);
 					dists = value2;
 					vector.set(panelIndex, dists);
@@ -141,9 +141,9 @@ public class IFSEditor extends AbstractEditor {
 				for (int i = 0; i < 3; i++) {
 					final int theI = i;
 					box.add(createSpacing());
-					box.add(new EditTextField("" + ChaosData.getCurrent().getCX()[panelIndex][i], (value) -> {
+					box.add(new EditTextField("" + IFSData.getCurrent().getCX()[panelIndex][i], (value) -> {
 						Double value2 = Double.valueOf(value);
-						Vector<Double[]> vector = ChaosData.getCurrent().getCXVector();
+						Vector<Double[]> vector = IFSData.getCurrent().getCXVector();
 						Double[] cxs = vector.get(panelIndex);
 						cxs[theI] = value2;
 						vector.set(panelIndex, cxs);
@@ -158,9 +158,9 @@ public class IFSEditor extends AbstractEditor {
 				for (int i = 0; i < 3; i++) {
 					final int theI = i;
 					box.add(createSpacing());
-					box.add(new EditTextField("" + ChaosData.getCurrent().getCY()[panelIndex][i], (value) -> {
+					box.add(new EditTextField("" + IFSData.getCurrent().getCY()[panelIndex][i], (value) -> {
 						Double value2 = Double.valueOf(value);
-						Vector<Double[]> vector = ChaosData.getCurrent().getCYVector();
+						Vector<Double[]> vector = IFSData.getCurrent().getCYVector();
 						Double[] cxs = vector.get(panelIndex);
 						cxs[theI] = value2;
 						vector.set(panelIndex, cxs);
@@ -178,9 +178,9 @@ public class IFSEditor extends AbstractEditor {
 		System.out.println("IFSEditor.createRule()");
 		
 		if (itIsNew) {
-			ChaosData.getCurrent().addRule();
+			IFSData.getCurrent().addRule();
 			App.mainWindow.getDrawer().setChange();
-			ChaosData.getCurrent().setChanged(true);
+			IFSData.getCurrent().setChanged(true);
 		}
 		
 		RulePanel panel = new RulePanel();

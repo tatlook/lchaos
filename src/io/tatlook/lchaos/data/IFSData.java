@@ -24,12 +24,12 @@ import java.util.Vector;
  * @author Administrator
  *
  */
-public class ChaosData extends AbstractData {
+public class IFSData extends AbstractData {
 	private Vector<Double> distVector;
 	private Vector<Double[]> cxVector;
 	private Vector<Double[]> cyVector;
 	
-	private ChaosData(double[] dist, double[][] cx, double[][] cy, ChaosData origin) {
+	private IFSData(double[] dist, double[][] cx, double[][] cy, IFSData origin) {
 		super(origin);
 		if (dist.length != cx.length || dist.length != cy.length) {
 			System.err.println("d:" + dist.length + " x:" + cx.length + " y:" + cy.length);
@@ -40,11 +40,11 @@ public class ChaosData extends AbstractData {
 		cyVector = arrayToVector2D(cy);
 	}
 	
-	public ChaosData(double[] dist, double[][] cx, double[][] cy) {
-		this(dist, cx, cy, new ChaosData(dist, cx, cy, null));
+	public IFSData(double[] dist, double[][] cx, double[][] cy) {
+		this(dist, cx, cy, new IFSData(dist, cx, cy, null));
 	}
 	
-	public ChaosData() {
+	public IFSData() {
 		this(new double[1], new double[1][3], new double[1][3]);
 	}
 	
@@ -132,7 +132,7 @@ public class ChaosData extends AbstractData {
 	
 	@Override
 	protected boolean equalsToOrigin() {
-		ChaosData origin = (ChaosData) this.origin;
+		IFSData origin = (IFSData) this.origin;
 		if (!distVector.equals(origin.distVector)) {
 			return false;
 		}
@@ -160,10 +160,10 @@ public class ChaosData extends AbstractData {
 		return true;
 	}
 
-	public static ChaosData getCurrent() {
-		if (!(current instanceof ChaosData)) {
+	public static IFSData getCurrent() {
+		if (!(current instanceof IFSData)) {
 			throw new IllegalStateException();
 		}
-		return (ChaosData) current;
+		return (IFSData) current;
 	}
 }
