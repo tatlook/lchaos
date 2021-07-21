@@ -83,28 +83,33 @@ public class ChaosFileChooser {
 		return chaosFile;
 	}
 	
+	public static AbstractFileParser chooseAvailableParser(File file) throws FileNotFoundException {
+		AbstractFileParser parser;
+		switch (AbstractFileSaver.getFileExtension(file)) {
+			case "l":
+			case "lsys":
+				parser = new LSystemFileParser(file);
+				break;
+			case "ifs":
+				parser = new FractintFileParser(file);
+				break;
+			case "ch":
+			default: 
+				parser = new ChaosFileParser(file);
+				break;
+		};
+		return parser;
+	}
+	
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
-			AbstractFileParser parser;
-			switch (AbstractFileSaver.getFileExtension(file)) {
-				case "l":
-				case "lsys":
-					parser = new LSystemFileParser(file);
-					break;
-				case "ifs":
-					parser = new FractintFileParser(file);
-					break;
-				case "ch":
-				default: 
-					parser = new ChaosFileParser(file);
-					break;
-			};
-			parser.readChaos();
-			App.mainWindow.updateToolPanel();
-			App.mainWindow.getDrawer().setChange();
+			chooseAvailableParser(file).readChaos();
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}
+		
+		App.mainWindow.updateToolPanel();
+		App.mainWindow.getDrawer().setChange();
 		
 		FileHistoryManager.get().add(file);
 	}

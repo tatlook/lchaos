@@ -35,20 +35,23 @@ public class App {
 			if (args.length > 0) {
 				File file = new File(args[0]);
 				if (file.exists()) {
-					new ChaosFileParser(file);
+					ChaosFileChooser.chooseAvailableParser(file);
+					FileHistoryManager.get().add(file);
 				} else {
 					if (args[0].charAt(0) == '-') {
 						JOptionPane.showMessageDialog(
 								mainWindow,
 								"This program doesn't have command-line options"
 						);
+						new NullFileParser();
 					} else {
 						// = Throw new FileNotFoundException.
 						new ChaosFileParser(file);
 					}
 				}
+			} else {
+				new NullFileParser();
 			}
-			new NullFileParser();
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
 			new NullFileParser();
