@@ -69,6 +69,10 @@ public abstract class AbstractFileSaver {
 		}
 		AbstractFileSaver saver;
 		switch (getFileExtension(file)) {
+			case "l":
+			case "lsys":
+				saver = new LSystemFileSaver(file);
+				break;
 			case "ifs":
 				saver = new FractintFileSaver(file);
 				break;

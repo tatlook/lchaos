@@ -19,6 +19,9 @@
 package io.tatlook.lchaos.saver;
 
 import java.io.File;
+import java.util.Vector;
+
+import io.tatlook.lchaos.data.LSystemData;
 
 public class LSystemFileSaver extends AbstractFileSaver {
 
@@ -28,8 +31,18 @@ public class LSystemFileSaver extends AbstractFileSaver {
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
+		String axiom  = LSystemData.getCurrent().getAxiom();
+		int angle = LSystemData.getCurrent().getAngle();
+		Vector<LSystemData.Rule> rules = LSystemData.getCurrent().getRules();
 		
+		out.println(FractintFileSaver.getFileNameNoEx(file.getName()) + " {");
+		out.println("Angle " + angle);
+		out.println("Axiom " + axiom);
+		for (int i = 0; i < rules.size(); i++) {
+			LSystemData.Rule rule = rules.get(i);
+			out.println(rule.from + "=" + rule.to);
+		}
+		out.println("}");
 	}
 
 }
