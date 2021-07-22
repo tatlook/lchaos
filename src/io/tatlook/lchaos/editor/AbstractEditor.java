@@ -256,13 +256,39 @@ public abstract class AbstractEditor extends JPanel {
 	
 	@SuppressWarnings("serial")
 	protected abstract class AbstractRulePanel extends JPanel {
-		int panelIndex = rulePanels.size();
+		protected int panelIndex = rulePanels.size();
 		private Border border;
 		protected JButton deleteButton = new JButton("✕");
 		
 		
 		public AbstractRulePanel() {
 			super(new BorderLayout());
+			
+			final int buttonMaximumHeight = 22;
+			deleteButton.setMaximumSize(new Dimension(buttonMaximumHeight, buttonMaximumHeight));
+			deleteButton.setSize(buttonMaximumHeight, buttonMaximumHeight);
+			deleteButton.addActionListener((e) -> {
+				if (rulePanels.size() <= 0) {
+					throw new AssertionError();
+				}
+				// Poista tiedoista
+				AbstractData.getCurrent().removeRule(panelIndex);
+				// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
+				for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
+					AbstractRulePanel panel = rulePanels.get(i);
+					panel.panelIndex--;
+					// Virkistää näyttön
+					panel.updateUI();
+				}	
+				
+				contentBox.remove(this);
+				rulePanels.remove(this);
+				rulePanels.get(0).updateUI();
+				contentBox.updateUI();
+				
+				App.mainWindow.getDrawer().setChange();
+				AbstractData.getCurrent().setChanged(true);
+			});
 		}
 		
 		@Override

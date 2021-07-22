@@ -84,38 +84,10 @@ public class IFSEditor extends AbstractEditor {
 	
 	@SuppressWarnings("serial")
 	class RulePanel extends AbstractRulePanel {
-		int panelIndex = rulePanels.size();
-		
 		public RulePanel() {
 			super();
 			
 			{
-				final int buttonMaximumHeight = 22;
-				deleteButton.setMaximumSize(new Dimension(buttonMaximumHeight, buttonMaximumHeight));
-				deleteButton.setSize(buttonMaximumHeight, buttonMaximumHeight);
-				deleteButton.addActionListener((e) -> {
-					if (rulePanels.size() <= 0) {
-						throw new AssertionError();
-					}
-					// Poista tiedoista
-					IFSData.getCurrent().removeRule(panelIndex);
-					// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
-					for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
-						AbstractRulePanel panel = rulePanels.get(i);
-						panel.panelIndex--;
-						// Virkistää näyttön
-						panel.updateUI();
-					}	
-					
-					contentBox.remove(this);
-					rulePanels.remove(this);
-					rulePanels.get(0).updateUI();
-					contentBox.updateUI();
-					
-					App.mainWindow.getDrawer().setChange();
-					IFSData.getCurrent().setChanged(true);
-				});
-				
 				Box box = Box.createHorizontalBox();
 				box.add(new JLabel("Possibility"));
 				box.add(createSpacing());
