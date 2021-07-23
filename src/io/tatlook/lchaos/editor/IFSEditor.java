@@ -30,8 +30,6 @@ import javax.swing.JSlider;
 import io.tatlook.lchaos.App;
 import io.tatlook.lchaos.data.IFSData;
 
-import java.util.Vector;
-
 /**
  * @author Administrator
  *
@@ -96,10 +94,7 @@ public class IFSEditor extends AbstractEditor {
 					if (value2 < 0) {
 						throw new NumberFormatException();
 					}
-					Vector<Double> vector = IFSData.getCurrent().getDistVector();
-					Double dists = vector.get(panelIndex);
-					dists = value2;
-					vector.set(panelIndex, dists);
+					IFSData.getCurrent().getDistVector().set(panelIndex, value2);
 				}));
 				box.add(createSpacing());
 				box.add(deleteButton);
@@ -114,11 +109,7 @@ public class IFSEditor extends AbstractEditor {
 					final int theI = i;
 					box.add(createSpacing());
 					box.add(new EditTextField("" + IFSData.getCurrent().getCX()[panelIndex][i], (value) -> {
-						Double value2 = Double.valueOf(value);
-						Vector<Double[]> vector = IFSData.getCurrent().getCXVector();
-						Double[] cxs = vector.get(panelIndex);
-						cxs[theI] = value2;
-						vector.set(panelIndex, cxs);
+						IFSData.getCurrent().getCXVector().get(panelIndex)[theI] = Double.valueOf(value);
 					}));
 				}
 				box.setBorder(STD_SPACING_BORDER);
@@ -131,11 +122,7 @@ public class IFSEditor extends AbstractEditor {
 					final int theI = i;
 					box.add(createSpacing());
 					box.add(new EditTextField("" + IFSData.getCurrent().getCY()[panelIndex][i], (value) -> {
-						Double value2 = Double.valueOf(value);
-						Vector<Double[]> vector = IFSData.getCurrent().getCYVector();
-						Double[] cxs = vector.get(panelIndex);
-						cxs[theI] = value2;
-						vector.set(panelIndex, cxs);
+						IFSData.getCurrent().getCYVector().get(panelIndex)[theI] = Double.valueOf(value);
 					}));
 				}
 				box.setBorder(STD_SPACING_BORDER);
