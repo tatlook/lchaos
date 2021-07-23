@@ -160,6 +160,11 @@ public class IFSData extends AbstractData {
 		return true;
 	}
 
+	@Override
+	public void setCurrentToOrigin() {
+		origin = new IFSData(getDist(), getCX(), getCY(), null);
+	}
+
 	public static IFSData getCurrent() {
 		if (!(current instanceof IFSData)) {
 			throw new IllegalStateException();

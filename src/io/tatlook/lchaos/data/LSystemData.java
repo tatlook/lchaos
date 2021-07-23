@@ -29,16 +29,25 @@ public class LSystemData extends AbstractData {
 	private String axiom;
 	private int angle;
 
-	private LSystemData(LSystemData origin) {
+	private LSystemData(String axiom, int angle, Rule[] rules, LSystemData origin) {
 		super(origin);
-		rules = new Vector<>();
+		this.axiom = axiom;
+		this.angle = angle;
+		this.rules = new Vector<>();
+		for (Rule rule : rules) {
+			this.rules.add(new Rule(rule));
+		}
+	}
+	
+	public LSystemData(String axiom, int angle, Rule[] rules) {
+		this(axiom, angle, rules, new LSystemData(axiom, angle, rules, null));
 	}
 	
 	/**
 	 * 
 	 */
 	public LSystemData() {
-		this(new LSystemData(null));
+		this("", 0, new Rule[0]);
 	}
 
 	public Vector<Rule> getRules() {
@@ -88,6 +97,10 @@ public class LSystemData extends AbstractData {
 			this.to = to;
 		}
 		
+		public Rule(Rule copy) {
+			this(copy.from, copy.to);
+		}
+
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj) {
@@ -120,6 +133,11 @@ public class LSystemData extends AbstractData {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void setCurrentToOrigin() {
+		origin = new LSystemData(new String(axiom), angle, rules.toArray(new Rule[rules.size()]), null);
 	}
 
 	public static LSystemData getCurrent() {

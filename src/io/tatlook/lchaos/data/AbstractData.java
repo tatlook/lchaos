@@ -37,13 +37,7 @@ public abstract class AbstractData implements Cloneable {
 		this.origin = origin;
 	}
 	
-	public void setCurrentToOrigin() {
-		try {
-			origin = (AbstractData) clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-	}
+	public abstract void setCurrentToOrigin();
 
 	public void setChanged(boolean changed) {
 		boolean thischanged = this.changed;
