@@ -40,6 +40,7 @@ import io.tatlook.lchaos.data.LSystemData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.drawer.IFSDrawer;
 import io.tatlook.lchaos.drawer.LSystemDrawer;
+import io.tatlook.lchaos.drawer.RandomWalkDrawer;
 import io.tatlook.lchaos.editor.IFSEditor;
 import io.tatlook.lchaos.editor.LSystemEditor;
 import io.tatlook.lchaos.parser.ChaosFileParser;
@@ -211,7 +212,7 @@ public class MainWindow extends JFrame {
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		
 		updateToolPanel();
-		drawer = new IFSDrawer();
+		drawer = new RandomWalkDrawer();
 		
 		splitPane.setRightComponent(drawer);
 		
