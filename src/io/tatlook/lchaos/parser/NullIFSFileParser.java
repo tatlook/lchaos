@@ -32,7 +32,7 @@ public class NullIFSFileParser extends IFSFileParser implements NullFileParser {
 	}
 	
 	@Override
-	public void readChaos() {
+	public void parse() {
 		AbstractData.setCurrent(new IFSData());
 	}
 }

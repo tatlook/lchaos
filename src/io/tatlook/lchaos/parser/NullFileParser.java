@@ -24,5 +24,5 @@ package io.tatlook.lchaos.parser;
  */
 public interface NullFileParser {
 	
-	public void readChaos();
+	public void parse();
 }

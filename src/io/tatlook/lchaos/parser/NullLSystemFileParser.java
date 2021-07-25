@@ -32,7 +32,7 @@ public class NullLSystemFileParser extends LSystemFileParser implements NullFile
 	}
 	
 	@Override
-	public void readChaos() {
+	public void parse() {
 		AbstractData.setCurrent(new LSystemData());
 	}
 }

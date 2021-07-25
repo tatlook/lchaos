@@ -48,7 +48,7 @@ public abstract class AbstractFileParser {
 	protected AbstractFileParser() {
 	}
 	
-	public abstract void readChaos() throws ChaosFileDataException;
+	public abstract void parse() throws ChaosFileDataException;
 	
 	public File getFile() {
 		return chaosFile;

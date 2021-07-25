@@ -148,7 +148,7 @@ public class ChaosFileParser extends IFSFileParser {
 		return a;
 	}
 	
-	public void readChaos() throws ChaosFileDataException {
+	public void parse() throws ChaosFileDataException {
 		data = new IFSData(readDouble1D(),
 				readDouble2D(),
 				readDouble2D());

@@ -84,7 +84,7 @@ public class MenuBar extends JMenuBar {
 				return;
 			}
 			
-			new NullIFSFileParser().readChaos();
+			new NullIFSFileParser().parse();
 			App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
 		});
@@ -93,7 +93,7 @@ public class MenuBar extends JMenuBar {
 				return;
 			}
 			
-			new NullLSystemFileParser().readChaos();
+			new NullLSystemFileParser().parse();
 			App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
 		});

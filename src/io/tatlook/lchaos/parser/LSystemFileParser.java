@@ -94,7 +94,7 @@ public class LSystemFileParser extends AbstractFileParser {
 	}
 
 	@Override
-	public void readChaos() throws ChaosFileDataException {
+	public void parse() throws ChaosFileDataException {
 		data = new LSystemData();
 		try {
 			while (true) {

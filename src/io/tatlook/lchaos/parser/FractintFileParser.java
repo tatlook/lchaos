@@ -85,7 +85,7 @@ public class FractintFileParser extends IFSFileParser {
 	}
 	
 	@Override
-	public void readChaos() throws ChaosFileDataException {
+	public void parse() throws ChaosFileDataException {
 		data = new IFSData(new double[0], new double[0][0], new double[0][0]);
 		try {
 			while (true) {

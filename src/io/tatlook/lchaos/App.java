@@ -58,7 +58,7 @@ public class App {
 		}
 		
 		try {
-			ChaosFileParser.getCurrentFileParser().readChaos();
+			ChaosFileParser.getCurrentFileParser().parse();
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}
