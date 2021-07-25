@@ -85,7 +85,7 @@ public class MenuBar extends JMenuBar {
 			}
 			
 			new NullIFSFileParser().parse();
-			App.mainWindow.updateToolPanel();
+			App.mainWindow.update();
 			App.mainWindow.getDrawer().setChange();
 		});
 		newLSystemMenuItem.addActionListener((e) -> {
@@ -94,7 +94,7 @@ public class MenuBar extends JMenuBar {
 			}
 			
 			new NullLSystemFileParser().parse();
-			App.mainWindow.updateToolPanel();
+			App.mainWindow.update();
 			App.mainWindow.getDrawer().setChange();
 		});
 		newRandomWalkMenuItem.addActionListener((e) -> {

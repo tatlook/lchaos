@@ -127,7 +127,7 @@ public class MainWindow extends JFrame {
 	private JSplitPane splitPane;
 	private JMenuBar menuBar;
 	
-	public void updateToolPanel() {
+	public void update() {
 		if (AbstractData.getCurrent() instanceof LSystemData) {
 			editor = new LSystemEditor();
 			if (drawer != null && !(drawer instanceof LSystemDrawer)) {
@@ -211,7 +211,7 @@ public class MainWindow extends JFrame {
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		
-		updateToolPanel();
+		update();
 		drawer = new RandomWalkDrawer();
 		
 		splitPane.setRightComponent(drawer);

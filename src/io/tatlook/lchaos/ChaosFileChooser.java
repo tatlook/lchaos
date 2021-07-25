@@ -108,7 +108,7 @@ public class ChaosFileChooser {
 			e.openDialog();
 		}
 		
-		App.mainWindow.updateToolPanel();
+		App.mainWindow.update();
 		App.mainWindow.getDrawer().setChange();
 		
 		FileHistoryManager.get().add(file);
