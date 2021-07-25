@@ -33,4 +33,7 @@ public abstract class IFSFileParser extends AbstractFileParser {
 	public IFSFileParser(File file) throws FileNotFoundException {
 		super(file);
 	}
+	
+	protected IFSFileParser() {
+	}
 }

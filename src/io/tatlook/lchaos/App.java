@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 
 import io.tatlook.lchaos.parser.ChaosFileParser;
-import io.tatlook.lchaos.parser.NullFileParser;
+import io.tatlook.lchaos.parser.NullIFSFileParser;
 
 public class App {
 	public static MainWindow mainWindow;
@@ -43,18 +43,18 @@ public class App {
 								mainWindow,
 								"This program doesn't have command-line options"
 						);
-						new NullFileParser();
+						new NullIFSFileParser();
 					} else {
 						// = Throw new FileNotFoundException.
 						new ChaosFileParser(file);
 					}
 				}
 			} else {
-				new NullFileParser();
+				new NullIFSFileParser();
 			}
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
-			new NullFileParser();
+			new NullIFSFileParser();
 		}
 		
 		try {

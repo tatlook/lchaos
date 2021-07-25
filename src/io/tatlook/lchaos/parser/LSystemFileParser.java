@@ -42,6 +42,9 @@ public class LSystemFileParser extends AbstractFileParser {
 		super(file);
 	}
 	
+	protected LSystemFileParser() {
+	}
+	
 	@SuppressWarnings("resource")
 	private void scanLine(String line) throws ChaosFileDataException {
 		{

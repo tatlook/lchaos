@@ -33,7 +33,8 @@ import javax.swing.JMenuItem;
 
 import io.tatlook.lchaos.MainWindow.MainWindowListener;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
-import io.tatlook.lchaos.parser.NullFileParser;
+import io.tatlook.lchaos.parser.NullIFSFileParser;
+import io.tatlook.lchaos.parser.NullLSystemFileParser;
 import io.tatlook.lchaos.saver.ChaosFileSaver;
 
 /**
@@ -54,20 +55,20 @@ public class MenuBar extends JMenuBar {
 		fileMenu.setMnemonic('F');
 		viewMenu.setMnemonic('V');
 		
-		JMenuItem newMenuItem = new JMenuItem("New");
+		JMenu newFileMenu = new JMenu("New");
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		JMenu openRecentMenu = FileHistoryManager.get().getMenu();
 		JMenuItem saveImageMenuItem = new JMenuItem("Save Image");
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
-		newMenuItem.setMnemonic('N');
+		newFileMenu.setMnemonic('N');
 		saveMenuItem.setMnemonic('S');
 		openMenuItem.setMnemonic('O');
 		openRecentMenu.setMnemonic('R');
 		saveImageMenuItem.setMnemonic('I');
 		exitMenuItem.setMnemonic('E');
 		
-		fileMenu.add(newMenuItem);
+		fileMenu.add(newFileMenu);
 		fileMenu.add(saveMenuItem);
 		fileMenu.add(openMenuItem);
 		fileMenu.add(openRecentMenu);
@@ -75,15 +76,38 @@ public class MenuBar extends JMenuBar {
 		fileMenu.addSeparator();
 		fileMenu.add(exitMenuItem);
 		
-		newMenuItem.addActionListener((e) -> {
+		JMenuItem newIFSMenuItem = new JMenuItem("Iterated Function System");
+		JMenuItem newLSystemMenuItem = new JMenuItem("L-System");
+		JMenuItem newRandomWalkMenuItem = new JMenuItem("Random Walk");
+		newIFSMenuItem.addActionListener((e) -> {
 			if (ChaosFileSaver.checkFileSave() == false) {
 				return;
-			} 
+			}
 			
-			new NullFileParser().readChaos();
+			new NullIFSFileParser().readChaos();
 			App.mainWindow.updateToolPanel();
 			App.mainWindow.getDrawer().setChange();
 		});
+		newLSystemMenuItem.addActionListener((e) -> {
+			if (ChaosFileSaver.checkFileSave() == false) {
+				return;
+			}
+			
+			new NullLSystemFileParser().readChaos();
+			App.mainWindow.updateToolPanel();
+			App.mainWindow.getDrawer().setChange();
+		});
+		newRandomWalkMenuItem.addActionListener((e) -> {
+			if (ChaosFileSaver.checkFileSave() == false) {
+				return;
+			}
+			
+			// TODO
+		});
+		newFileMenu.add(newIFSMenuItem);
+		newFileMenu.add(newLSystemMenuItem);
+		newFileMenu.add(newRandomWalkMenuItem);
+		
 		saveMenuItem.addActionListener((e) -> {
 			ChaosFileSaver.staticSave();
 		});

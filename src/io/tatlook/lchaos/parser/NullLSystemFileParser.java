@@ -18,11 +18,21 @@
 
 package io.tatlook.lchaos.parser;
 
+import io.tatlook.lchaos.data.AbstractData;
+import io.tatlook.lchaos.data.LSystemData;
+
 /**
  * @author Administrator
  *
  */
-public interface NullFileParser {
+public class NullLSystemFileParser extends LSystemFileParser implements NullFileParser {
 	
-	public void readChaos();
+	public NullLSystemFileParser() {
+		currentFileParser = this;
+	}
+	
+	@Override
+	public void readChaos() {
+		AbstractData.setCurrent(new LSystemData());
+	}
 }

@@ -18,11 +18,21 @@
 
 package io.tatlook.lchaos.parser;
 
+import io.tatlook.lchaos.data.AbstractData;
+import io.tatlook.lchaos.data.IFSData;
+
 /**
  * @author Administrator
  *
  */
-public interface NullFileParser {
+public class NullIFSFileParser extends IFSFileParser implements NullFileParser {
 	
-	public void readChaos();
+	public NullIFSFileParser() {
+		currentFileParser = this;
+	}
+	
+	@Override
+	public void readChaos() {
+		AbstractData.setCurrent(new IFSData());
+	}
 }
