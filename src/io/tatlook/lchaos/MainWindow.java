@@ -42,8 +42,8 @@ import io.tatlook.lchaos.drawer.IFSDrawer;
 import io.tatlook.lchaos.drawer.LSystemDrawer;
 import io.tatlook.lchaos.editor.IFSEditor;
 import io.tatlook.lchaos.editor.LSystemEditor;
-import io.tatlook.lchaos.parser.ChaosFileParser;
-import io.tatlook.lchaos.saver.ChaosFileSaver;
+import io.tatlook.lchaos.parser.AbstractFileParser;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author Administrator
@@ -88,7 +88,7 @@ public class MainWindow extends JFrame {
 			} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
 				System.exit(0);
 			} else if (result == JOptionPane.YES_OPTION) {
-				if (ChaosFileSaver.staticSave() == true) {
+				if (AbstractFileSaver.staticSave() == true) {
 					System.exit(0);
 				} else {
 					frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -160,7 +160,7 @@ public class MainWindow extends JFrame {
 			}
 		}
 		splitPane.setLeftComponent(editor);
-		setTitle(ChaosFileParser.getCurrentFileParser().getFile());
+		setTitle(AbstractFileParser.getCurrentFileParser().getFile());
 		mainPanel.updateUI();
 	}
 	
@@ -228,7 +228,7 @@ public class MainWindow extends JFrame {
 
 	public void UI() {
 		mainPanel.add(welcomePanel, BorderLayout.CENTER);
-		if (ChaosFileParser.getCurrentFileParser() != null) {
+		if (AbstractFileParser.getCurrentFileParser() != null) {
 			update(false);
 			// Ennen kuin "thread" lähtee, pitä odotta ikkunan valmis
 			new Thread(() -> {

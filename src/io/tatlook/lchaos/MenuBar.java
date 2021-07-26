@@ -35,7 +35,7 @@ import io.tatlook.lchaos.MainWindow.MainWindowListener;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
-import io.tatlook.lchaos.saver.ChaosFileSaver;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author Administrator
@@ -84,7 +84,7 @@ public class MenuBar extends JMenuBar {
 		newLSystemMenuItem.addActionListener((e) -> 
 				WelcomePanel.createFractal(NullLSystemFileParser.class));
 		newRandomWalkMenuItem.addActionListener((e) -> {
-			if (ChaosFileSaver.checkFileSave() == false) {
+			if (AbstractFileSaver.checkFileSave() == false) {
 				return;
 			}
 			
@@ -95,10 +95,10 @@ public class MenuBar extends JMenuBar {
 		newFileMenu.add(newRandomWalkMenuItem);
 		
 		saveMenuItem.addActionListener((e) -> {
-			ChaosFileSaver.staticSave();
+			AbstractFileSaver.staticSave();
 		});
 		openMenuItem.addActionListener((e) -> {
-			ChaosFileSaver.checkFileSave();
+			AbstractFileSaver.checkFileSave();
 			
 			ChaosFileChooser fileChooser = new ChaosFileChooser();
 			fileChooser.choose();

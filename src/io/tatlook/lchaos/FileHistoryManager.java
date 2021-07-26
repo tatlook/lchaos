@@ -30,7 +30,7 @@ import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import io.tatlook.lchaos.saver.ChaosFileSaver;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author Administrator
@@ -68,7 +68,7 @@ public class FileHistoryManager {
 			super(file.getPath());
 			this.file = file;
 			addActionListener((e) -> {
-				ChaosFileSaver.checkFileSave();
+				AbstractFileSaver.checkFileSave();
 				try {
 					ChaosFileChooser.staticOpen(file);					
 				} catch (FileNotFoundException e1) {

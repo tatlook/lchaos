@@ -12,6 +12,7 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
+import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.parser.ChaosFileParser;
 import io.tatlook.lchaos.parser.FractintFileParser;
 import io.tatlook.lchaos.parser.NullFileParser;
@@ -28,7 +29,7 @@ class TestParameters {
 				"momo...';;;\"{}!323\n[]^<>^^**??\\/.", "dsakdkk"
 		};
 		App.main(args);
-		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof NullFileParser);
+		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 
 	@Test
@@ -37,7 +38,7 @@ class TestParameters {
 				"--help", "dsakdkk"
 		};
 		App.main(args);
-		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof NullFileParser);
+		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 
 	@Test
@@ -53,7 +54,7 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof NullFileParser);
+		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 	
 	@Test
@@ -79,7 +80,7 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof ChaosFileParser);
+		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof ChaosFileParser);
 		while (true) {
 			try {
 				synchronized (this) {
@@ -114,7 +115,7 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof FractintFileParser);
+		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof FractintFileParser);
 	}
 
 }

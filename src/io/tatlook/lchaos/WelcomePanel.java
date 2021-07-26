@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
-import io.tatlook.lchaos.saver.ChaosFileSaver;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author Administrator
@@ -57,7 +57,7 @@ public class WelcomePanel extends JPanel {
 	}
 	
 	public static void createFractal(Class<? extends NullFileParser> parser) {
-		if (ChaosFileSaver.checkFileSave() == false) {
+		if (AbstractFileSaver.checkFileSave() == false) {
 			return;
 		}
 		
