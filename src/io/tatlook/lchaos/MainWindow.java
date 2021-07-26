@@ -40,7 +40,6 @@ import io.tatlook.lchaos.data.LSystemData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.drawer.IFSDrawer;
 import io.tatlook.lchaos.drawer.LSystemDrawer;
-import io.tatlook.lchaos.drawer.RandomWalkDrawer;
 import io.tatlook.lchaos.editor.IFSEditor;
 import io.tatlook.lchaos.editor.LSystemEditor;
 import io.tatlook.lchaos.parser.ChaosFileParser;
@@ -65,6 +64,10 @@ public class MainWindow extends JFrame {
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		super.setMinimumSize(new Dimension(900, 600));
 		super.addWindowListener(windowListener);
+		super.setContentPane(mainPanel);
+		super.setTitle("Welcome - " + NAME);
+		menuBar = new MenuBar();
+		super.setJMenuBar(menuBar);
 	}
 	
 	static class MainWindowListener extends WindowAdapter {
@@ -116,6 +119,7 @@ public class MainWindow extends JFrame {
 		return windowListener;
 	}
 	
+	private JPanel welcomePanel = new WelcomePanel();
 	private JPanel mainPanel = new JPanel(new BorderLayout());
 	private AbstractDrawer drawer;
 	
@@ -124,22 +128,28 @@ public class MainWindow extends JFrame {
 	}
 
 	private JPanel editor;
-	private JSplitPane splitPane;
+	private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	private JMenuBar menuBar;
 	
 	public void update() {
+		mainPanel.removeAll();
+		mainPanel.add(splitPane, BorderLayout.CENTER);
 		if (AbstractData.getCurrent() instanceof LSystemData) {
 			editor = new LSystemEditor();
-			if (drawer != null && !(drawer instanceof LSystemDrawer)) {
-				drawer.stop();
+			if (!(drawer instanceof LSystemDrawer)) {
+				if (drawer != null) {
+					drawer.stop();
+				}
 				drawer = new LSystemDrawer();
 				splitPane.setRightComponent(drawer);
 				drawer.start();
 			}
 		} else {
 			editor = new IFSEditor();
-			if (drawer != null && !(drawer instanceof IFSDrawer)) {
-				drawer.stop();
+			if (!(drawer instanceof IFSDrawer)) {
+				if (drawer != null) {
+					drawer.stop();
+				}
 				drawer = new IFSDrawer();
 				splitPane.setRightComponent(drawer);
 				drawer.start();
@@ -147,6 +157,7 @@ public class MainWindow extends JFrame {
 		}
 		splitPane.setLeftComponent(editor);
 		setTitle(ChaosFileParser.getCurrentFileParser().getFile());
+		mainPanel.updateUI();
 	}
 	
 	public void setTitle(File file) {
@@ -183,7 +194,11 @@ public class MainWindow extends JFrame {
 				setVisible(true);
 			} else {
 				setJMenuBar(null);
-				setContentPane(drawer);
+				if (drawer != null) {
+					setContentPane(drawer);
+				} else {
+					setContentPane(welcomePanel);
+				}
 				// Laita tiedot talteen.
 				size = getSize();
 				state = getExtendedState();
@@ -204,19 +219,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public void UI() {
-		super.setContentPane(mainPanel);
-		
-		menuBar = new MenuBar();
-		setJMenuBar(menuBar);
-		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		
-		update();
-		drawer = new RandomWalkDrawer();
-		
-		splitPane.setRightComponent(drawer);
-		
-		mainPanel.add(splitPane, BorderLayout.CENTER);
+		mainPanel.add(welcomePanel, BorderLayout.CENTER);
 		
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventPostProcessor(new KeyEventPostProcessor() {

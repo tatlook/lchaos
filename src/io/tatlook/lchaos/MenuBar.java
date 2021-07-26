@@ -79,24 +79,10 @@ public class MenuBar extends JMenuBar {
 		JMenuItem newIFSMenuItem = new JMenuItem("Iterated Function System");
 		JMenuItem newLSystemMenuItem = new JMenuItem("L-System");
 		JMenuItem newRandomWalkMenuItem = new JMenuItem("Random Walk");
-		newIFSMenuItem.addActionListener((e) -> {
-			if (ChaosFileSaver.checkFileSave() == false) {
-				return;
-			}
-			
-			new NullIFSFileParser().parse();
-			App.mainWindow.update();
-			App.mainWindow.getDrawer().setChange();
-		});
-		newLSystemMenuItem.addActionListener((e) -> {
-			if (ChaosFileSaver.checkFileSave() == false) {
-				return;
-			}
-			
-			new NullLSystemFileParser().parse();
-			App.mainWindow.update();
-			App.mainWindow.getDrawer().setChange();
-		});
+		newIFSMenuItem.addActionListener((e) ->
+				WelcomePanel.createFractal(NullIFSFileParser.class));
+		newLSystemMenuItem.addActionListener((e) -> 
+				WelcomePanel.createFractal(NullLSystemFileParser.class));
 		newRandomWalkMenuItem.addActionListener((e) -> {
 			if (ChaosFileSaver.checkFileSave() == false) {
 				return;
