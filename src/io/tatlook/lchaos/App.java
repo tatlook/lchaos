@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 
 import io.tatlook.lchaos.parser.ChaosFileParser;
-import io.tatlook.lchaos.parser.NullIFSFileParser;
 
 public class App {
 	public static MainWindow mainWindow;
@@ -35,7 +34,11 @@ public class App {
 			if (args.length > 0) {
 				File file = new File(args[0]);
 				if (file.exists()) {
-					ChaosFileChooser.chooseAvailableParser(file);
+					try {
+						ChaosFileChooser.chooseAvailableParser(file).parse();
+					} catch (ChaosFileDataException e) {
+						e.openDialog();
+					}
 					FileHistoryManager.get().add(file);
 				} else {
 					if (args[0].charAt(0) == '-') {
@@ -43,24 +46,14 @@ public class App {
 								mainWindow,
 								"This program doesn't have command-line options"
 						);
-						new NullIFSFileParser();
 					} else {
 						// = Throw new FileNotFoundException.
 						new ChaosFileParser(file);
 					}
 				}
-			} else {
-				new NullIFSFileParser();
 			}
 		} catch (FileNotFoundException e) {
 			ErrorMessageDialog.createExceptionDialog(e);
-			new NullIFSFileParser();
-		}
-		
-		try {
-			ChaosFileParser.getCurrentFileParser().parse();
-		} catch (ChaosFileDataException e) {
-			e.openDialog();
 		}
 		
 		mainWindow.UI();

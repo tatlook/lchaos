@@ -95,6 +95,9 @@ public abstract class AbstractFileSaver {
 	 * @return false älä tee joatin
 	 */
 	public static boolean checkFileSave() {
+		if (AbstractData.getCurrent() == null) {
+			return true;
+		}
 		if (AbstractData.getCurrent().isChanged()) {
 			int result = ErrorMessageDialog.createSaveDialog();
 			if (result == JOptionPane.YES_OPTION) {

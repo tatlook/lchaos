@@ -58,7 +58,7 @@ class TestParameters {
 	
 	@Test
 	void testChaosFile() {
-		File file = new File("omomo.ch");
+		File file = new File("om.ch");
 		try {
 			file.createNewFile();
 			PrintStream out = new PrintStream(file);
@@ -80,6 +80,15 @@ class TestParameters {
 		App.main(args);
 		file.delete();
 		assertTrue(ChaosFileParser.getCurrentFileParser() instanceof ChaosFileParser);
+		while (true) {
+			try {
+				synchronized (this) {
+					wait(1000);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Test

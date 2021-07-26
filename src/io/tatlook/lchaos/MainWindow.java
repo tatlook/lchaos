@@ -131,7 +131,7 @@ public class MainWindow extends JFrame {
 	private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	private JMenuBar menuBar;
 	
-	public void update() {
+	private void update(boolean drawerstart) {
 		mainPanel.removeAll();
 		mainPanel.add(splitPane, BorderLayout.CENTER);
 		if (AbstractData.getCurrent() instanceof LSystemData) {
@@ -142,7 +142,9 @@ public class MainWindow extends JFrame {
 				}
 				drawer = new LSystemDrawer();
 				splitPane.setRightComponent(drawer);
-				drawer.start();
+				if (drawerstart) {
+					drawer.start();
+				}
 			}
 		} else {
 			editor = new IFSEditor();
@@ -152,12 +154,18 @@ public class MainWindow extends JFrame {
 				}
 				drawer = new IFSDrawer();
 				splitPane.setRightComponent(drawer);
-				drawer.start();
+				if (drawerstart) {
+					drawer.start();
+				}
 			}
 		}
 		splitPane.setLeftComponent(editor);
 		setTitle(ChaosFileParser.getCurrentFileParser().getFile());
 		mainPanel.updateUI();
+	}
+	
+	public void update() {
+		update(true);
 	}
 	
 	public void setTitle(File file) {
@@ -220,6 +228,22 @@ public class MainWindow extends JFrame {
 
 	public void UI() {
 		mainPanel.add(welcomePanel, BorderLayout.CENTER);
+		if (ChaosFileParser.getCurrentFileParser() != null) {
+			update(false);
+			// Ennen kuin "thread" lähtee, pitä odotta ikkunan valmis
+			new Thread(() -> {
+				try {
+					// Ei saa tapahtu mitää, ennen kuin odotaminen loppu
+					synchronized (this) {
+						wait(1000);
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				// Nyt ikkuna on suurin pirtein valmis.
+				drawer.start();
+			}, "WaitDrawerStart").start();
+		}
 		
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventPostProcessor(new KeyEventPostProcessor() {
