@@ -19,6 +19,8 @@
 package io.tatlook.lchaos;
 
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
@@ -49,6 +51,7 @@ public class WelcomePanel extends JPanel {
 		super(new BorderLayout());
 		
 		createNewFractalPanel();
+		createOpenRecentPanel();
 	}
 	
 	private void createNewFractalPanel() {
@@ -69,6 +72,34 @@ public class WelcomePanel extends JPanel {
 		box.add(new FractalCreateButton("L-System", NullLSystemFileParser.class));
 		
 		add(box, BorderLayout.WEST);
+	}
+	
+	private void createOpenRecentPanel() {
+		Box box = Box.createVerticalBox();
+		
+		box.setBorder(BorderFactory.createTitledBorder("Open Recent"));
+		
+		File[] files = FileHistoryManager.get().getHistoryFiles();
+		for (int i = 0; i < files.length; i++) {
+			File file = files[files.length - 1 - i];
+			@SuppressWarnings("serial")
+			class OpenRecentButton extends JButton {
+				public OpenRecentButton() {
+					super(file.getAbsolutePath());
+					addActionListener((e) -> {
+						try {
+							ChaosFileChooser.staticOpen(file);
+						} catch (FileNotFoundException e1) {
+							ErrorMessageDialog.createExceptionDialog(e1);
+						}
+					});
+					setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+				}
+			}
+			box.add(new OpenRecentButton());
+		}
+		
+		add(box, BorderLayout.EAST);
 	}
 	
 	public static void createFractal(Class<? extends NullFileParser> parser) {

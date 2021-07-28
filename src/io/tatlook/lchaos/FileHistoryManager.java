@@ -198,6 +198,13 @@ public class FileHistoryManager {
 	}
 
 	/**
+	 * @return the historyFiles
+	 */
+	public File[] getHistoryFiles() {
+		return historyFiles.toArray(new File[historyFiles.size()]);
+	}
+
+	/**
 	 * @return the manager
 	 */
 	public static FileHistoryManager get() {
