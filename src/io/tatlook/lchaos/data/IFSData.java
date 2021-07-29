@@ -24,7 +24,7 @@ import java.util.Vector;
  * @author Administrator
  *
  */
-public class IFSData extends AbstractData {
+public class IFSData extends MultipleRulesData {
 	private Vector<Double> distVector;
 	private Vector<Double[]> cxVector;
 	private Vector<Double[]> cyVector;

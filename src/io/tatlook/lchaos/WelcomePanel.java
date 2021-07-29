@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
+import io.tatlook.lchaos.parser.RandomWalkParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -70,6 +71,7 @@ public class WelcomePanel extends JPanel {
 		
 		box.add(new FractalCreateButton("Iterated Function System", NullIFSFileParser.class));
 		box.add(new FractalCreateButton("L-System", NullLSystemFileParser.class));
+		box.add(new FractalCreateButton("Random Walk", RandomWalkParser.class));
 		
 		add(box, BorderLayout.WEST);
 	}

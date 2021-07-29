@@ -34,7 +34,7 @@ import io.tatlook.lchaos.data.IFSData;
  * @author Administrator
  *
  */
-public class IFSEditor extends AbstractEditor {
+public class IFSEditor extends MultipleRulesEditor {
 
 	/**
 	 * 

@@ -31,11 +31,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -70,9 +68,7 @@ public abstract class AbstractEditor extends JPanel {
 
 	
 	protected Box contentBox;
-	protected Vector<AbstractRulePanel> rulePanels = new Vector<>();
-	protected JButton createRuleButton = new JButton("Create a Rule");
-	protected JPanel createRulePanel = new JPanel();
+
 	
 	/**
 	 * 
@@ -85,17 +81,6 @@ public abstract class AbstractEditor extends JPanel {
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentBox.setBorder(BROAD_SPACING_BORDER_BORDER);
 		add(scrollPane, BorderLayout.CENTER);
-		createRulePanels();
-		createCreateRulePanel();
-	}
-	
-	protected abstract void createRulePanels();
-	
-	private void createCreateRulePanel() {
-		createRuleButton.addActionListener((e) -> createRule(true));
-		createRulePanel.add(createRuleButton);
-		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
-		contentBox.add(createRulePanel);
 	}
 	
 	protected JLabel createSpacing() {
@@ -253,57 +238,4 @@ public abstract class AbstractEditor extends JPanel {
 			});
 		}
 	};
-	
-	@SuppressWarnings("serial")
-	protected abstract class AbstractRulePanel extends JPanel {
-		protected int panelIndex = rulePanels.size();
-		private Border border;
-		protected JButton deleteButton = new JButton("✕");
-		
-		
-		public AbstractRulePanel() {
-			super(new BorderLayout());
-			
-			final int buttonMaximumHeight = 22;
-			deleteButton.setMaximumSize(new Dimension(buttonMaximumHeight, buttonMaximumHeight));
-			deleteButton.setSize(buttonMaximumHeight, buttonMaximumHeight);
-			deleteButton.addActionListener((e) -> {
-				if (rulePanels.size() <= 0) {
-					throw new AssertionError();
-				}
-				// Poista tiedoista
-				AbstractData.getCurrent().removeRule(panelIndex);
-				// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
-				for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
-					AbstractRulePanel panel = rulePanels.get(i);
-					panel.panelIndex--;
-					// Virkistää näyttön
-					panel.updateUI();
-				}	
-				
-				contentBox.remove(this);
-				rulePanels.remove(this);
-				rulePanels.get(0).updateUI();
-				contentBox.updateUI();
-				
-				App.mainWindow.getDrawer().setChange();
-				AbstractData.getCurrent().setChanged(true);
-			});
-		}
-		
-		@Override
-		public void updateUI() {
-			super.updateUI();
-			setMaximumSize(new Dimension(getMaximumSize().width, 110));
-			border = BorderFactory.createTitledBorder("Rule " + (panelIndex + 1));
-			setBorder(border);
-			if (deleteButton == null) {
-				deleteButton = new JButton("✕");
-			}
-			deleteButton.setEnabled(rulePanels.size() != 1);
-		}
-	}
-	
-	
-	protected abstract void createRule(boolean itIsNew);
 }

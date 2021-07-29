@@ -24,7 +24,7 @@ import java.util.Vector;
  * @author Administrator
  *
  */
-public class LSystemData extends AbstractData {
+public class LSystemData extends MultipleRulesData {
 	private Vector<Rule> rules;
 	private String axiom;
 	private int angle;

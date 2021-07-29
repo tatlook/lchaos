@@ -57,33 +57,13 @@ public abstract class AbstractData implements Cloneable {
 	}
 	
 	protected abstract boolean equalsToOrigin();
-	
-	public abstract void addRule();
-	public abstract void removeRule(int index);
 
 	/**
 	 * @return the current
 	 */
 	public static AbstractData getCurrent() {
 		if (current == null) {
-			current = new AbstractData(null) {
-				@Override
-				public void setCurrentToOrigin() {
-				}
-				
-				@Override
-				public void removeRule(int index) {
-				}
-				
-				@Override
-				protected boolean equalsToOrigin() {
-					return true;
-				}
-				
-				@Override
-				public void addRule() {
-				}
-			};
+			current = new NullData();
 		}
 		return current;
 	}

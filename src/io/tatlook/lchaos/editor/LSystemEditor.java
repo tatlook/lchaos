@@ -30,12 +30,13 @@ import javax.swing.JSlider;
 import io.tatlook.lchaos.App;
 import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.data.MultipleRulesData;
 
 /**
  * @author Administrator
  *
  */
-public class LSystemEditor extends AbstractEditor {
+public class LSystemEditor extends MultipleRulesEditor {
 
 	/**
 	 * 
@@ -156,7 +157,7 @@ public class LSystemEditor extends AbstractEditor {
 		System.out.println("LSystemEditor.createRule()");
 		
 		if (itIsNew) {
-			AbstractData.getCurrent().addRule();
+			MultipleRulesData.getCurrent().addRule();
 			App.mainWindow.getDrawer().setChange();
 			AbstractData.getCurrent().setChanged(true);
 		}

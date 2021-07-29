@@ -36,12 +36,16 @@ import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
 import io.tatlook.lchaos.data.AbstractData;
+import io.tatlook.lchaos.data.IFSData;
 import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.data.RandomWalkData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.drawer.IFSDrawer;
 import io.tatlook.lchaos.drawer.LSystemDrawer;
+import io.tatlook.lchaos.drawer.RandomWalkDrawer;
 import io.tatlook.lchaos.editor.IFSEditor;
 import io.tatlook.lchaos.editor.LSystemEditor;
+import io.tatlook.lchaos.editor.RandomWalkEditor;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
@@ -146,7 +150,7 @@ public class MainWindow extends JFrame {
 					drawer.start();
 				}
 			}
-		} else {
+		} else if (AbstractData.getCurrent() instanceof IFSData) {
 			editor = new IFSEditor();
 			if (!(drawer instanceof IFSDrawer)) {
 				if (drawer != null) {
@@ -158,6 +162,20 @@ public class MainWindow extends JFrame {
 					drawer.start();
 				}
 			}
+		} else if (AbstractData.getCurrent() instanceof RandomWalkData) {
+			editor = new RandomWalkEditor();
+			if (!(drawer instanceof RandomWalkDrawer)) {
+				if (drawer != null) {
+					drawer.stop();
+				}
+				drawer = new RandomWalkDrawer();
+				splitPane.setRightComponent(drawer);
+				if (drawerstart) {
+					drawer.start();
+				}
+			}
+		} else {
+			throw new AssertionError(AbstractData.getCurrent().getClass());
 		}
 		splitPane.setLeftComponent(editor);
 		setTitle(AbstractFileParser.getCurrentFileParser().getFile());
