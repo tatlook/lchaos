@@ -54,7 +54,7 @@ public class RandomWalkDrawer extends AbstractDrawer {
 			// Piirtään pistettä kuvaan.
 			for (int t = 0; t < imageHeight / 100; t++) { 
 				// Suunnasta valitaan yksi, r on sen numero
-				int r = Math.abs(random.nextInt() % 4);
+				int r = Math.abs(random.nextInt() % 5);
 				
 				int x0 = x;
 				int y0 = y;
@@ -71,6 +71,8 @@ public class RandomWalkDrawer extends AbstractDrawer {
 						break;
 					case 3 :
 						y--;
+						break;
+					case 4:
 						break;
 					default :
 						throw new AssertionError(r);
