@@ -20,6 +20,8 @@ package io.tatlook.lchaos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -64,10 +66,15 @@ public class ChaosFileChooser {
 			throw new AssertionError(dialogMode);
 		}
 		
+		List<String> extensions = new ArrayList<>();
 		for (FileFormat fileFormat : fileFormats) {
 			fileChooser.addChoosableFileFilter(fileFormat.toFileFilter());
+			extensions.add(fileFormat.extension);
 		}
-		fileChooser.setFileFilter(new FileNameExtensionFilter("All Supported Files", "ch", "ifs", "l", "txt"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter(
+				dialogMode == JFileChooser.OPEN_DIALOG ?
+						"All Supported Files" : "All Available Files",
+				extensions.toArray(new String[extensions.size()])));
 		
 		int result;
 		if (dialogMode == JFileChooser.OPEN_DIALOG) {
