@@ -20,6 +20,7 @@ package io.tatlook.lchaos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,9 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import io.tatlook.lchaos.FractalManager.FileFormat;
+import io.tatlook.lchaos.FractalManager.Fractal;
 import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.parser.AbstractFileParser;
-import io.tatlook.lchaos.parser.ChaosFileParser;
-import io.tatlook.lchaos.parser.FractintFileParser;
-import io.tatlook.lchaos.parser.LSystemFileParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -101,21 +100,31 @@ public class ChaosFileChooser {
 	}
 	
 	public static AbstractFileParser chooseAvailableParser(File file) throws FileNotFoundException {
-		AbstractFileParser parser;
-		switch (AbstractFileSaver.getFileExtension(file)) {
-			case "l":
-			case "lsys":
-				parser = new LSystemFileParser(file);
-				break;
-			case "ifs":
-				parser = new FractintFileParser(file);
-				break;
-			case "ch":
-			default: 
-				parser = new ChaosFileParser(file);
-				break;
-		};
-		return parser;
+		String extension = AbstractFileSaver.getFileExtension(file);
+		Fractal[] fractals = FractalManager.get().getFractals();
+		for (Fractal fractal : fractals) {
+			FileFormat[] formats = fractal.getFormats();
+			for (FileFormat fileFormat : formats) {
+				if (fileFormat.extension.equals(extension)) {
+					try {
+						return fileFormat.parserClass.getConstructor(File.class).newInstance(file);
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						throw (FileNotFoundException) e.getCause();
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	public static void staticOpen(File file) throws FileNotFoundException {
