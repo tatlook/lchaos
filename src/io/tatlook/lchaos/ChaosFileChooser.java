@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import io.tatlook.lchaos.FractalManager.FileFormat;
+import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.parser.ChaosFileParser;
 import io.tatlook.lchaos.parser.FractintFileParser;
@@ -53,10 +55,18 @@ public class ChaosFileChooser {
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setMultiSelectionEnabled(false);
 		
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Plain Text(*.txt)", "txt"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("LSystem File(*.l)", "l"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Fractint IFS File(*.ifs)", "ifs"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Chaos File(*.ch)", "ch"));
+		FileFormat[] fileFormats;
+		if (dialogMode == JFileChooser.OPEN_DIALOG) {
+			fileFormats = FractalManager.get().getAllFileFormats();
+		} else if (dialogMode == JFileChooser.SAVE_DIALOG) {
+			fileFormats = FractalManager.get().getAvailableFileFormats(AbstractData.getCurrent().getClass());
+		} else {
+			throw new AssertionError(dialogMode);
+		}
+		
+		for (FileFormat fileFormat : fileFormats) {
+			fileChooser.addChoosableFileFilter(fileFormat.toFileFilter());
+		}
 		fileChooser.setFileFilter(new FileNameExtensionFilter("All Supported Files", "ch", "ifs", "l", "txt"));
 		
 		int result;

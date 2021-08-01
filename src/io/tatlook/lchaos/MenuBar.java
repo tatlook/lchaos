@@ -81,11 +81,11 @@ public class MenuBar extends JMenuBar {
 		JMenuItem newLSystemMenuItem = new JMenuItem("L-System");
 		JMenuItem newRandomWalkMenuItem = new JMenuItem("Random Walk");
 		newIFSMenuItem.addActionListener((e) ->
-				WelcomePanel.createFractal(NullIFSFileParser.class));
+				FractalManager.createFractal(NullIFSFileParser.class));
 		newLSystemMenuItem.addActionListener((e) -> 
-				WelcomePanel.createFractal(NullLSystemFileParser.class));
+				FractalManager.createFractal(NullLSystemFileParser.class));
 		newRandomWalkMenuItem.addActionListener((e) -> 
-				WelcomePanel.createFractal(RandomWalkParser.class));
+				FractalManager.createFractal(RandomWalkParser.class));
 		newFileMenu.add(newIFSMenuItem);
 		newFileMenu.add(newLSystemMenuItem);
 		newFileMenu.add(newRandomWalkMenuItem);

@@ -21,7 +21,6 @@ package io.tatlook.lchaos;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -32,7 +31,6 @@ import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
 import io.tatlook.lchaos.parser.RandomWalkParser;
-import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author Administrator
@@ -64,7 +62,7 @@ public class WelcomePanel extends JPanel {
 		class FractalCreateButton extends JButton {
 			public FractalCreateButton(String name, Class<? extends NullFileParser> parser) {
 				super(name);
-				addActionListener((e) -> createFractal(parser));
+				addActionListener((e) -> FractalManager.createFractal(parser));
 				setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			}
 		}
@@ -102,28 +100,5 @@ public class WelcomePanel extends JPanel {
 		}
 		
 		add(box, BorderLayout.EAST);
-	}
-	
-	public static void createFractal(Class<? extends NullFileParser> parser) {
-		if (AbstractFileSaver.checkFileSave() == false) {
-			return;
-		}
-		
-		try {
-			parser.getConstructor().newInstance().parse();
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		
-		App.mainWindow.update();
-		App.mainWindow.getDrawer().setChange();
 	}
 }
