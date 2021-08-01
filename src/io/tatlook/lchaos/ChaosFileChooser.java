@@ -68,7 +68,7 @@ public class ChaosFileChooser {
 		List<String> extensions = new ArrayList<>();
 		for (FileFormat fileFormat : fileFormats) {
 			fileChooser.addChoosableFileFilter(fileFormat.toFileFilter());
-			extensions.add(fileFormat.extension);
+			extensions.add(fileFormat.getExtension());
 		}
 		fileChooser.setFileFilter(new FileNameExtensionFilter(
 				dialogMode == JFileChooser.OPEN_DIALOG ?
@@ -105,9 +105,9 @@ public class ChaosFileChooser {
 		for (Fractal fractal : fractals) {
 			FileFormat[] formats = fractal.getFormats();
 			for (FileFormat fileFormat : formats) {
-				if (fileFormat.extension.equals(extension)) {
+				if (fileFormat.getExtension().equals(extension)) {
 					try {
-						return fileFormat.parserClass.getConstructor(File.class).newInstance(file);
+						return fileFormat.getParserClass().getConstructor(File.class).newInstance(file);
 					} catch (InstantiationException e) {
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {

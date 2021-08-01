@@ -77,10 +77,10 @@ public class FractalManager {
 	}
 
 	public static class FileFormat {
-		String extension;
-		String description;
-		Class<? extends AbstractFileParser> parserClass;
-		Class<? extends AbstractFileSaver> saverClass;
+		private String extension;
+		private String description;
+		private Class<? extends AbstractFileParser> parserClass;
+		private Class<? extends AbstractFileSaver> saverClass;
 
 		public FileFormat(String extension, String description,
 				Class<? extends AbstractFileParser> parserClass,
@@ -93,6 +93,62 @@ public class FractalManager {
 		
 		public FileFilter toFileFilter() {
 			return new FileNameExtensionFilter(description, extension);
+		}
+
+		/**
+		 * @return the extension
+		 */
+		public String getExtension() {
+			return extension;
+		}
+
+		/**
+		 * @param extension the extension to set
+		 */
+		public void setExtension(String extension) {
+			this.extension = extension;
+		}
+
+		/**
+		 * @return the description
+		 */
+		public String getDescription() {
+			return description;
+		}
+
+		/**
+		 * @param description the description to set
+		 */
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		/**
+		 * @return the parserClass
+		 */
+		public Class<? extends AbstractFileParser> getParserClass() {
+			return parserClass;
+		}
+
+		/**
+		 * @param parserClass the parserClass to set
+		 */
+		public void setParserClass(Class<? extends AbstractFileParser> parserClass) {
+			this.parserClass = parserClass;
+		}
+
+		/**
+		 * @return the saverClass
+		 */
+		public Class<? extends AbstractFileSaver> getSaverClass() {
+			return saverClass;
+		}
+
+		/**
+		 * @param saverClass the saverClass to set
+		 */
+		public void setSaverClass(Class<? extends AbstractFileSaver> saverClass) {
+			this.saverClass = saverClass;
 		}
 	}
 
