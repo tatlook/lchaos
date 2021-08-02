@@ -61,16 +61,16 @@ public class FractalManager {
 	private List<Fractal> fractals = new Vector<>();
 
 	private FractalManager() {
-		Fractal ifsFractal = new Fractal(
+		Fractal ifsFractal = new Fractal("Iterated Function System",
 				IFSData.class, IFSDrawer.class, IFSEditor.class, NullIFSFileParser.class,
 				new FileFormat("ch", "Chaos File(*.ch)", ChaosFileParser.class, ChaosFileSaver.class),
 				new FileFormat("ifs", "Fractint IFS File(*.ifs)", FractintFileParser.class, FractintFileSaver.class));
 		registerFractal(ifsFractal);
-		Fractal lSystemFractal = new Fractal(
+		Fractal lSystemFractal = new Fractal("L-System",
 				LSystemData.class, LSystemDrawer.class, LSystemEditor.class, NullLSystemFileParser.class,
 				new FileFormat("l", "LSystem File(*.l)", LSystemFileParser.class, LSystemFileSaver.class));
 		registerFractal(lSystemFractal);
-		Fractal randomWalkFractal = new Fractal(
+		Fractal randomWalkFractal = new Fractal("Random Walk",
 				RandomWalkData.class, RandomWalkDrawer.class, RandomWalkEditor.class, 
 				RandomWalkParser.class);
 		registerFractal(randomWalkFractal);
@@ -155,16 +155,19 @@ public class FractalManager {
 	public static class Fractal {
 
 		private List<FileFormat> formats = new Vector<>();
+		private String description;
 		private Class<? extends AbstractData> dataClass;
 		private Class<? extends AbstractDrawer> drawerClass;
 		private Class<? extends AbstractEditor> editorClass;
 		private Class<? extends NullFileParser> nullParserClass;
 
-		public Fractal(Class<? extends AbstractData> dataClass,
+		public Fractal(String description,
+				Class<? extends AbstractData> dataClass,
 				Class<? extends AbstractDrawer> drawerClass,
 				Class<? extends AbstractEditor> editorClass,
 				Class<? extends NullFileParser> nullParserClass,
 				FileFormat... formats) {
+			setDescription(description);
 			setDataClass(dataClass);
 			setDrawerClass(drawerClass);
 			setEditorClass(editorClass);
@@ -192,6 +195,20 @@ public class FractalManager {
 				}
 			}
 			return null;
+		}
+
+		/**
+		 * @return the description
+		 */
+		public String getDescription() {
+			return description;
+		}
+
+		/**
+		 * @param description the description to set
+		 */
+		public void setDescription(String description) {
+			this.description = description;
 		}
 
 		/**

@@ -27,10 +27,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import io.tatlook.lchaos.parser.NullFileParser;
-import io.tatlook.lchaos.parser.NullIFSFileParser;
-import io.tatlook.lchaos.parser.NullLSystemFileParser;
-import io.tatlook.lchaos.parser.RandomWalkParser;
+import io.tatlook.lchaos.FractalManager.Fractal;
 
 /**
  * @author Administrator
@@ -58,18 +55,13 @@ public class WelcomePanel extends JPanel {
 		
 		box.setBorder(BorderFactory.createTitledBorder("New Fractal"));
 		
-		@SuppressWarnings("serial")
-		class FractalCreateButton extends JButton {
-			public FractalCreateButton(String name, Class<? extends NullFileParser> parser) {
-				super(name);
-				addActionListener((e) -> FractalManager.createFractal(parser));
-				setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-			}
+		Fractal[] fractals = FractalManager.get().getFractals();
+		for (Fractal fractal : fractals) {
+			JButton button = new JButton(fractal.getDescription());
+			button.addActionListener((e) -> FractalManager.createFractal(fractal.getNullParserClass()));
+			button.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+			box.add(button);
 		}
-		
-		box.add(new FractalCreateButton("Iterated Function System", NullIFSFileParser.class));
-		box.add(new FractalCreateButton("L-System", NullLSystemFileParser.class));
-		box.add(new FractalCreateButton("Random Walk", RandomWalkParser.class));
 		
 		add(box, BorderLayout.WEST);
 	}

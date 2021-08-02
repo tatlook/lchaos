@@ -31,11 +31,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import io.tatlook.lchaos.FractalManager.Fractal;
 import io.tatlook.lchaos.MainWindow.MainWindowListener;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
-import io.tatlook.lchaos.parser.NullIFSFileParser;
-import io.tatlook.lchaos.parser.NullLSystemFileParser;
-import io.tatlook.lchaos.parser.RandomWalkParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -77,18 +75,13 @@ public class MenuBar extends JMenuBar {
 		fileMenu.addSeparator();
 		fileMenu.add(exitMenuItem);
 		
-		JMenuItem newIFSMenuItem = new JMenuItem("Iterated Function System");
-		JMenuItem newLSystemMenuItem = new JMenuItem("L-System");
-		JMenuItem newRandomWalkMenuItem = new JMenuItem("Random Walk");
-		newIFSMenuItem.addActionListener((e) ->
-				FractalManager.createFractal(NullIFSFileParser.class));
-		newLSystemMenuItem.addActionListener((e) -> 
-				FractalManager.createFractal(NullLSystemFileParser.class));
-		newRandomWalkMenuItem.addActionListener((e) -> 
-				FractalManager.createFractal(RandomWalkParser.class));
-		newFileMenu.add(newIFSMenuItem);
-		newFileMenu.add(newLSystemMenuItem);
-		newFileMenu.add(newRandomWalkMenuItem);
+		Fractal[] fractals = FractalManager.get().getFractals();
+		for (Fractal fractal : fractals) {
+			JMenuItem menuItem = new JMenuItem(fractal.getDescription());
+			menuItem.addActionListener((e) -> 
+					FractalManager.createFractal(fractal.getNullParserClass()));
+			newFileMenu.add(menuItem);
+		}
 		
 		saveMenuItem.addActionListener((e) -> {
 			AbstractFileSaver.staticSave();
