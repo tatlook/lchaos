@@ -6,10 +6,14 @@ package io.tatlook.lchaos.editor;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
+import io.tatlook.lchaos.drawer.RandomWalkDrawer;
 
 /**
  * @author Administrator
@@ -27,6 +31,49 @@ public class RandomWalkEditor extends AbstractEditor {
 	 */
 	public RandomWalkEditor() {
 		super();
+		createSpeedControl();
+		createDoWhenPointOutOfBoundsOptionPanel();
+	}
+
+	private void createDoWhenPointOutOfBoundsOptionPanel() {
+		
+		Box box = Box.createHorizontalBox();
+		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		
+		JRadioButton doNothingButton = new JRadioButton("Do Nothing");
+		JRadioButton backToInitialButton = new JRadioButton("Back to Initial Position");
+		JRadioButton stopButton = new JRadioButton("Stop");
+		stopButton.setSelected(true);
+		
+		doNothingButton.addChangeListener((e) -> {
+			RandomWalkDrawer drawer = (RandomWalkDrawer) App.mainWindow.getDrawer();
+			drawer.setDoOnPointOut(RandomWalkDrawer.DO_NOTHING_ON_POINT_OUT);
+		});
+		backToInitialButton.addChangeListener((e) -> {
+			RandomWalkDrawer drawer = (RandomWalkDrawer) App.mainWindow.getDrawer();
+			drawer.setDoOnPointOut(RandomWalkDrawer.BACK_TO_INITIAL_POSITION_ON_POINT_OUT);
+		});
+		stopButton.addChangeListener((e) -> {
+			RandomWalkDrawer drawer = (RandomWalkDrawer) App.mainWindow.getDrawer();
+			drawer.setDoOnPointOut(RandomWalkDrawer.STOP_ON_POINT_OUT);
+		});
+		
+		buttonGroup.add(doNothingButton);
+		buttonGroup.add(backToInitialButton);
+		buttonGroup.add(stopButton);
+		
+		box.add(doNothingButton);
+		box.add(backToInitialButton);
+		box.add(stopButton);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createTitledBorder("Do When Point Out of Bounds"));
+		panel.add(box);
+		contentBox.add(panel);
+	}
+
+	private void createSpeedControl() {
 		JPanel speedControlPanel = new JPanel();
 		speedControlPanel.setBorder(BorderFactory.createTitledBorder("Speed"));
 		speedControlPanel.setMaximumSize(new Dimension(speedControlPanel.getMaximumSize().width, 90));

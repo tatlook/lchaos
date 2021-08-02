@@ -32,6 +32,12 @@ public class RandomWalkDrawer extends AbstractDrawer {
 	 */
 	private static final long serialVersionUID = -1471595944572520282L;
 
+	public static final int DO_NOTHING_ON_POINT_OUT = 0;
+	public static final int BACK_TO_INITIAL_POSITION_ON_POINT_OUT = 1;
+	public static final int STOP_ON_POINT_OUT = 2;
+
+	private int doOnPointOut = STOP_ON_POINT_OUT;
+
 	/**
 	 * 
 	 */
@@ -78,6 +84,25 @@ public class RandomWalkDrawer extends AbstractDrawer {
 						throw new AssertionError(r);
 				}
 				
+				if (doOnPointOut == DO_NOTHING_ON_POINT_OUT) {
+				} else if (doOnPointOut == BACK_TO_INITIAL_POSITION_ON_POINT_OUT) {
+					if (x > imageWidth || x < 0 || y > imageHeight || y < 0) {
+						x = imageWidth / 2;
+						y = imageHeight / 2;
+					}
+				} else if (doOnPointOut == STOP_ON_POINT_OUT) {
+					if (x > imageWidth) {
+						x = imageWidth;
+					} else if (x < 0) {
+						x = 0;
+					}
+					if (y > imageHeight) {
+						y = imageHeight;
+					} else if (y < 0) {
+						y = 0;
+					}
+				}
+				
 				// Pirtään kuvassa
 				g.drawLine(x0, y0, x, y);
 			}
@@ -108,6 +133,20 @@ public class RandomWalkDrawer extends AbstractDrawer {
 			// Lisää kuva komponenttiin
 			repaint();
 		}
+	}
+
+	/**
+	 * @param doOnPointOut the doOnPointOut to set
+	 */
+	public void setDoOnPointOut(int doOnPointOut) {
+		this.doOnPointOut = doOnPointOut;
+	}
+
+	/**
+	 * @return the doOnPointOut
+	 */
+	public int getDoOnPointOut() {
+		return doOnPointOut;
 	}
 
 }
