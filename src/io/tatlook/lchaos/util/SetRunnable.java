@@ -18,7 +18,22 @@
 
 package io.tatlook.lchaos.util;
 
+/**
+ * A functional interface that assigns a value to an object.
+ * 
+ * @author YouZhe Zhen
+ */
 @FunctionalInterface
 public interface SetRunnable {
+	
+	/**
+	 * A function that assigns a value to an object.
+	 * 
+	 * @param value to assign a value
+	 * @throws NumberFormatException 
+	 *         Don't be fooled by this type of exception, 
+	 *         because not only is the number illegal,
+	 *         it can be thrown if the assignment fails.
+	 */
 	public void set(String value) throws NumberFormatException;
 }

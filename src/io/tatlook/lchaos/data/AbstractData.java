@@ -19,24 +19,40 @@
 package io.tatlook.lchaos.data;
 
 import io.tatlook.lchaos.App;
+import io.tatlook.lchaos.drawer.AbstractDrawer;
+import io.tatlook.lchaos.editor.AbstractEditor;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 
 /**
- * @author Administrator
- *
+ * Data of fractal drawer.
+ * The instance of this class should be created by {@link AbstractFileParser parser},
+ * edited by {@link AbstractEditor editor},
+ * received by {@link AbstractDrawer drawer}.
+ * 
+ * @author YouZhe Zhen
  */
 public abstract class AbstractData implements Cloneable {
 	protected static AbstractData current;
 
 	protected boolean changed;
-	protected AbstractData origin;
+
 	/**
+	 * Data before editing.
+	 */
+	protected AbstractData origin;
+	
+	/**
+	 * Constructs a new AbstractData with the initial data.
 	 * 
+	 * @param origin data before editing
 	 */
 	protected AbstractData(AbstractData origin) {
 		this.origin = origin;
 	}
 	
+	/**
+	 * Set this instance copy to {@link #origin}.
+	 */
 	public abstract void setCurrentToOrigin();
 
 	public void setChanged(boolean changed) {
@@ -52,10 +68,25 @@ public abstract class AbstractData implements Cloneable {
 		}
 	}
 	
+	/**
+	 * Determines whether the file has been edited since it was opened.
+	 * If the data is edited back to its {@link #origin original state},
+	 * would be considered unedited.
+	 * 
+	 * @return {@code true} if data has been edited, {@code false} otherwise
+	 */
 	public boolean isChanged() {
 		return changed;
 	}
 	
+	/**
+	 * Determine whether the data is the same as yu
+	 * 
+	 * @return {@code true} if data is equals with {@link #origin}, {@code false} otherwise
+	 * 
+	 * @see #isChanged
+	 * @see #setChhanged
+	 */
 	protected abstract boolean equalsToOrigin();
 
 	/**

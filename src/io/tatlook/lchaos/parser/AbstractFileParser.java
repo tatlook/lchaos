@@ -25,10 +25,12 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
+import io.tatlook.lchaos.data.AbstractData;
 
 /**
- * @author Administrator
- *
+ * The parent class of all file parsers.
+ * 
+ * @author YouZhe Zhen
  */
 public abstract class AbstractFileParser {
 	protected static AbstractFileParser currentFileParser;
@@ -37,6 +39,15 @@ public abstract class AbstractFileParser {
 	protected Scanner scanner;
 	protected FileInputStream inputStream;
 	
+	/**
+	 * Constructs a new file parser with the target file.
+	 * 
+	 * @param file the target file
+	 * @throws     FileNotFoundException  if the file does not exist,
+	 *             is a directory rather than a regular file,
+	 *             or for some other reason cannot be opened for
+	 *             reading.
+	 */
 	public AbstractFileParser(File file) throws FileNotFoundException {
 		chaosFile = file;
 		inputStream = new FileInputStream(file);
@@ -45,11 +56,26 @@ public abstract class AbstractFileParser {
 		currentFileParser = this;
 	}
 	
+	/**
+	 * A way for {@link NullFileParser}
+	 */
 	protected AbstractFileParser() {
 	}
 	
+	/**
+	 * Key file parsing steps.
+	 * During this process, {@link AbstractData#current} will be updated.
+	 *
+	 * @throws ChaosFileDataException the file format is incorrect
+	 */
 	public abstract void parse() throws ChaosFileDataException;
 	
+	/**
+	 * Returns the target file of this file parser.
+	 * 
+	 * @return the target file of this {@code AbstractFileParser} instance
+	 *          (which may be {@code null}).
+	 */
 	public File getFile() {
 		return chaosFile;
 	}

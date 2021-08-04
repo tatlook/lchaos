@@ -27,18 +27,36 @@ import java.io.Writer;
 import java.util.Scanner;
 
 /**
- * @author Administrator
- *
+ * This class is used to record the location of a file chooser.
+ * The principle is to save the data to a file and read the data
+ * from the file the next tim use it.
+ * 
+ * @author YouZhe Zhen
+ * 
+ * @see ChaosFileChooser
+ * @see ImageFileChooser
  */
 public class StartDirectoryManager {
 	private final File dataFile;
 	private static final File defaultDirectory = new File(".");
 	private static final String DATA_PATH = "data";
 	
+	/**
+	 * Constructs a new StartDirectoryManager with the data file name.
+	 * The data will be saved to the given file and read from it the next time use it.
+	 * 
+	 * @param dataFileName File path from the data directory
+	 */
 	public StartDirectoryManager(String dataFileName) {
 		dataFile = new File(DATA_PATH + File.separator + dataFileName);
 	}
 	
+	/**
+	 * Sets the start directory.
+	 * The directory will be recorded in the data file.
+	 * 
+	 * @param directory 
+	 */
 	public void setStartDirectory(File directory) {
 		try {
 			createDataFile();
@@ -56,6 +74,12 @@ public class StartDirectoryManager {
 		}
 	}
 	
+	/**
+	 * Returns the start directory.
+	 * Read data from the data file.
+	 * 
+	 * @return the start directory
+	 */
 	public File getStartDirectory() {
 		try {
 			createDataFile();

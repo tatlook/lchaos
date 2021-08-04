@@ -21,22 +21,52 @@ package io.tatlook.lchaos;
 import java.io.File;
 
 /**
- * @author Administrator
- *
+ * An internal file format error.
+ * This exception should be raised by the file, not by an error of the parser itself.
+ * 
+ * @author YouZhe Zhen
  */
 public class ChaosFileDataException extends Exception {
 	private static final long serialVersionUID = 7983856589835980238L;
 
 	private File file;
 	
+	/**
+	 * Constructs a new ChaosFileDataException with the cause file.
+	 * 
+	 * @param   file   The cause file. The cause file is saved for
+	 *          later retrieval by the {@link #getFile()} method.
+	 */
 	public ChaosFileDataException(File file) {
 		this.file = file;
 	}
-	
+
+	/**
+	 * Displays a dialog describing the exception
+	 * 
+	 * @see ErrorMessageDialog#createExceptionDialog(Exception)
+	 */
 	public void openDialog() {
 		ErrorMessageDialog.createExceptionDialog(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated Should use {@link #openDialog()}, because this exception is user-facing.
+	 */
+	@Deprecated
+	@Override
+	public void printStackTrace() {
+		super.printStackTrace();
+	}
+
+	/**
+	 * Returns the cause file of this exception.
+	 * 
+	 * @return  the cause file of this {@code ChaosFileDataException} instance
+	 *          (which may be {@code null}).
+	 */
 	public File getFile() {
 		return file;
 	}

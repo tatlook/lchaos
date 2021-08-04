@@ -24,14 +24,24 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
- * @author Administrator
- *
+ * The {@code ErrorMessageDialog} class contains several useful class fields
+ * and methods. It cannot be instantiated. 
+ * 
+ * Among the facilities provided by the ErrorMessageDialog class are 
+ * display to the user with a dialog box.
+ * 
+ * @author YouZhe Zhen
  */
 public class ErrorMessageDialog {
 	/** Don't let anyone instantiate this class */
 	private ErrorMessageDialog() {
 	}
 	
+	/**
+	 * Create a dialog to describe some exception
+	 * 
+	 * @param e the exception to be displayed
+	 */
 	public static void createExceptionDialog(Exception e) {
 		String title = "Error";
 		String message = e.getMessage();
@@ -54,6 +64,9 @@ public class ErrorMessageDialog {
 		);
 	}
 	
+	/**
+	 * Create a dialog and ask the user to save the file on the dialog.
+	 */
 	public static int createSaveDialog() {
 		int result = JOptionPane.showConfirmDialog(
 				App.mainWindow,

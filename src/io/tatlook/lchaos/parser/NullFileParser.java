@@ -18,11 +18,22 @@
 
 package io.tatlook.lchaos.parser;
 
+import io.tatlook.lchaos.data.AbstractData;
+
 /**
- * @author Administrator
- *
+ * Null object of AbstractFileParser.
+ * This doesn't actually parse any files, 
+ * but {@link AbstractData#current} will still update
+ * to the empty data when {@link #parse} is called.
+ * 
+ * @author YouZhe Zhen
  */
 public interface NullFileParser {
 	
+	/**
+	 * Set {@link AbstractData#current} to the default data.
+	 * 
+	 * @see AbstractFileParser#parse()
+	 */
 	public void parse();
 }
