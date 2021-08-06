@@ -27,10 +27,6 @@ import io.tatlook.lchaos.data.IFSData;
  */
 public class NullIFSFileParser extends IFSFileParser implements NullFileParser {
 	
-	public NullIFSFileParser() {
-		currentFileParser = this;
-	}
-	
 	@Override
 	public void parse() {
 		AbstractData.setCurrent(new IFSData());

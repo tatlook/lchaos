@@ -60,6 +60,7 @@ public abstract class AbstractFileParser {
 	 * A way for {@link NullFileParser}
 	 */
 	protected AbstractFileParser() {
+		currentFileParser = this;
 	}
 	
 	/**

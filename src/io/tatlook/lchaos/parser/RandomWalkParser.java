@@ -11,13 +11,6 @@ import io.tatlook.lchaos.data.RandomWalkData;
  *
  */
 public class RandomWalkParser extends AbstractFileParser implements NullFileParser {
-	/**
-	 * 
-	 */
-	public RandomWalkParser() {
-		super();
-		currentFileParser = this;
-	}
 
 	@Override
 	public void parse() {

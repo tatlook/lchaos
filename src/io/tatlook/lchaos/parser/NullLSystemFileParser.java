@@ -26,11 +26,7 @@ import io.tatlook.lchaos.data.LSystemData;
  *
  */
 public class NullLSystemFileParser extends LSystemFileParser implements NullFileParser {
-	
-	public NullLSystemFileParser() {
-		currentFileParser = this;
-	}
-	
+
 	@Override
 	public void parse() {
 		AbstractData.setCurrent(new LSystemData());
