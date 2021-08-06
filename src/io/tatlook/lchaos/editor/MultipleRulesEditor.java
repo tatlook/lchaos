@@ -41,7 +41,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 	}
 
 	private void createCreateRulePanel() {
-		createRuleButton.addActionListener((e) -> createRule(true));
+		createRuleButton.addActionListener((e) -> addRule());
 		createRulePanel.add(createRuleButton);
 		createRulePanel.setBorder(BROAD_SPACING_BORDER_BORDER);
 		contentBox.add(createRulePanel);
@@ -106,6 +106,20 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 		}
 	}
 
-	protected abstract void createRule(boolean itIsNew);
+	public void addRule() {
+		MultipleRulesData.getCurrent().addRule();
+		App.mainWindow.getDrawer().setChange();
+		AbstractData.getCurrent().setChanged(true);
+		
+		AbstractRulePanel panel = createRulePanel();
+		contentBox.remove(createRulePanel);
+		contentBox.add(panel);
+		contentBox.add(createRulePanel);
+		rulePanels.add(panel);
+		rulePanels.get(0).updateUI();
+		panel.updateUI();
+	}
+
+	protected abstract AbstractRulePanel createRulePanel();
 
 }

@@ -28,9 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
-import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.LSystemData;
-import io.tatlook.lchaos.data.MultipleRulesData;
 
 /**
  * @author Administrator
@@ -55,7 +53,9 @@ public class LSystemEditor extends MultipleRulesEditor {
 		createOrderControl();
 		createAxiomAngleControl();
 		for (int i = 0; i < LSystemData.getCurrent().getRules().size(); i++) {
-			createRule(false);
+			AbstractRulePanel panel = createRulePanel();
+			contentBox.add(panel);
+			rulePanels.add(panel);
 		}
 	}
 	
@@ -153,21 +153,7 @@ public class LSystemEditor extends MultipleRulesEditor {
 	}
 	
 	@Override
-	protected void createRule(boolean itIsNew) {
-		System.out.println("LSystemEditor.createRule()");
-		
-		if (itIsNew) {
-			MultipleRulesData.getCurrent().addRule();
-			App.mainWindow.getDrawer().setChange();
-			AbstractData.getCurrent().setChanged(true);
-		}
-		
-		RulePanel panel = new RulePanel();
-		contentBox.remove(createRulePanel);
-		contentBox.add(panel);
-		contentBox.add(createRulePanel);
-		rulePanels.add(panel);
-		rulePanels.get(0).updateUI();
-		panel.updateUI();
+	protected RulePanel createRulePanel() {
+		return new RulePanel();
 	}
 }

@@ -49,7 +49,9 @@ public class IFSEditor extends MultipleRulesEditor {
 	protected void createRulePanels() {
 		createSpeedControl();
 		for (int i = 0; i < IFSData.getCurrent().getDist().length; i++) {
-			createRule(false);
+			AbstractRulePanel panel = createRulePanel();
+			contentBox.add(panel);
+			rulePanels.add(panel);
 		}
 	}
 	
@@ -133,21 +135,7 @@ public class IFSEditor extends MultipleRulesEditor {
 	}
 	
 	@Override
-	protected void createRule(boolean itIsNew) {
-		System.out.println("IFSEditor.createRule()");
-		
-		if (itIsNew) {
-			IFSData.getCurrent().addRule();
-			App.mainWindow.getDrawer().setChange();
-			IFSData.getCurrent().setChanged(true);
-		}
-		
-		RulePanel panel = new RulePanel();
-		contentBox.remove(createRulePanel);
-		contentBox.add(panel);
-		contentBox.add(createRulePanel);
-		rulePanels.add(panel);
-		rulePanels.get(0).updateUI();
-		panel.updateUI();
+	protected RulePanel createRulePanel() {
+		return new RulePanel();
 	}
 }
