@@ -62,13 +62,13 @@ public class LSystemFileParser extends AbstractFileParser {
 		String firstString = lineScanner.next();
 		if (firstString.equalsIgnoreCase("axiom")) {
 			if (!lineScanner.hasNext()) {
-				throw new ChaosFileDataException(chaosFile);
+				throw new ChaosFileDataException(file);
 			}
 			data.setAxiom(lineScanner.next());
 			return;
 		} else if (firstString.equalsIgnoreCase("angle")) {
 			if (!lineScanner.hasNextInt()) {
-				throw new ChaosFileDataException(chaosFile);
+				throw new ChaosFileDataException(file);
 			}
 			data.setAngle(lineScanner.nextInt());
 			return;
@@ -78,12 +78,12 @@ public class LSystemFileParser extends AbstractFileParser {
 		}
 		
 		if (!lineScanner.hasNext()) {
-			throw new ChaosFileDataException(chaosFile);
+			throw new ChaosFileDataException(file);
 		}
 		
 		String equation = lineScanner.next();
 		if (equation.length() < 3) {
-			throw new ChaosFileDataException(chaosFile);
+			throw new ChaosFileDataException(file);
 		}
 		char from = equation.charAt(0);
 		String to = equation.substring(2);
@@ -102,14 +102,14 @@ public class LSystemFileParser extends AbstractFileParser {
 				if (c == '{') {
 					break;
 				} else if (c == -1) {
-					throw new ChaosFileDataException(chaosFile);
+					throw new ChaosFileDataException(file);
 				}
 			}
 			// hypää nykyinen rivi ohi
 			if (scanner.hasNextLine()) {
 				scanner.nextLine();
 			} else {
-				throw new ChaosFileDataException(chaosFile);
+				throw new ChaosFileDataException(file);
 			}
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();

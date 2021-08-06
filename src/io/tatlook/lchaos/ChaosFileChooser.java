@@ -39,7 +39,7 @@ import io.tatlook.lchaos.saver.AbstractFileSaver;
  */
 public class ChaosFileChooser {
 	private static final StartDirectoryManager manager = new StartDirectoryManager("chaoschoosedefault");
-	private File chaosFile;
+	private File file;
 	private int dialogMode = JFileChooser.OPEN_DIALOG;
 	public ChaosFileChooser(int dialogMode) {
 		this.dialogMode = dialogMode;
@@ -81,7 +81,6 @@ public class ChaosFileChooser {
 		} else {
 			result = fileChooser.showSaveDialog(App.mainWindow);
 		}
-		File file = null;
 		if (result == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
 			
@@ -89,14 +88,13 @@ public class ChaosFileChooser {
 			
 			manager.setStartDirectory(fileChooser.getCurrentDirectory());
 		}
-		chaosFile = file;
 	}
 	
 	/**
-	 * @return the chaosFile
+	 * @return the file
 	 */
-	public File getChaosFile() {
-		return chaosFile;
+	public File getFile() {
+		return file;
 	}
 	
 	public static AbstractFileParser chooseAvailableParser(File file) throws FileNotFoundException {

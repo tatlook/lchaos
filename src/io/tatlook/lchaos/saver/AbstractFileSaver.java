@@ -77,7 +77,7 @@ public abstract class AbstractFileSaver {
 	public static boolean staticSave() {
 		ChaosFileChooser fileChooser = new ChaosFileChooser(JFileChooser.SAVE_DIALOG);
 		fileChooser.choose();
-		File file = fileChooser.getChaosFile();
+		File file = fileChooser.getFile();
 		if (file == null) {
 			return false;
 		}

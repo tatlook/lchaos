@@ -35,7 +35,7 @@ import io.tatlook.lchaos.data.AbstractData;
 public abstract class AbstractFileParser {
 	protected static AbstractFileParser currentFileParser;
 	
-	protected File chaosFile;
+	protected File file;
 	protected Scanner scanner;
 	protected FileInputStream inputStream;
 	
@@ -49,7 +49,7 @@ public abstract class AbstractFileParser {
 	 *             reading.
 	 */
 	public AbstractFileParser(File file) throws FileNotFoundException {
-		chaosFile = file;
+		this.file = file;
 		inputStream = new FileInputStream(file);
 		scanner = new Scanner(inputStream);
 		scanner.useLocale(Locale.US);
@@ -77,7 +77,7 @@ public abstract class AbstractFileParser {
 	 *          (which may be {@code null}).
 	 */
 	public File getFile() {
-		return chaosFile;
+		return file;
 	}
 	
 	/**

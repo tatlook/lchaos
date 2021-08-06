@@ -91,7 +91,7 @@ public class MenuBar extends JMenuBar {
 			
 			ChaosFileChooser fileChooser = new ChaosFileChooser();
 			fileChooser.choose();
-			File file = fileChooser.getChaosFile();
+			File file = fileChooser.getFile();
 			if (file == null || !file.exists() || !file.canRead()) {
 				return;
 			}
