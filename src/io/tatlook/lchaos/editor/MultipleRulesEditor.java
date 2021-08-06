@@ -51,7 +51,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 	
 	@SuppressWarnings("serial")
 	protected abstract class AbstractRulePanel extends JPanel {
-		protected int panelIndex = rulePanels.size();
+		private int index = rulePanels.size();
 		protected JButton deleteButton = new JButton("✕");
 		
 		
@@ -66,11 +66,11 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 					throw new AssertionError();
 				}
 				// Poista tiedoista
-				MultipleRulesData.getCurrent().removeRule(panelIndex);
+				MultipleRulesData.getCurrent().removeRule(index);
 				// Tämän jälkeen paneelia pitää tiedä, että sen numero vaihtuu.
-				for (int i = panelIndex + 1; i < rulePanels.size(); i++) {
+				for (int i = index + 1; i < rulePanels.size(); i++) {
 					AbstractRulePanel panel = rulePanels.get(i);
-					panel.panelIndex--;
+					panel.index--;
 					// Virkistää näyttön
 					panel.updateUI();
 				}	
@@ -85,11 +85,20 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 			});
 		}
 		
+		/**
+		 * Returns the index of the rule.
+		 * 
+		 * @return the index of the rule
+		 */
+		public int getIndex() {
+			return index;
+		}
+
 		@Override
 		public void updateUI() {
 			super.updateUI();
 			setMaximumSize(new Dimension(getMaximumSize().width, 110));
-			setBorder(BorderFactory.createTitledBorder("Rule " + (panelIndex + 1)));
+			setBorder(BorderFactory.createTitledBorder("Rule " + (index + 1)));
 			if (deleteButton == null) {
 				deleteButton = new JButton("✕");
 			}

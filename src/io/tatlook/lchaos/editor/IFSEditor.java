@@ -89,12 +89,12 @@ public class IFSEditor extends MultipleRulesEditor {
 				Box box = Box.createHorizontalBox();
 				box.add(new JLabel("Possibility"));
 				box.add(createSpacing());
-				box.add(new EditTextField("" + IFSData.getCurrent().getDist()[panelIndex], (value) -> {
+				box.add(new EditTextField("" + IFSData.getCurrent().getDist()[getIndex()], (value) -> {
 					Double value2 = Double.valueOf(value);
 					if (value2 < 0) {
 						throw new NumberFormatException();
 					}
-					IFSData.getCurrent().getDistVector().set(panelIndex, value2);
+					IFSData.getCurrent().getDistVector().set(getIndex(), value2);
 				}));
 				box.add(createSpacing());
 				box.add(deleteButton);
@@ -108,8 +108,8 @@ public class IFSEditor extends MultipleRulesEditor {
 				for (int i = 0; i < 3; i++) {
 					final int theI = i;
 					box.add(createSpacing());
-					box.add(new EditTextField("" + IFSData.getCurrent().getCX()[panelIndex][i], (value) -> {
-						IFSData.getCurrent().getCXVector().get(panelIndex)[theI] = Double.valueOf(value);
+					box.add(new EditTextField("" + IFSData.getCurrent().getCX()[getIndex()][i], (value) -> {
+						IFSData.getCurrent().getCXVector().get(getIndex())[theI] = Double.valueOf(value);
 					}));
 				}
 				box.setBorder(STD_SPACING_BORDER);
@@ -121,8 +121,8 @@ public class IFSEditor extends MultipleRulesEditor {
 				for (int i = 0; i < 3; i++) {
 					final int theI = i;
 					box.add(createSpacing());
-					box.add(new EditTextField("" + IFSData.getCurrent().getCY()[panelIndex][i], (value) -> {
-						IFSData.getCurrent().getCYVector().get(panelIndex)[theI] = Double.valueOf(value);
+					box.add(new EditTextField("" + IFSData.getCurrent().getCY()[getIndex()][i], (value) -> {
+						IFSData.getCurrent().getCYVector().get(getIndex())[theI] = Double.valueOf(value);
 					}));
 				}
 				box.setBorder(STD_SPACING_BORDER);

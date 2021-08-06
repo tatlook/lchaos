@@ -125,9 +125,9 @@ public class LSystemEditor extends MultipleRulesEditor {
 				Box box = Box.createHorizontalBox();
 				box.add(new JLabel("From"));
 				box.add(createSpacing());
-				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(panelIndex).from, (value) -> {
+				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(getIndex()).from, (value) -> {
 					try {
-						LSystemData.getCurrent().getRules().get(panelIndex).from = value.charAt(0);
+						LSystemData.getCurrent().getRules().get(getIndex()).from = value.charAt(0);
 					} catch (IndexOutOfBoundsException e) {
 						throw new NumberFormatException();
 					}
@@ -142,8 +142,8 @@ public class LSystemEditor extends MultipleRulesEditor {
 				Box box = Box.createHorizontalBox();
 				box.add(new JLabel("To"));
 				box.add(createSpacing());
-				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(panelIndex).to, (value) -> {
-					LSystemData.getCurrent().getRules().get(panelIndex).to = value;
+				box.add(new EditTextField("" + LSystemData.getCurrent().getRules().get(getIndex()).to, (value) -> {
+					LSystemData.getCurrent().getRules().get(getIndex()).to = value;
 				}));
 				box.setBorder(STD_SPACING_BORDER);
 				add(box, BorderLayout.SOUTH);
