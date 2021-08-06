@@ -27,6 +27,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -35,17 +36,9 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
+import io.tatlook.lchaos.FractalManager.Fractal;
 import io.tatlook.lchaos.data.AbstractData;
-import io.tatlook.lchaos.data.IFSData;
-import io.tatlook.lchaos.data.LSystemData;
-import io.tatlook.lchaos.data.RandomWalkData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
-import io.tatlook.lchaos.drawer.IFSDrawer;
-import io.tatlook.lchaos.drawer.LSystemDrawer;
-import io.tatlook.lchaos.drawer.RandomWalkDrawer;
-import io.tatlook.lchaos.editor.IFSEditor;
-import io.tatlook.lchaos.editor.LSystemEditor;
-import io.tatlook.lchaos.editor.RandomWalkEditor;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
@@ -138,44 +131,36 @@ public class MainWindow extends JFrame {
 	private void update(boolean drawerstart) {
 		mainPanel.removeAll();
 		mainPanel.add(splitPane, BorderLayout.CENTER);
-		if (AbstractData.getCurrent() instanceof LSystemData) {
-			editor = new LSystemEditor();
-			if (!(drawer instanceof LSystemDrawer)) {
-				if (drawer != null) {
-					drawer.stop();
-				}
-				drawer = new LSystemDrawer();
-				splitPane.setRightComponent(drawer);
-				if (drawerstart) {
-					drawer.start();
-				}
-			}
-		} else if (AbstractData.getCurrent() instanceof IFSData) {
-			editor = new IFSEditor();
-			if (!(drawer instanceof IFSDrawer)) {
-				if (drawer != null) {
-					drawer.stop();
-				}
-				drawer = new IFSDrawer();
-				splitPane.setRightComponent(drawer);
-				if (drawerstart) {
-					drawer.start();
-				}
-			}
-		} else if (AbstractData.getCurrent() instanceof RandomWalkData) {
-			editor = new RandomWalkEditor();
-			if (!(drawer instanceof RandomWalkDrawer)) {
-				if (drawer != null) {
-					drawer.stop();
-				}
-				drawer = new RandomWalkDrawer();
-				splitPane.setRightComponent(drawer);
-				if (drawerstart) {
-					drawer.start();
+		
+		Fractal[] fractals = FractalManager.get().getFractals();
+		for (Fractal fractal : fractals) {
+			if (fractal.getDataClass().equals(AbstractData.getCurrent().getClass())) {
+				try {
+					editor = fractal.getEditorClass().getConstructor().newInstance();
+					if (!fractal.getDrawerClass().isInstance(drawer)) {
+						if (drawer != null) {
+							drawer.stop();
+						}
+						drawer = fractal.getDrawerClass().getConstructor().newInstance();
+						splitPane.setRightComponent(drawer);
+						if (drawerstart) {
+							drawer.start();
+						}
+					}
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
 				}
 			}
-		} else {
-			throw new AssertionError(AbstractData.getCurrent().getClass());
 		}
 		splitPane.setLeftComponent(editor);
 		setTitle(AbstractFileParser.getCurrentFileParser().getFile());
