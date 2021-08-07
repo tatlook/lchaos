@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.IFSData;
 
 /**
@@ -85,7 +84,7 @@ public class FractintFileParser extends IFSFileParser {
 	}
 	
 	@Override
-	public void parse() throws ChaosFileDataException {
+	public IFSData parse() throws ChaosFileDataException {
 		data = new IFSData(new double[0], new double[0][0], new double[0][0]);
 		try {
 			while (true) {
@@ -119,6 +118,6 @@ public class FractintFileParser extends IFSFileParser {
 			scanner.close();
 		}
 		
-		AbstractData.setCurrent(data);
+		return data;
 	}
 }

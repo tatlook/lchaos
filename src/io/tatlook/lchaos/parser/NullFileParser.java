@@ -23,17 +23,19 @@ import io.tatlook.lchaos.data.AbstractData;
 /**
  * Null object of AbstractFileParser.
  * This doesn't actually parse any files, 
- * but {@link AbstractData#current} will still update
- * to the empty data when {@link #parse} is called.
+ * but {@link #parse} still returns a valid data.
  * 
  * @author YouZhe Zhen
  */
 public interface NullFileParser {
 	
 	/**
-	 * Set {@link AbstractData#current} to the default data.
+	 * Parse files that do not exist.
+	 * That is return a default data.
+	 * 
+	 * @return a default data, must not be null
 	 * 
 	 * @see AbstractFileParser#parse()
 	 */
-	public void parse();
+	public AbstractData parse();
 }

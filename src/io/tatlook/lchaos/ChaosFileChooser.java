@@ -127,7 +127,7 @@ public class ChaosFileChooser {
 	
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
-			chooseAvailableParser(file).parse();
+			AbstractData.setCurrent(chooseAvailableParser(file).parse());
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}

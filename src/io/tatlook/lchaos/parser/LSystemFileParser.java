@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.LSystemData;
 
 /**
@@ -94,7 +93,7 @@ public class LSystemFileParser extends AbstractFileParser {
 	}
 
 	@Override
-	public void parse() throws ChaosFileDataException {
+	public LSystemData parse() throws ChaosFileDataException {
 		data = new LSystemData();
 		try {
 			while (true) {
@@ -128,7 +127,7 @@ public class LSystemFileParser extends AbstractFileParser {
 			scanner.close();
 		}
 		
-		AbstractData.setCurrent(data);
+		return data;
 	}
 
 }

@@ -65,11 +65,12 @@ public abstract class AbstractFileParser {
 	
 	/**
 	 * Key file parsing steps.
-	 * During this process, {@link AbstractData#current} will be updated.
+	 * 
+	 * @return the result of parsing the file
 	 *
 	 * @throws ChaosFileDataException the file format is incorrect
 	 */
-	public abstract void parse() throws ChaosFileDataException;
+	public abstract AbstractData parse() throws ChaosFileDataException;
 	
 	/**
 	 * Returns the target file of this file parser.

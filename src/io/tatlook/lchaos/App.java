@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
+import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.parser.ChaosFileParser;
 
 public class App {
@@ -35,7 +36,7 @@ public class App {
 				File file = new File(args[0]);
 				if (file.exists()) {
 					try {
-						ChaosFileChooser.chooseAvailableParser(file).parse();
+						AbstractData.setCurrent(ChaosFileChooser.chooseAvailableParser(file).parse());
 					} catch (ChaosFileDataException e) {
 						e.openDialog();
 					}

@@ -321,7 +321,7 @@ public class FractalManager {
 		}
 		
 		try {
-			parser.getConstructor().newInstance().parse();
+			AbstractData.setCurrent(parser.getConstructor().newInstance().parse());
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {

@@ -18,7 +18,6 @@
 
 package io.tatlook.lchaos.parser;
 
-import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.LSystemData;
 
 /**
@@ -28,7 +27,7 @@ import io.tatlook.lchaos.data.LSystemData;
 public class NullLSystemFileParser extends LSystemFileParser implements NullFileParser {
 
 	@Override
-	public void parse() {
-		AbstractData.setCurrent(new LSystemData());
+	public LSystemData parse() {
+		return new LSystemData();
 	}
 }
