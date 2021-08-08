@@ -97,7 +97,8 @@ public class ChaosFileChooser {
 		return file;
 	}
 	
-	public static AbstractFileParser chooseAvailableParser(File file) throws FileNotFoundException {
+	public static AbstractFileParser chooseAvailableParser(File file)
+				throws FileNotFoundException, FileFormatNotFoundException {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
@@ -122,12 +123,14 @@ public class ChaosFileChooser {
 				}
 			}
 		}
-		return null;
+		throw new FileFormatNotFoundException(file);
 	}
 	
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
 			AbstractData.setCurrent(chooseAvailableParser(file).parse());
+		} catch (FileFormatNotFoundException e) {
+			e.openDialog();
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}

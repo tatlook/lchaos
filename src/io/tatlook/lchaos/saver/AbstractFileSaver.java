@@ -33,6 +33,7 @@ import io.tatlook.lchaos.FileHistoryManager;
 import io.tatlook.lchaos.FractalManager;
 import io.tatlook.lchaos.FractalManager.FileFormat;
 import io.tatlook.lchaos.FractalManager.Fractal;
+import io.tatlook.lchaos.FileFormatNotFoundException;
 import io.tatlook.lchaos.data.AbstractData;
 
 /**
@@ -70,18 +71,7 @@ public abstract class AbstractFileSaver {
 	 */
 	public abstract void save();
 	
-	/**
-	 * 
-	 * @return false älä tee joatin
-	 */
-	public static boolean staticSave() {
-		ChaosFileChooser fileChooser = new ChaosFileChooser(JFileChooser.SAVE_DIALOG);
-		fileChooser.choose();
-		File file = fileChooser.getFile();
-		if (file == null) {
-			return false;
-		}
-		AbstractFileSaver saver = null;
+	public static AbstractFileSaver chooseAvailableSaver(File file) throws FileFormatNotFoundException {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
@@ -89,7 +79,7 @@ public abstract class AbstractFileSaver {
 			for (FileFormat fileFormat : formats) {
 				if (fileFormat.getExtension().equals(extension)) {
 					try {
-						saver = fileFormat.getSaverClass().getConstructor(File.class).newInstance(file);
+						return fileFormat.getSaverClass().getConstructor(File.class).newInstance(file);
 					} catch (InstantiationException e) {
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
@@ -106,7 +96,26 @@ public abstract class AbstractFileSaver {
 				}
 			}
 		}
-		saver.save();
+		throw new FileFormatNotFoundException(file);
+	}
+
+	/**
+	 * 
+	 * @return false älä tee joatin
+	 */
+	public static boolean staticSave() {
+		ChaosFileChooser fileChooser = new ChaosFileChooser(JFileChooser.SAVE_DIALOG);
+		fileChooser.choose();
+		File file = fileChooser.getFile();
+		if (file == null) {
+			return false;
+		}
+		try {
+			chooseAvailableSaver(file).save();
+		} catch (FileFormatNotFoundException e) {
+			e.openDialog();
+			return false;
+		}
 		AbstractData.getCurrent().setChanged(false);
 		
 		FileHistoryManager.get().add(file);

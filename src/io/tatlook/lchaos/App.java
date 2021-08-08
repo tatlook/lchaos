@@ -37,6 +37,8 @@ public class App {
 				if (file.exists()) {
 					try {
 						AbstractData.setCurrent(ChaosFileChooser.chooseAvailableParser(file).parse());
+					} catch (FileFormatNotFoundException e) {
+						e.openDialog();
 					} catch (ChaosFileDataException e) {
 						e.openDialog();
 					}

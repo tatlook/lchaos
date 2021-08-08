@@ -56,6 +56,9 @@ public class ErrorMessageDialog {
 			message = "There is an error in file \"" + 
 					((ChaosFileDataException) e).getFile().getPath() + "\"";
 		}
+		if (e instanceof FileFormatNotFoundException) {
+			title = "Unknown File Format";
+		}
 		JOptionPane.showMessageDialog(
 				App.mainWindow,
 				message,
