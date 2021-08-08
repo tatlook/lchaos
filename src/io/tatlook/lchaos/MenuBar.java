@@ -55,7 +55,8 @@ public class MenuBar extends JMenuBar {
 		viewMenu.setMnemonic('V');
 		
 		JMenu newFileMenu = new JMenu("New");
-		JMenuItem saveMenuItem = new JMenuItem("Save");
+		JMenuItem saveMenuItem = FractalManager.get().getSaveMenuItem();
+		FractalManager.get().checkSaveMenuItemEnabled();
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		JMenu openRecentMenu = FileHistoryManager.get().getMenu();
 		JMenuItem saveImageMenuItem = new JMenuItem("Save Image");

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -317,10 +318,33 @@ public class FractalManager {
 		return formats.toArray(new FileFormat[formats.size()]);
 	}
 
+	private JMenuItem saveMenuItem = new JMenuItem("Save");
+
+	/**
+	 * Returns the saveMenuItem.
+	 * 
+	 * @return the saveMenuItem
+	 */
+	public JMenuItem getSaveMenuItem() {
+		return saveMenuItem;
+	}
+
+	/** XXX */
+	void checkSaveMenuItemEnabled() {
+		for (Fractal fractal : fractals) {
+			if (fractal.getDataClass().equals(AbstractData.getCurrent().getClass())) {
+				saveMenuItem.setEnabled(!fractal.formats.isEmpty());
+				return;
+			}
+		}
+		saveMenuItem.setEnabled(false);
+	}
+
 	/**
 	 * @return the fractals
 	 */
 	public Fractal[] getFractals() {
+		checkSaveMenuItemEnabled();
 		return fractals.toArray(new Fractal[fractals.size()]);
 	}
 
