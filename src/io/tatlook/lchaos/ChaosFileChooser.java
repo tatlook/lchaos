@@ -102,24 +102,22 @@ public class ChaosFileChooser {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
-			FileFormat[] formats = fractal.getFormats();
-			for (FileFormat fileFormat : formats) {
-				if (fileFormat.getExtension().equals(extension)) {
-					try {
-						return fileFormat.getParserClass().getConstructor(File.class).newInstance(file);
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						throw (FileNotFoundException) e.getCause();
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					}
+			Class<? extends AbstractFileParser> parserClass = fractal.getAvailableParserClass(extension);
+			if (parserClass != null) {
+				try {
+					return parserClass.getConstructor(File.class).newInstance(file);
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					throw (FileNotFoundException) e.getCause();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
 				}
 			}
 		}

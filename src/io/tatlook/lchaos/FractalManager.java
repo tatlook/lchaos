@@ -188,10 +188,19 @@ public class FractalManager {
 			return formats.toArray(new FileFormat[formats.size()]);
 		}
 
-		public Class<? extends AbstractFileParser> getAvailableParser(String extension) {
+		public Class<? extends AbstractFileParser> getAvailableParserClass(String extension) {
 			for (FileFormat fileFormat : formats) {
 				if (fileFormat.extension.equals(extension)) {
 					return fileFormat.parserClass;
+				}
+			}
+			return null;
+		}
+
+		public Class<? extends AbstractFileSaver> getAvailableSaverClass(String extension) {
+			for (FileFormat fileFormat : formats) {
+				if (fileFormat.extension.equals(extension)) {
+					return fileFormat.saverClass;
 				}
 			}
 			return null;

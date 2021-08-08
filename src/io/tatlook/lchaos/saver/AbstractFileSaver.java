@@ -31,7 +31,6 @@ import io.tatlook.lchaos.ChaosFileChooser;
 import io.tatlook.lchaos.ErrorMessageDialog;
 import io.tatlook.lchaos.FileHistoryManager;
 import io.tatlook.lchaos.FractalManager;
-import io.tatlook.lchaos.FractalManager.FileFormat;
 import io.tatlook.lchaos.FractalManager.Fractal;
 import io.tatlook.lchaos.FileFormatNotFoundException;
 import io.tatlook.lchaos.data.AbstractData;
@@ -75,24 +74,22 @@ public abstract class AbstractFileSaver {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
-			FileFormat[] formats = fractal.getFormats();
-			for (FileFormat fileFormat : formats) {
-				if (fileFormat.getExtension().equals(extension)) {
-					try {
-						return fileFormat.getSaverClass().getConstructor(File.class).newInstance(file);
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					}
+			Class<? extends AbstractFileSaver> saverClass = fractal.getAvailableSaverClass(extension);
+			if (saverClass != null) {
+				try {
+					return saverClass.getConstructor(File.class).newInstance(file);
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
 				}
 			}
 		}
