@@ -127,15 +127,15 @@ public class ChaosFileChooser {
 	public static void staticOpen(File file) throws FileNotFoundException {
 		try {
 			AbstractData.setCurrent(chooseAvailableParser(file).parse());
+			
+			App.mainWindow.update();
+			App.mainWindow.getDrawer().setChange();
+			
+			FileHistoryManager.get().add(file);
 		} catch (FileFormatNotFoundException e) {
 			e.openDialog();
 		} catch (ChaosFileDataException e) {
 			e.openDialog();
 		}
-		
-		App.mainWindow.update();
-		App.mainWindow.getDrawer().setChange();
-		
-		FileHistoryManager.get().add(file);
 	}
 }

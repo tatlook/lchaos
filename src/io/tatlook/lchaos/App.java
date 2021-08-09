@@ -37,12 +37,12 @@ public class App {
 				if (file.exists()) {
 					try {
 						AbstractData.setCurrent(ChaosFileChooser.chooseAvailableParser(file).parse());
+						FileHistoryManager.get().add(file);
 					} catch (FileFormatNotFoundException e) {
 						e.openDialog();
 					} catch (ChaosFileDataException e) {
 						e.openDialog();
 					}
-					FileHistoryManager.get().add(file);
 				} else {
 					if (args[0].charAt(0) == '-') {
 						JOptionPane.showMessageDialog(
