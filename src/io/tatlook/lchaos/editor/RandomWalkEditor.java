@@ -3,6 +3,7 @@
  */
 package io.tatlook.lchaos.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -33,6 +34,7 @@ public class RandomWalkEditor extends AbstractEditor {
 		super();
 		createSpeedControl();
 		createDoWhenPointOutOfBoundsOptionPanel();
+		createPointDistanceOptionPanel();
 	}
 
 	private void createDoWhenPointOutOfBoundsOptionPanel() {
@@ -70,6 +72,24 @@ public class RandomWalkEditor extends AbstractEditor {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Do When Point Out of Bounds"));
 		panel.add(box);
+		contentBox.add(panel);
+	}
+	
+	private void createPointDistanceOptionPanel() {
+		Box box = Box.createHorizontalBox();
+		
+		box.add(new EditTextField("1", (value) -> {
+			int pointDistance = Integer.parseInt(value);
+			if (pointDistance < 0) {
+				throw new NumberFormatException();
+			}
+			RandomWalkDrawer drawer = (RandomWalkDrawer) App.mainWindow.getDrawer();
+			drawer.setPointDistance(pointDistance);
+		}));
+		
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createTitledBorder("Point Distance"));
+		panel.add(box, BorderLayout.CENTER);
 		contentBox.add(panel);
 	}
 

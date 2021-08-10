@@ -37,6 +37,7 @@ public class RandomWalkDrawer extends AbstractDrawer {
 	public static final int STOP_ON_POINT_OUT = 2;
 
 	private int doOnPointOut = STOP_ON_POINT_OUT;
+	private int pointDistance = 1;
 
 	/**
 	 * 
@@ -67,16 +68,16 @@ public class RandomWalkDrawer extends AbstractDrawer {
 				
 				switch (r) {
 					case 0 :
-						x++;
+						x += pointDistance;
 						break;
 					case 1 :
-						y++;
+						y += pointDistance;
 						break;
 					case 2 :
-						x--;
+						x -= pointDistance;
 						break;
 					case 3 :
-						y--;
+						y -= pointDistance;
 						break;
 					case 4:
 						break;
@@ -147,6 +148,22 @@ public class RandomWalkDrawer extends AbstractDrawer {
 	 */
 	public int getDoOnPointOut() {
 		return doOnPointOut;
+	}
+
+	/**
+	 * Returns the pointDistance.
+	 * 
+	 * @return the pointDistance
+	 */
+	public int getPointDistance() {
+		return pointDistance;
+	}
+
+	/**
+	 * @param pointDistance the pointDistance to set
+	 */
+	public void setPointDistance(int pointDistance) {
+		this.pointDistance = pointDistance;
 	}
 
 }
