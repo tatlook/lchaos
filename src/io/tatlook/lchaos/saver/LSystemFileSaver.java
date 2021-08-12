@@ -25,15 +25,18 @@ import io.tatlook.lchaos.data.LSystemData;
 
 public class LSystemFileSaver extends AbstractFileSaver {
 
-	public LSystemFileSaver(File file) {
+	private LSystemData data;
+
+	public LSystemFileSaver(File file, LSystemData data) {
 		super(file);
+		this.data = data;
 	}
 
 	@Override
 	public void save() {
-		String axiom  = LSystemData.getCurrent().getAxiom();
-		int angle = LSystemData.getCurrent().getAngle();
-		Vector<LSystemData.Rule> rules = LSystemData.getCurrent().getRules();
+		String axiom  = data.getAxiom();
+		int angle = data.getAngle();
+		Vector<LSystemData.Rule> rules = data.getRules();
 		
 		out.println(FractintFileSaver.getFileNameNoEx(file.getName()) + " {");
 		out.println("Angle " + angle);

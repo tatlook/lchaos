@@ -66,7 +66,7 @@ public abstract class AbstractFileSaver {
 	
 	/**
 	 * Key file saving steps.
-	 * The data is provided by {@link AbstractData#current}
+	 * The data is provided by given data.
 	 */
 	public abstract void save();
 	
@@ -75,9 +75,11 @@ public abstract class AbstractFileSaver {
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
 			Class<? extends AbstractFileSaver> saverClass = fractal.getAvailableSaverClass(extension);
+			Class<? extends AbstractData> dataClass = fractal.getDataClass();
 			if (saverClass != null) {
 				try {
-					return saverClass.getConstructor(File.class).newInstance(file);
+					return saverClass.getConstructor(File.class, dataClass)
+							.newInstance(file, AbstractData.getCurrent());
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {

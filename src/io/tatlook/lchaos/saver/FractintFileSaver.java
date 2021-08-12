@@ -26,17 +26,17 @@ import io.tatlook.lchaos.data.IFSData;
  * @author Administrator
  *
  */
-public class FractintFileSaver extends AbstractFileSaver {
+public class FractintFileSaver extends IFSFileSaver {
 
-	public FractintFileSaver(File file) {
-		super(file);
+	public FractintFileSaver(File file, IFSData data) {
+		super(file, data);
 	}
 
 	@Override
 	public void save() {
-		double[] dist = IFSData.getCurrent().getDist();
-		double[][] cx = IFSData.getCurrent().getCX();
-		double[][] cy = IFSData.getCurrent().getCY();
+		double[] dist = data.getDist();
+		double[][] cx = data.getCX();
+		double[][] cy = data.getCY();
 		
 		out.println(getFileNameNoEx(file.getName()) + " {");
 		for (int i = 0; i < dist.length; i++) {

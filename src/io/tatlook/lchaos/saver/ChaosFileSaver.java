@@ -26,16 +26,17 @@ import io.tatlook.lchaos.data.IFSData;
  * @author Administrator
  *
  */
-public class ChaosFileSaver extends AbstractFileSaver {
-	public ChaosFileSaver(File file) {
-		super(file);
+public class ChaosFileSaver extends IFSFileSaver {
+
+	public ChaosFileSaver(File file, IFSData data) {
+		super(file, data);
 	}
 	
 	@Override
 	public void save() {
-		double[] dist = IFSData.getCurrent().getDist();
-		double[][] cx = IFSData.getCurrent().getCX();
-		double[][] cy = IFSData.getCurrent().getCY();
+		double[] dist = data.getDist();
+		double[][] cx = data.getCX();
+		double[][] cy = data.getCY();
 		
 		out.println(dist.length);
 		out.print("    ");
