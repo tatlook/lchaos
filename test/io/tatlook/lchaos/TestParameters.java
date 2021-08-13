@@ -18,7 +18,6 @@
 
 package io.tatlook.lchaos;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -26,11 +25,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
-
-import io.tatlook.lchaos.parser.AbstractFileParser;
-import io.tatlook.lchaos.parser.ChaosFileParser;
-import io.tatlook.lchaos.parser.FractintFileParser;
-import io.tatlook.lchaos.parser.NullFileParser;
 
 /**
  * @author Administrator
@@ -44,7 +38,6 @@ class TestParameters {
 				"momo...';;;\"{}!323\n[]^<>^^**??\\/.", "dsakdkk"
 		};
 		App.main(args);
-		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 
 	@Test
@@ -53,7 +46,6 @@ class TestParameters {
 				"--help", "dsakdkk"
 		};
 		App.main(args);
-		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 
 	@Test
@@ -69,7 +61,6 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof NullFileParser);
 	}
 	
 	@Test
@@ -95,16 +86,6 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof ChaosFileParser);
-		while (true) {
-			try {
-				synchronized (this) {
-					wait(1000);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	@Test
@@ -130,7 +111,6 @@ class TestParameters {
 		};
 		App.main(args);
 		file.delete();
-		assertTrue(AbstractFileParser.getCurrentFileParser() instanceof FractintFileParser);
 	}
 
 }
