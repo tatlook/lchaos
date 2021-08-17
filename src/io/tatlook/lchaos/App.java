@@ -21,8 +21,6 @@ package io.tatlook.lchaos;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JOptionPane;
-
 import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.parser.ChaosFileParser;
 
@@ -45,10 +43,7 @@ public class App {
 					}
 				} else {
 					if (args[0].charAt(0) == '-') {
-						JOptionPane.showMessageDialog(
-								mainWindow,
-								"This program doesn't have command-line options"
-						);
+						ErrorMessageDialog.createFailureOptionDialog();
 					} else {
 						// = Throw new FileNotFoundException.
 						new ChaosFileParser(file);

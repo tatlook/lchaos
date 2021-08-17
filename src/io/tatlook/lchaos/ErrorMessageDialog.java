@@ -79,4 +79,15 @@ public class ErrorMessageDialog {
 		);
 		return result;
 	}
+
+	/**
+	 * Create a dialog to tell the user that this program has no options
+	 */
+	public static void createFailureOptionDialog() {
+		JOptionPane.showMessageDialog(
+				App.mainWindow,
+				"This program doesn't have command-line options"
+		);
+	}
+
 }
