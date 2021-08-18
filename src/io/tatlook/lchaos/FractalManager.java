@@ -30,19 +30,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.data.IFSData;
 import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.data.MandelbrotSetData;
 import io.tatlook.lchaos.data.RandomWalkData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.drawer.IFSDrawer;
 import io.tatlook.lchaos.drawer.LSystemDrawer;
+import io.tatlook.lchaos.drawer.MandelbrotSetDrawer;
 import io.tatlook.lchaos.drawer.RandomWalkDrawer;
 import io.tatlook.lchaos.editor.AbstractEditor;
 import io.tatlook.lchaos.editor.IFSEditor;
 import io.tatlook.lchaos.editor.LSystemEditor;
+import io.tatlook.lchaos.editor.MandelbrotSetEditor;
 import io.tatlook.lchaos.editor.RandomWalkEditor;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.parser.ChaosFileParser;
 import io.tatlook.lchaos.parser.FractintFileParser;
 import io.tatlook.lchaos.parser.LSystemFileParser;
+import io.tatlook.lchaos.parser.MandelbrotSetParser;
 import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
@@ -75,6 +79,10 @@ public class FractalManager {
 				RandomWalkData.class, RandomWalkDrawer.class, RandomWalkEditor.class, 
 				RandomWalkParser.class);
 		registerFractal(randomWalkFractal);
+		Fractal mandelbrotSetFractal = new Fractal("Mandelbrot Set",
+				MandelbrotSetData.class, MandelbrotSetDrawer.class, MandelbrotSetEditor.class,
+				MandelbrotSetParser.class);
+		registerFractal(mandelbrotSetFractal);
 	}
 
 	public static class FileFormat {
