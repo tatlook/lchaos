@@ -19,7 +19,6 @@
 package io.tatlook.lchaos.drawer;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
@@ -40,11 +39,6 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		super();
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		g.drawImage(image, 0, 0, this);
-	}
-	
 	class Complex {
 		double real;
 		double image;
@@ -80,7 +74,7 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 			double yc = 0;
 			double size = 4;
 			
-			int n = 512; // create n-by-n image
+			int n = imageHeight; // create n-by-n image
 			int max = 255; // maximum number of iterations
 			
 			for (int i = 0; i < n; i++) {
