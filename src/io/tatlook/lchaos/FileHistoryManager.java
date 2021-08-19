@@ -43,6 +43,7 @@ public class FileHistoryManager {
 	private File fileHistoryRecordFile = new File("data/filehistory");
 	
 	private static final FileHistoryManager MANAGER = new FileHistoryManager();
+	private static final int MAX_RECENT_FILES = 20;
 	private static final int RECENT_MENU_ITEM_INDEX = 0;
 	
 	private FileHistoryManager() {
@@ -127,9 +128,16 @@ public class FileHistoryManager {
 		}
 
 		checkMenuEnabled();
+		limitRecentFiles();
 		flushFileHistoryRecordFile();
 	}
-	
+
+	private void limitRecentFiles() {
+		while (historyFiles.size() > MAX_RECENT_FILES) {
+			remove(0);
+		}
+	}
+
 	public void removeAll() {
 		historyFiles.removeAllElements();
 		openRecentMenuItems.removeAllElements();
@@ -179,6 +187,7 @@ public class FileHistoryManager {
 	
 	public void add(File file) {
 		add0(file);
+		limitRecentFiles();
 		flushFileHistoryRecordFile();
 	}
 	
