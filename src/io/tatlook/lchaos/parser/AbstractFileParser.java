@@ -33,7 +33,7 @@ import io.tatlook.lchaos.data.AbstractData;
  * @author YouZhe Zhen
  */
 public abstract class AbstractFileParser {
-	protected static AbstractFileParser currentFileParser;
+	private static AbstractFileParser currentFileParser;
 	
 	protected File file;
 	protected Scanner scanner;
