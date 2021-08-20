@@ -37,6 +37,7 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 	 */
 	public MandelbrotSetDrawer() {
 		super();
+		level = 255;
 	}
 
 	class Complex {
@@ -75,7 +76,7 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 			double size = 4;
 			
 			int n = imageHeight; // create n-by-n image
-			int max = 255; // maximum number of iterations
+			int max = level; // maximum number of iterations
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
