@@ -70,7 +70,9 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		image = new BufferedImage(imageWidth, imageHeight,
 				BufferedImage.TYPE_INT_RGB);
 		
-		while (true) {
+		mainloop: while (true) {
+			hasChange = false;
+			
 			double xc = 0;
 			double yc = 0;
 			double size = 4;
@@ -87,10 +89,15 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 					Color color = new Color(gray, gray, gray);
 					((BufferedImage) image).setRGB(i, j, getColor(i - j, gray));
 				}
+				if (i % 20 == 0) {
+					if (hasChange) {
+						continue mainloop;
+					}
+					repaint();
+				}
 			}
 			repaint();
 			
-			hasChange = false;
 			try {
 				synchronized (this) {
 					// Wait() funktio ei saa olla nolla.
