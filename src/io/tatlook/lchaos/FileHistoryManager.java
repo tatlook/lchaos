@@ -186,7 +186,7 @@ public class FileHistoryManager {
 	}
 	
 	public void add(File file) {
-		add0(file);
+		add0(file.getAbsoluteFile());
 		limitRecentFiles();
 		flushFileHistoryRecordFile();
 	}
