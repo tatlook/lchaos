@@ -192,6 +192,7 @@ public class MainWindow extends JFrame {
 			if (isUndecorated()) {
 				setJMenuBar(menuBar);
 				setContentPane(mainPanel);
+				mainPanel.add(welcomePanel, BorderLayout.CENTER);
 				splitPane.setRightComponent(drawer);
 				// On pakko käytä tämä funktio, kun aikeissa käyttää setUndecorated()
 				dispose();
