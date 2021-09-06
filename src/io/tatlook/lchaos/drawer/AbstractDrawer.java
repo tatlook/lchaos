@@ -104,33 +104,34 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 				}
 				int moveX = lastX - e.getX();
 				int moveY = lastY - e.getY();
+				lastX = e.getX();
+				lastY = e.getY();
 				if (Math.abs(moveX) > 50 || Math.abs(moveY) > 50) {
-					lastX = e.getX();
-					lastY = e.getY();
 					return;
 				}
 				
-				imageX += moveX;
-				imageY += moveY;
-				if (imageX > zoom * 2) {
-					imageX = zoom * 2;
-				}
-				if (imageX < -zoom * 2) {
-					imageX = -zoom * 2;
-				}
-				if (imageY > zoom * 2) {
-					imageY = zoom * 2;
-				}
-				if (imageY < -zoom * 2) {
-					imageY = -zoom * 2;
-				}
-				
-				lastX = e.getX();
-				lastY = e.getY();
-				
-				repaint();
+				move(moveX, moveY);
 			}
 		});
+	}
+	
+	public void move(int x, int y) {
+		imageX += x;
+		imageY += y;
+		
+		if (imageX > zoom * 2) {
+			imageX = zoom * 2;
+		}
+		if (imageX < -zoom * 2) {
+			imageX = -zoom * 2;
+		}
+		if (imageY > zoom * 2) {
+			imageY = zoom * 2;
+		}
+		if (imageY < -zoom * 2) {
+			imageY = -zoom * 2;
+		}
+		repaint();
 	}
 	
 	public void zoom(int rotation, int x, int y) {

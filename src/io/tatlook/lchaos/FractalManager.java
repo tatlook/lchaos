@@ -50,11 +50,13 @@ import io.tatlook.lchaos.parser.MandelbrotSetParser;
 import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.parser.NullIFSFileParser;
 import io.tatlook.lchaos.parser.NullLSystemFileParser;
+import io.tatlook.lchaos.parser.NullMandelbrotSetParser;
 import io.tatlook.lchaos.parser.RandomWalkParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 import io.tatlook.lchaos.saver.ChaosFileSaver;
 import io.tatlook.lchaos.saver.FractintFileSaver;
 import io.tatlook.lchaos.saver.LSystemFileSaver;
+import io.tatlook.lchaos.saver.MandelbrotSetSaver;
 
 /**
  * @author Administrator
@@ -79,9 +81,10 @@ public class FractalManager {
 				RandomWalkData.class, RandomWalkDrawer.class, RandomWalkEditor.class, 
 				RandomWalkParser.class);
 		registerFractal(randomWalkFractal);
-		Fractal mandelbrotSetFractal = new Fractal("Mandelbrot Set",
+		Fractal mandelbrotSetFractal = new Fractal("Formula",
 				MandelbrotSetData.class, MandelbrotSetDrawer.class, MandelbrotSetEditor.class,
-				MandelbrotSetParser.class);
+				NullMandelbrotSetParser.class,
+				new FileFormat("frm", "Formula File(*.frm)", MandelbrotSetParser.class, MandelbrotSetSaver.class));
 		registerFractal(mandelbrotSetFractal);
 	}
 

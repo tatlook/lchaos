@@ -66,6 +66,34 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 	}
 
 	@Override
+	public void move(int x, int y) {
+		System.out.println(x + " " + y + " " + zoom + " " + xc + " " +yc);
+		xc -= x / 10;
+		yc -= y / 10;
+		
+		setChange();
+	}
+
+	@Override
+	public void zoom(int rotation, int x, int y) {
+		size += rotation / 3;
+		
+		int moveX = imageWidth / 200 * x / getWidth();
+		int moveY = imageHeight / 200 * y / getHeight();
+		if (rotation < 0) {
+			move(moveX, moveY);
+		} else {
+			move(-moveX, -moveY);
+		}
+		
+		setChange();
+	}
+
+	private double xc = 0;
+	private double yc = 0;
+	private double size = 4;
+
+	@Override
 	public void run() {
 		image = new BufferedImage(imageWidth, imageHeight,
 				BufferedImage.TYPE_INT_RGB);
@@ -73,23 +101,19 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		mainloop: while (true) {
 			hasChange = false;
 			
-			double xc = 0;
-			double yc = 0;
-			double size = 4;
-			
 			int n = imageHeight; // create n-by-n image
 			int max = level; // maximum number of iterations
 			
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					double x0 = xc - size / 2 + size * i / n;
-					double y0 = yc - size / 2 + size * j / n;
+			for (int x = 0; x < n; x++) {
+				for (int y = 0; y < n; y++) {
+					double x0 = size * x / n - size / 2 + xc;
+					double y0 = size * y / n - size / 2 + yc;
 					Complex z0 = new Complex(x0, y0);
 					int gray = max - mand(z0, max);
 					Color color = new Color(gray, gray, gray);
-					((BufferedImage) image).setRGB(i, j, getColor(i - j, gray));
+					((BufferedImage) image).setRGB(x, y, getColor(x - y, gray));
 				}
-				if (i % 20 == 0) {
+				if (x % 20 == 0) {
 					if (hasChange) {
 						continue mainloop;
 					}
