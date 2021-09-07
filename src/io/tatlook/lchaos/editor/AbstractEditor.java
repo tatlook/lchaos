@@ -122,7 +122,7 @@ public abstract class AbstractEditor extends JPanel {
 						return;
 					}
 					App.mainWindow.getDrawer().setChange();
-					AbstractData.getCurrent().setChanged(true);
+					AbstractData.getCurrent().checkChanged();
 				}
 				
 			});

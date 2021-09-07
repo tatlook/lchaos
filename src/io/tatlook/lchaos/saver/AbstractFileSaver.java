@@ -116,7 +116,7 @@ public abstract class AbstractFileSaver {
 			return false;
 		}
 		AbstractData.getCurrent().setCurrentToOrigin();
-		AbstractData.getCurrent().setChanged(false);
+		AbstractData.getCurrent().checkChanged();
 		
 		FileHistoryManager.get().add(file);
 		App.setCurrentFile(file);
