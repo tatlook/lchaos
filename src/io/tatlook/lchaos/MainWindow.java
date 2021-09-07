@@ -163,7 +163,7 @@ public class MainWindow extends JFrame {
 			}
 		}
 		splitPane.setLeftComponent(editor);
-		setTitle(AbstractFileParser.getCurrentFileParser().getFile());
+		updateTitle();
 		mainPanel.updateUI();
 	}
 	
@@ -171,7 +171,8 @@ public class MainWindow extends JFrame {
 		update(true);
 	}
 	
-	public void setTitle(File file) {
+	public void updateTitle() {
+		File file = App.getCurrentFile();
 		String fileName = file != null ? file.getName() : "untitled";
 		if (AbstractData.getCurrent().isChanged()) {
 			super.setTitle("*" + fileName + " - " + NAME);

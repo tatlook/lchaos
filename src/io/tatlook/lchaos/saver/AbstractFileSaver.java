@@ -119,7 +119,8 @@ public abstract class AbstractFileSaver {
 		AbstractData.getCurrent().setChanged(false);
 		
 		FileHistoryManager.get().add(file);
-		App.mainWindow.setTitle(file);
+		App.setCurrentFile(file);
+		App.mainWindow.updateTitle();
 		
 		return true;
 	}

@@ -64,7 +64,7 @@ public abstract class AbstractData implements Cloneable {
 		}
 		this.changed = changed;
 		if (thischanged != changed) {
-			App.mainWindow.setTitle(AbstractFileParser.getCurrentFileParser().getFile());
+			App.mainWindow.updateTitle();
 		}
 	}
 	
