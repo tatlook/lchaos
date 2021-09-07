@@ -121,15 +121,21 @@ public class LSystemData extends MultipleRulesData {
 	}
 	
 	@Override
-	protected boolean equalsToOrigin() {
-		LSystemData origin = (LSystemData) this.origin;
-		if (angle != origin.angle) {
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof LSystemData)) {
 			return false;
 		}
-		if (!axiom.equals(origin.axiom)) {
+		LSystemData other = (LSystemData) obj;
+		if (angle != other.angle) {
 			return false;
 		}
-		if (!rules.equals(origin.rules)) {
+		if (!axiom.equals(other.axiom)) {
+			return false;
+		}
+		if (!rules.equals(other.rules)) {
 			return false;
 		}
 		return true;

@@ -131,15 +131,21 @@ public class IFSData extends MultipleRulesData {
 	}
 	
 	@Override
-	protected boolean equalsToOrigin() {
-		IFSData origin = (IFSData) this.origin;
-		if (!distVector.equals(origin.distVector)) {
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof IFSData)) {
 			return false;
 		}
-		if (!vectorEquals2D(cxVector, origin.cxVector)) {
+		IFSData other = (IFSData) obj;
+		if (!distVector.equals(other.distVector)) {
 			return false;
 		}
-		if (!vectorEquals2D(cyVector, origin.cyVector)) {
+		if (!vectorEquals2D(cxVector, other.cxVector)) {
+			return false;
+		}
+		if (!vectorEquals2D(cyVector, other.cyVector)) {
 			return false;
 		}
 		return true;

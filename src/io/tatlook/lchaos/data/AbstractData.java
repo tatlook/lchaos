@@ -58,7 +58,7 @@ public abstract class AbstractData implements Cloneable {
 	public void setChanged(boolean changed) {
 		boolean thischanged = this.changed;
 		if (changed == true) {
-			if (equalsToOrigin()) {
+			if (equals(origin)) {
 				changed = false;
 			}
 		}
@@ -78,16 +78,6 @@ public abstract class AbstractData implements Cloneable {
 	public boolean isChanged() {
 		return changed;
 	}
-	
-	/**
-	 * Determine whether the data is the same as yu
-	 * 
-	 * @return {@code true} if data is equals with {@link #origin}, {@code false} otherwise
-	 * 
-	 * @see #isChanged
-	 * @see #setChhanged
-	 */
-	protected abstract boolean equalsToOrigin();
 
 	/**
 	 * @return the current
