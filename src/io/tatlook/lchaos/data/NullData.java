@@ -23,13 +23,17 @@ public class NullData extends AbstractData {
 	}
 
 	/**
-	 * NullData cannot be edited, so true must be returned.
+	 * If and only if class is same, this method returns {@code true}.
+	 * <br/>Because NullData cannot be edited.
 	 * 
-	 * @return true
+	 * @return is class same
 	 */
 	@Override
-	protected boolean equalsToOrigin() {
-		return true;
+	public boolean equals(Object obj) {
+		if (obj.getClass() == getClass()) {
+			return true;
+		}
+		return false;
 	}
 
 }

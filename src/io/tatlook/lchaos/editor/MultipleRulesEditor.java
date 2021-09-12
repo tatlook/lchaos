@@ -81,7 +81,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 				contentBox.updateUI();
 				
 				App.mainWindow.getDrawer().setChange();
-				AbstractData.getCurrent().setChanged(true);
+				AbstractData.getCurrent().checkChanged();
 			});
 		}
 		
@@ -109,7 +109,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 	public void addRule() {
 		MultipleRulesData.getCurrent().addRule();
 		App.mainWindow.getDrawer().setChange();
-		AbstractData.getCurrent().setChanged(true);
+		AbstractData.getCurrent().checkChanged();
 		
 		AbstractRulePanel panel = createRulePanel();
 		contentBox.remove(createRulePanel);

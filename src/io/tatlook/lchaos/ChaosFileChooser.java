@@ -128,6 +128,7 @@ public class ChaosFileChooser {
 		try {
 			AbstractData.setCurrent(chooseAvailableParser(file).parse());
 			
+			App.setCurrentFile(file);
 			App.mainWindow.update();
 			App.mainWindow.getDrawer().setChange();
 			

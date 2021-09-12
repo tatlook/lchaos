@@ -35,6 +35,7 @@ public class App {
 				if (file.exists()) {
 					try {
 						AbstractData.setCurrent(ChaosFileChooser.chooseAvailableParser(file).parse());
+						setCurrentFile(file);
 						FileHistoryManager.get().add(file);
 					} catch (FileFormatNotFoundException e) {
 						e.openDialog();
@@ -56,5 +57,16 @@ public class App {
 		
 		mainWindow.UI();
 		mainWindow.setVisible(true);
-	} 
+	}
+
+	private static File currentFile;
+
+	public static File getCurrentFile() {
+		return currentFile;
+	}
+
+	public static void setCurrentFile(File file) {
+		currentFile = file;
+	}
+
 }

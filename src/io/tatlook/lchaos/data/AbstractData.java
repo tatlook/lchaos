@@ -55,16 +55,11 @@ public abstract class AbstractData implements Cloneable {
 	 */
 	public abstract void setCurrentToOrigin();
 
-	public void setChanged(boolean changed) {
-		boolean thischanged = this.changed;
-		if (changed == true) {
-			if (equalsToOrigin()) {
-				changed = false;
-			}
-		}
-		this.changed = changed;
-		if (thischanged != changed) {
-			App.mainWindow.setTitle(AbstractFileParser.getCurrentFileParser().getFile());
+	public void checkChanged() {
+		boolean tmpchanged = changed;
+		changed = !equals(origin);
+		if (tmpchanged != changed) {
+			App.mainWindow.updateTitle();
 		}
 	}
 	
@@ -78,16 +73,6 @@ public abstract class AbstractData implements Cloneable {
 	public boolean isChanged() {
 		return changed;
 	}
-	
-	/**
-	 * Determine whether the data is the same as yu
-	 * 
-	 * @return {@code true} if data is equals with {@link #origin}, {@code false} otherwise
-	 * 
-	 * @see #isChanged
-	 * @see #setChhanged
-	 */
-	protected abstract boolean equalsToOrigin();
 
 	/**
 	 * @return the current

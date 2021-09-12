@@ -378,6 +378,7 @@ public class FractalManager {
 			e.printStackTrace();
 		}
 		
+		App.setCurrentFile(null);
 		App.mainWindow.update();
 		App.mainWindow.getDrawer().setChange();
 	}
