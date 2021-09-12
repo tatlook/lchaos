@@ -3,6 +3,8 @@
  */
 package io.tatlook.lchaos.editor;
 
+import static io.tatlook.lchaos.App.s;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Vector;
@@ -27,7 +29,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 	private static final long serialVersionUID = -7042634267654246265L;
 
 	protected Vector<AbstractRulePanel> rulePanels = new Vector<>();
-	protected JButton createRuleButton = new JButton("Create a Rule");
+	protected JButton createRuleButton = new JButton(s("multieditor.create_rule"));
 	protected JPanel createRulePanel = new JPanel();
 	
 	/**
@@ -98,7 +100,7 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 		public void updateUI() {
 			super.updateUI();
 			setMaximumSize(new Dimension(getMaximumSize().width, 110));
-			setBorder(BorderFactory.createTitledBorder("Rule " + (index + 1)));
+			setBorder(BorderFactory.createTitledBorder(s("multieditor.rule", (getIndex() + 1))));
 			if (deleteButton == null) {
 				deleteButton = new JButton("✕");
 			}

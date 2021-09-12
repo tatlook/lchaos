@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import static io.tatlook.lchaos.App.s;
+
 /**
  * The {@code ErrorMessageDialog} class contains several useful class fields
  * and methods. It cannot be instantiated. 
@@ -43,21 +45,20 @@ public class ErrorMessageDialog {
 	 * @param e the exception to be displayed
 	 */
 	public static void createExceptionDialog(Exception e) {
-		String title = "Error";
+		String title = s("errdialog.error");
 		String message = e.getMessage();
 		if (e instanceof IOException) {
-			title = "Input/Output Error";
+			title = s("errdialog.ioerror");
 			if (e instanceof FileNotFoundException) {
-				title = "File Does Not Exist";
+				title = s("errdialog.enofile");
 			}
 		}
 		if (e instanceof ChaosFileDataException) {
-			title = "File Format Error";
-			message = "There is an error in file \"" + 
-					((ChaosFileDataException) e).getFile().getPath() + "\"";
+			title = s("errdialog.filefmterror");
+			message = s("errdialog.parseerror", ((ChaosFileDataException) e).getFile().getPath());
 		}
 		if (e instanceof FileFormatNotFoundException) {
-			title = "Unknown File Format";
+			title = s("errdialog.unknownfmterror");
 		}
 		JOptionPane.showMessageDialog(
 				App.mainWindow,
@@ -73,8 +74,8 @@ public class ErrorMessageDialog {
 	public static int createSaveDialog() {
 		int result = JOptionPane.showConfirmDialog(
 				App.mainWindow,
-				"If you don't save, your changes will be lost.",
-				"Save the changes?",
+				s("errdialog.save.message"),
+				s("errdialog.save.title"),
 				JOptionPane.YES_NO_CANCEL_OPTION
 		);
 		return result;
@@ -86,7 +87,7 @@ public class ErrorMessageDialog {
 	public static void createFailureOptionDialog() {
 		JOptionPane.showMessageDialog(
 				App.mainWindow,
-				"This program doesn't have command-line options"
+				s("errdialog.no_command_line")
 		);
 	}
 

@@ -20,6 +20,7 @@ package io.tatlook.lchaos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 
 import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.parser.ChaosFileParser;
@@ -57,6 +58,16 @@ public class App {
 		
 		mainWindow.UI();
 		mainWindow.setVisible(true);
+	}
+
+	private static ResourceBundle bundle = ResourceBundle.getBundle("locale");
+
+	public static String s(String key) {
+		return bundle.getString(key);
+	}
+
+	public static String s(String key, Object... formats) {
+		return String.format(bundle.getString(key), formats);
 	}
 
 	private static File currentFile;

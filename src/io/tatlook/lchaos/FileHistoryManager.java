@@ -30,6 +30,7 @@ import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import static io.tatlook.lchaos.App.s;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -38,7 +39,7 @@ import io.tatlook.lchaos.saver.AbstractFileSaver;
  */
 public class FileHistoryManager {
 	private Vector<File> historyFiles = new Vector<>();
-	private JMenu openRecentMenu = new JMenu("Open Recent");
+	private JMenu openRecentMenu = new JMenu(s("menu.open_recent"));
 	private Vector<RecentMenuItem> openRecentMenuItems;
 	private File fileHistoryRecordFile = new File("data/filehistory");
 	
@@ -47,8 +48,8 @@ public class FileHistoryManager {
 	private static final int RECENT_MENU_ITEM_INDEX = 0;
 	
 	private FileHistoryManager() {
-		JMenuItem clearAllFilesMenuItem = new JMenuItem("Clear All Files");
-		JMenuItem clearMissingFilesMenuItem = new JMenuItem("Clear Missing Files");
+		JMenuItem clearAllFilesMenuItem = new JMenuItem(s("menu.clear_all_files"));
+		JMenuItem clearMissingFilesMenuItem = new JMenuItem(s("menu.clear_missing_files"));
 		clearAllFilesMenuItem.setMnemonic('C');
 		clearMissingFilesMenuItem.setMnemonic('M');
 		

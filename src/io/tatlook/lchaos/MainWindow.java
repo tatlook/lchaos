@@ -41,6 +41,7 @@ import io.tatlook.lchaos.data.AbstractData;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.parser.AbstractFileParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
+import static io.tatlook.lchaos.App.s;
 
 /**
  * @author Administrator
@@ -62,7 +63,7 @@ public class MainWindow extends JFrame {
 		super.setMinimumSize(new Dimension(900, 600));
 		super.addWindowListener(windowListener);
 		super.setContentPane(mainPanel);
-		super.setTitle("Welcome - " + NAME);
+		super.setTitle(s("window.welcome") + " - " + NAME);
 		menuBar = new MenuBar();
 		super.setJMenuBar(menuBar);
 	}
@@ -173,7 +174,7 @@ public class MainWindow extends JFrame {
 	
 	public void updateTitle() {
 		File file = App.getCurrentFile();
-		String fileName = file != null ? file.getName() : "untitled";
+		String fileName = file != null ? file.getName() : s("window.untitled");
 		if (AbstractData.getCurrent().isChanged()) {
 			super.setTitle("*" + fileName + " - " + NAME);
 		} else {

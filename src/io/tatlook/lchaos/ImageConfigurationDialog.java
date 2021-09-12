@@ -33,6 +33,8 @@ import javax.swing.JPanel;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 import io.tatlook.lchaos.util.SetRunnable;
 
+import static io.tatlook.lchaos.App.s;
+
 /**
  * @author Administrator
  *
@@ -62,7 +64,7 @@ public class ImageConfigurationDialog extends JDialog {
 	private ImageInfo info = new ImageInfo();
 	
 	public ImageConfigurationDialog() {
-		super(App.mainWindow, "Image Configuration", true);
+		super(App.mainWindow, s("ic.title"), true);
 		setResizable(false);
 		setSize(400, 250);
 		setLocationRelativeTo(null);
@@ -112,7 +114,7 @@ public class ImageConfigurationDialog extends JDialog {
 		Box box = Box.createVerticalBox();
 		box.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 20));
 		
-		box.add(new ParameterPanel("Image Size", new Integer[] {
+		box.add(new ParameterPanel(s("ic.image_size"), new Integer[] {
 				300, 500, 1000, 2000, 3000, 4000, 5000
 		}, info.size, (value) -> {
 			int v = Integer.parseInt(value);
@@ -121,17 +123,17 @@ public class ImageConfigurationDialog extends JDialog {
 			}
 			info.size = v;
 		}));
-		box.add(new ParameterPanel("Painting Zoom", new Double[] {
+		box.add(new ParameterPanel(s("ic.painting_zoom"), new Double[] {
 				0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75
 		}, info.paintingZoom, (value) -> {
 			info.paintingZoom = Double.parseDouble(value);
 		}));
-		box.add(new ParameterPanel("X Offset", new Double[] {
+		box.add(new ParameterPanel(s("ic.x_offset"), new Double[] {
 				-0.5, -0.25, 0.0, 0.25, 0.5
 		}, info.xOffset, (value) -> {
 			info.xOffset = Double.parseDouble(value);
 		}));
-		box.add(new ParameterPanel("Y Offset", new Double[] {
+		box.add(new ParameterPanel(s("ic.y_offset"), new Double[] {
 				-0.5, -0.25, 0.0, 0.25, 0.5
 		}, info.yOffset, (value) -> {
 			info.yOffset = Double.parseDouble(value);
@@ -143,8 +145,8 @@ public class ImageConfigurationDialog extends JDialog {
 	private void createConfirmButton() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 200, 5, 0));
-		JButton confirmButton = new JButton("   Ok   ");
-		JButton cancelButton = new JButton("Cancel");
+		JButton confirmButton = new JButton(s("ic.ok"));
+		JButton cancelButton = new JButton(s("ic.cancel"));
 		confirmButton.addActionListener((e) -> {
 			AbstractDrawer drawer = App.mainWindow.getDrawer();
 			if (drawer.getImageSize() != info.size) {

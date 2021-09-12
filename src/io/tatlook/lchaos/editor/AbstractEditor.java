@@ -18,6 +18,8 @@
 
 package io.tatlook.lchaos.editor;
 
+import static io.tatlook.lchaos.App.s;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -131,8 +133,8 @@ public abstract class AbstractEditor extends JPanel {
 		protected void addListeners(JTextField field) {
 			UndoManager manager = new UndoManager();
 			
-			JMenuItem undoMenuItem = new JMenuItem("Undo    (Ctrl+Z)");
-			JMenuItem redoMenuItem = new JMenuItem("Redo    (Ctrl+Y)");
+			JMenuItem undoMenuItem = new JMenuItem(s("editf.undo"));
+			JMenuItem redoMenuItem = new JMenuItem(s("editf.redo"));
 			field.getDocument().addUndoableEditListener((e) -> {
 				manager.undoableEditHappened(e);
 				undoMenuItem.setEnabled(manager.canUndo());
@@ -203,9 +205,9 @@ public abstract class AbstractEditor extends JPanel {
 			field.addMouseListener(new MouseAdapter() {
 				JPopupMenu popupMenu = new JPopupMenu();
 				
-				JMenuItem copyMenuItem = new JMenuItem("Copy   (Ctrl+C)");
-				JMenuItem pasteMenuItem = new JMenuItem("Paste (Ctrl+V)");
-				JMenuItem cutMenuItem = new JMenuItem("Cut      (Ctrl+X)");
+				JMenuItem copyMenuItem = new JMenuItem(s("editf.copy"));
+				JMenuItem pasteMenuItem = new JMenuItem(s("editf.paste"));
+				JMenuItem cutMenuItem = new JMenuItem(s("editf.cut"));
 				
 				{
 					undoMenuItem.setEnabled(manager.canUndo());
