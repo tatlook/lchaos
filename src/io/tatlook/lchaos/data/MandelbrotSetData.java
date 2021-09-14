@@ -73,9 +73,4 @@ public class MandelbrotSetData extends MultipleRulesData {
 		this.origin = origin;
 	}
 
-	@Override
-	protected boolean equalsToOrigin() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
