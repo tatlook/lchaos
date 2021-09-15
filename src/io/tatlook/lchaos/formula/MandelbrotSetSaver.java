@@ -1,11 +1,11 @@
 /**
  * 
  */
-package io.tatlook.lchaos.saver;
+package io.tatlook.lchaos.formula;
 
 import java.io.File;
 
-import io.tatlook.lchaos.data.MandelbrotSetData;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * @author YouZhe Zhen

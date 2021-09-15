@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.drawer;
+package io.tatlook.lchaos.lsystem;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,7 +25,7 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 import java.util.Vector;
 
-import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.drawer.AbstractDrawer;
 
 /**
  * @author Administrator

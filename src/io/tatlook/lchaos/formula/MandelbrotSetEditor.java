@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.tatlook.lchaos.editor;
+package io.tatlook.lchaos.formula;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import io.tatlook.lchaos.App;
+import io.tatlook.lchaos.editor.AbstractEditor;
 
 /**
  * @author YouZhe Zhen

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.ifs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator

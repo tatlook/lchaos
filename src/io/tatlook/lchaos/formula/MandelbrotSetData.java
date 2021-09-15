@@ -1,8 +1,9 @@
 /**
  * 
  */
-package io.tatlook.lchaos.data;
+package io.tatlook.lchaos.formula;
 
+import io.tatlook.lchaos.data.MultipleRulesData;
 import parsii.eval.Expression;
 import parsii.eval.Scope;
 import parsii.eval.Variable;

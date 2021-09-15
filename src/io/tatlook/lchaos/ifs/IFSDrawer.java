@@ -85,11 +85,11 @@
  *  along with algs4.jar.  If not, see http://www.gnu.org/licenses.
  ******************************************************************************/
 
-package io.tatlook.lchaos.drawer;
+package io.tatlook.lchaos.ifs;
 
 import java.awt.Graphics;
 
-import io.tatlook.lchaos.data.IFSData;
+import io.tatlook.lchaos.drawer.AbstractDrawer;
 
 /**
  * @author Administrator

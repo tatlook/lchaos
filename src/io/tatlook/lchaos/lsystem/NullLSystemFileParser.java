@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.lsystem;
 
-import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.parser.NullFileParser;
 
 /**
  * @author Administrator

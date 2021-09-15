@@ -16,18 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.ifs;
 
-import io.tatlook.lchaos.data.IFSData;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import io.tatlook.lchaos.parser.AbstractFileParser;
 
 /**
  * @author Administrator
  *
  */
-public class NullIFSFileParser extends IFSFileParser implements NullFileParser {
+public abstract class IFSFileParser extends AbstractFileParser {
+	protected IFSData data;
 	
-	@Override
-	public IFSData parse() {
-		return new IFSData();
+	public IFSFileParser(File file) throws FileNotFoundException {
+		super(file);
+	}
+	
+	protected IFSFileParser() {
 	}
 }

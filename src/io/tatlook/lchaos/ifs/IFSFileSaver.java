@@ -1,11 +1,11 @@
 /**
  * 
  */
-package io.tatlook.lchaos.saver;
+package io.tatlook.lchaos.ifs;
 
 import java.io.File;
 
-import io.tatlook.lchaos.data.IFSData;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
  * 

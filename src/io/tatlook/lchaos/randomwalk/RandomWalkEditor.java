@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.tatlook.lchaos.editor;
+package io.tatlook.lchaos.randomwalk;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,6 +15,8 @@ import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
 import io.tatlook.lchaos.drawer.RandomWalkDrawer;
+import io.tatlook.lchaos.editor.AbstractEditor;
+import io.tatlook.lchaos.editor.AbstractEditor.EditTextField;
 
 /**
  * @author Administrator

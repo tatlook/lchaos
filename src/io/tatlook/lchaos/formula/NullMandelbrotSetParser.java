@@ -1,9 +1,9 @@
 /**
  * 
  */
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.formula;
 
-import io.tatlook.lchaos.data.MandelbrotSetData;
+import io.tatlook.lchaos.parser.NullFileParser;
 
 /**
  * @author YouZhe Zhen

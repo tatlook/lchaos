@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.formula;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.data.IFSData;
-import io.tatlook.lchaos.data.MandelbrotSetData;
+import io.tatlook.lchaos.ifs.IFSData;
+import io.tatlook.lchaos.parser.AbstractFileParser;
 import parsii.eval.Variable;
 
 /**

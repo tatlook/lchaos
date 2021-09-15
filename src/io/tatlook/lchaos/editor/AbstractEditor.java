@@ -92,7 +92,7 @@ public abstract class AbstractEditor extends JPanel {
 	}
 	
 	@SuppressWarnings("serial")
-	protected class EditTextField extends JTextField {
+    public class EditTextField extends JTextField {
 		final int fieldMinimumWidth = 100;
 		final int fieldMaximumHeight = 22;
 		

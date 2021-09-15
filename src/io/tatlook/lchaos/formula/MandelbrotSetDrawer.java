@@ -16,10 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.drawer;
+package io.tatlook.lchaos.formula;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+
+import io.tatlook.lchaos.drawer.AbstractDrawer;
 
 /**
  * @author Administrator

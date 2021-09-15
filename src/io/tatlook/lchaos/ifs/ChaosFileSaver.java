@@ -16,45 +16,54 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.saver;
+package io.tatlook.lchaos.ifs;
 
 import java.io.File;
-
-import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator
  *
  */
-public class FractintFileSaver extends IFSFileSaver {
+public class ChaosFileSaver extends IFSFileSaver {
 
-	public FractintFileSaver(File file, IFSData data) {
+	public ChaosFileSaver(File file, IFSData data) {
 		super(file, data);
 	}
-
+	
 	@Override
 	public void save() {
 		double[] dist = data.getDist();
 		double[][] cx = data.getCX();
 		double[][] cy = data.getCY();
 		
-		out.println(getFileNameNoEx(file.getName()) + " {");
+		out.println(dist.length);
+		out.print("    ");
 		for (int i = 0; i < dist.length; i++) {
-			out.print(cx[i][0] + " " + cx[i][1] + " ");
-			out.print(cy[i][0] + " " + cy[i][1] + " ");
-			out.print(cx[i][2] + " " + cy[i][2] + " ");
-			out.println(dist[i]);
+			out.print(dist[i]);
+			out.print(' ');
 		}
-		out.println("}");
-	}
-	
-	public static String getFileNameNoEx(String filename) { 
-		if ((filename != null) && (filename.length() > 0)) { 
-			int dot = filename.lastIndexOf('.'); 
-			if ((dot >-1) && (dot < (filename.length()))) { 
-				return filename.substring(0, dot); 
-			} 
-		} 
-		return filename; 
+		out.println();
+		
+		out.println(cx.length + " " + 3);
+		for (int i = 0; i < cx.length; i++) {
+			out.print("   ");
+			for (int j = 0; j < 3; j++) {
+				out.print(' ');
+				out.print(cx[i][j]);
+			}
+			out.println();
+		}
+		
+		out.println(cy.length + " " + 3);
+		for (int i = 0; i < cy.length; i++) {
+			out.print("   ");
+			for (int j = 0; j < 3; j++) {
+				out.print(' ');
+				out.print(cy[i][j]);
+			}
+			out.println();
+		}
+		
+		out.close();
 	}
 }

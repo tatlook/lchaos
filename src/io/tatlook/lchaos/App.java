@@ -23,7 +23,7 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 import io.tatlook.lchaos.data.AbstractData;
-import io.tatlook.lchaos.parser.ChaosFileParser;
+import io.tatlook.lchaos.ifs.ChaosFileParser;
 
 public class App {
 	public static MainWindow mainWindow;

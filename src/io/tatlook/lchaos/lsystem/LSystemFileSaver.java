@@ -16,12 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.saver;
+package io.tatlook.lchaos.lsystem;
 
 import java.io.File;
 import java.util.Vector;
 
-import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.ifs.FractintFileSaver;
+import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 public class LSystemFileSaver extends AbstractFileSaver {
 

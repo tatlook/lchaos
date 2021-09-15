@@ -52,7 +52,8 @@ public abstract class MultipleRulesEditor extends AbstractEditor {
 	protected abstract void createRulePanels();
 	
 	@SuppressWarnings("serial")
-	protected abstract class AbstractRulePanel extends JPanel {
+    public
+	abstract class AbstractRulePanel extends JPanel {
 		private int index = rulePanels.size();
 		protected JButton deleteButton = new JButton("✕");
 		

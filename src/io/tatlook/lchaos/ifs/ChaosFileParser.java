@@ -86,13 +86,12 @@
  *  along with algs4.jar.  If not, see http://www.gnu.org/licenses.
  ******************************************************************************/
 
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.ifs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.data.IFSData;
 
 /**
  * @author Administrator

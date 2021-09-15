@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.editor;
+package io.tatlook.lchaos.lsystem;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
-import io.tatlook.lchaos.data.LSystemData;
+import io.tatlook.lchaos.editor.MultipleRulesEditor;
 
 /**
  * @author Administrator

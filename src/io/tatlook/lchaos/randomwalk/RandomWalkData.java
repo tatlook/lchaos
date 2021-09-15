@@ -1,7 +1,9 @@
 /**
  * 
  */
-package io.tatlook.lchaos.data;
+package io.tatlook.lchaos.randomwalk;
+
+import io.tatlook.lchaos.data.NullData;
 
 /**
  * @author Administrator

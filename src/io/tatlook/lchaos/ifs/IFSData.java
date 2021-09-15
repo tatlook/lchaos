@@ -16,9 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.tatlook.lchaos.data;
+package io.tatlook.lchaos.ifs;
 
 import java.util.Vector;
+
+import io.tatlook.lchaos.data.MultipleRulesData;
 
 /**
  * @author Administrator

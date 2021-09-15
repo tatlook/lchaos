@@ -1,9 +1,10 @@
 /**
  * 
  */
-package io.tatlook.lchaos.parser;
+package io.tatlook.lchaos.randomwalk;
 
-import io.tatlook.lchaos.data.RandomWalkData;
+import io.tatlook.lchaos.parser.AbstractFileParser;
+import io.tatlook.lchaos.parser.NullFileParser;
 
 /**
  * @author Administrator
