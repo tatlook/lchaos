@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author Administrator
  *
  */
-class TestParameters {
+public class TestParameters {
 
 	@Test
 	public void testNoFile() {
