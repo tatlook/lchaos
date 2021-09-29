@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * @author Administrator
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 class TestParameters {
 
 	@Test
-	void testNoFile() {
+	public void testNoFile() {
 		String[] args = {
 				"momo...';;;\"{}!323\n[]^<>^^**??\\/.", "dsakdkk"
 		};
@@ -41,7 +41,7 @@ class TestParameters {
 	}
 
 	@Test
-	void testFailureOption() {
+	public void testFailureOption() {
 		String[] args = {
 				"--help", "dsakdkk"
 		};
@@ -49,7 +49,7 @@ class TestParameters {
 	}
 
 	@Test
-	void testErrorFile() {
+	public void testErrorFile() {
 		File file = new File("omomo");
 		try {
 			file.createNewFile();
@@ -64,7 +64,7 @@ class TestParameters {
 	}
 	
 	@Test
-	void testChaosFile() {
+	public void testChaosFile() {
 		File file = new File("om.ch");
 		try {
 			file.createNewFile();
@@ -89,7 +89,7 @@ class TestParameters {
 	}
 	
 	@Test
-	void testFractintIFSFile() {
+	public void testFractintIFSFile() {
 		File file = new File("omomo.ifs");
 		try {
 			file.createNewFile();
