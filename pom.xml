@@ -22,5 +22,20 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <!-- move wd to /target/classes -->
+        <usr.dir>${project.build.directory}/classes</usr.dir>
   </properties>
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.7.2</version>
+            <!-- move wd to /target/test-classes when testing -->
+            <configuration>
+                <workingDirectory>${project.build.directory}/test-classes</workingDirectory>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
 </project>
