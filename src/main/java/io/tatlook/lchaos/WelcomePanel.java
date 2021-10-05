@@ -58,7 +58,7 @@ public class WelcomePanel extends JPanel {
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
 			JButton button = new JButton(fractal.getDescription());
-			button.addActionListener((e) -> FractalManager.createFractal(fractal.getNullParserClass()));
+			button.addActionListener((e) -> FractalManager.createFractal(fractal));
 			button.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			box.add(button);
 		}

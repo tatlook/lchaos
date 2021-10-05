@@ -36,7 +36,6 @@ import io.tatlook.lchaos.formula.MandelbrotSetDrawer;
 import io.tatlook.lchaos.formula.MandelbrotSetEditor;
 import io.tatlook.lchaos.formula.MandelbrotSetParser;
 import io.tatlook.lchaos.formula.MandelbrotSetSaver;
-import io.tatlook.lchaos.formula.NullMandelbrotSetParser;
 import io.tatlook.lchaos.ifs.ChaosFileParser;
 import io.tatlook.lchaos.ifs.ChaosFileSaver;
 import io.tatlook.lchaos.ifs.FractintFileParser;
@@ -44,18 +43,14 @@ import io.tatlook.lchaos.ifs.FractintFileSaver;
 import io.tatlook.lchaos.ifs.IFSData;
 import io.tatlook.lchaos.ifs.IFSDrawer;
 import io.tatlook.lchaos.ifs.IFSEditor;
-import io.tatlook.lchaos.ifs.NullIFSFileParser;
 import io.tatlook.lchaos.lsystem.LSystemData;
 import io.tatlook.lchaos.lsystem.LSystemDrawer;
 import io.tatlook.lchaos.lsystem.LSystemEditor;
 import io.tatlook.lchaos.lsystem.LSystemFileParser;
 import io.tatlook.lchaos.lsystem.LSystemFileSaver;
-import io.tatlook.lchaos.lsystem.NullLSystemFileParser;
 import io.tatlook.lchaos.parser.AbstractFileParser;
-import io.tatlook.lchaos.parser.NullFileParser;
 import io.tatlook.lchaos.randomwalk.RandomWalkData;
 import io.tatlook.lchaos.randomwalk.RandomWalkEditor;
-import io.tatlook.lchaos.randomwalk.RandomWalkParser;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -69,21 +64,19 @@ public class FractalManager {
 
 	private FractalManager() {
 		Fractal ifsFractal = new Fractal("Iterated Function System",
-				IFSData.class, IFSDrawer.class, IFSEditor.class, NullIFSFileParser.class,
+				IFSData.class, IFSDrawer.class, IFSEditor.class,
 				new FileFormat("ch", "Chaos File(*.ch)", ChaosFileParser.class, ChaosFileSaver.class),
 				new FileFormat("ifs", "Fractint IFS File(*.ifs)", FractintFileParser.class, FractintFileSaver.class));
 		registerFractal(ifsFractal);
 		Fractal lSystemFractal = new Fractal("L-System",
-				LSystemData.class, LSystemDrawer.class, LSystemEditor.class, NullLSystemFileParser.class,
+				LSystemData.class, LSystemDrawer.class, LSystemEditor.class,
 				new FileFormat("l", "LSystem File(*.l)", LSystemFileParser.class, LSystemFileSaver.class));
 		registerFractal(lSystemFractal);
 		Fractal randomWalkFractal = new Fractal("Random Walk",
-				RandomWalkData.class, RandomWalkDrawer.class, RandomWalkEditor.class, 
-				RandomWalkParser.class);
+				RandomWalkData.class, RandomWalkDrawer.class, RandomWalkEditor.class);
 		registerFractal(randomWalkFractal);
 		Fractal mandelbrotSetFractal = new Fractal("Formula",
 				MandelbrotSetData.class, MandelbrotSetDrawer.class, MandelbrotSetEditor.class,
-				NullMandelbrotSetParser.class,
 				new FileFormat("frm", "Formula File(*.frm)", MandelbrotSetParser.class, MandelbrotSetSaver.class));
 		registerFractal(mandelbrotSetFractal);
 	}
@@ -171,19 +164,16 @@ public class FractalManager {
 		private Class<? extends AbstractData> dataClass;
 		private Class<? extends AbstractDrawer> drawerClass;
 		private Class<? extends AbstractEditor> editorClass;
-		private Class<? extends NullFileParser> nullParserClass;
 
 		public Fractal(String description,
 				Class<? extends AbstractData> dataClass,
 				Class<? extends AbstractDrawer> drawerClass,
 				Class<? extends AbstractEditor> editorClass,
-				Class<? extends NullFileParser> nullParserClass,
 				FileFormat... formats) {
 			setDescription(description);
 			setDataClass(dataClass);
 			setDrawerClass(drawerClass);
 			setEditorClass(editorClass);
-			setNullParserClass(nullParserClass);
 			for (FileFormat fileFormat : formats) {
 				this.formats.add(fileFormat);
 			}
@@ -279,19 +269,6 @@ public class FractalManager {
 			this.drawerClass = drawerClass;
 		}
 
-		/**
-		 * @return the nullParserClass
-		 */
-		public Class<? extends NullFileParser> getNullParserClass() {
-			return nullParserClass;
-		}
-
-		/**
-		 * @param nullParserClass the nullParserClass to set
-		 */
-		public void setNullParserClass(Class<? extends NullFileParser> nullParserClass) {
-			this.nullParserClass = nullParserClass;
-		}
 	}
 
 	public void registerFractal(Fractal fractal) {
@@ -359,13 +336,13 @@ public class FractalManager {
 		return fractals.toArray(new Fractal[fractals.size()]);
 	}
 
-	public static void createFractal(Class<? extends NullFileParser> parser) {
+	public static void createFractal(Fractal fractal) {
 		if (AbstractFileSaver.checkFileSave() == false) {
 			return;
 		}
 		
 		try {
-			AbstractData.setCurrent(parser.getConstructor().newInstance().parse());
+			AbstractData.setCurrent(fractal.getDataClass().getConstructor().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {

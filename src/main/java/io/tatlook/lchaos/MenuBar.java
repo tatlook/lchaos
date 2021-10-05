@@ -81,7 +81,7 @@ public class MenuBar extends JMenuBar {
 		for (Fractal fractal : fractals) {
 			JMenuItem menuItem = new JMenuItem(fractal.getDescription());
 			menuItem.addActionListener((e) -> 
-					FractalManager.createFractal(fractal.getNullParserClass()));
+					FractalManager.createFractal(fractal));
 			newFileMenu.add(menuItem);
 		}
 		
