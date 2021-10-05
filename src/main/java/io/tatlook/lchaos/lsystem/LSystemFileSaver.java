@@ -18,7 +18,6 @@
 
 package io.tatlook.lchaos.lsystem;
 
-import java.io.File;
 import java.util.Vector;
 
 import io.tatlook.lchaos.ifs.FractintFileSaver;
@@ -28,8 +27,7 @@ public class LSystemFileSaver extends AbstractFileSaver {
 
 	private LSystemData data;
 
-	public LSystemFileSaver(File file, LSystemData data) {
-		super(file);
+	public LSystemFileSaver(LSystemData data) {
 		this.data = data;
 	}
 

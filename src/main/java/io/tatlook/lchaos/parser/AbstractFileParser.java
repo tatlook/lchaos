@@ -40,26 +40,9 @@ public abstract class AbstractFileParser {
 	protected FileInputStream inputStream;
 	
 	/**
-	 * Constructs a new file parser with the target file.
-	 * 
-	 * @param file the target file
-	 * @throws     FileNotFoundException  if the file does not exist,
-	 *             is a directory rather than a regular file,
-	 *             or for some other reason cannot be opened for
-	 *             reading.
+	 * Constructs a new file parser.
 	 */
-	public AbstractFileParser(File file) throws FileNotFoundException {
-		this.file = file;
-		inputStream = new FileInputStream(file);
-		scanner = new Scanner(inputStream);
-		scanner.useLocale(Locale.US);
-		currentFileParser = this;
-	}
-	
-	/**
-	 * A way for {@link NullFileParser}
-	 */
-	protected AbstractFileParser() {
+	public AbstractFileParser() {
 		currentFileParser = this;
 	}
 	
@@ -82,6 +65,22 @@ public abstract class AbstractFileParser {
 		return file;
 	}
 	
+	/**
+	 * Sets the target file.
+	 * 
+	 * @param file     the target file to set
+	 * @throws     FileNotFoundException  if the file does not exist,
+	 *             is a directory rather than a regular file,
+	 *             or for some other reason cannot be opened for
+	 *             reading.
+	 */
+	public void setFile(File file) throws FileNotFoundException {
+		this.file = file;
+		inputStream = new FileInputStream(file);
+		scanner = new Scanner(inputStream);
+		scanner.useLocale(Locale.US);
+	}
+
 	/**
 	 * @return the currentFileParser
 	 */

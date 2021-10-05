@@ -18,16 +18,14 @@
 
 package io.tatlook.lchaos.ifs;
 
-import java.io.File;
-
 /**
  * @author Administrator
  *
  */
 public class ChaosFileSaver extends IFSFileSaver {
 
-	public ChaosFileSaver(File file, IFSData data) {
-		super(file, data);
+	public ChaosFileSaver(IFSData data) {
+		super(data);
 	}
 	
 	@Override

@@ -18,8 +18,6 @@
 
 package io.tatlook.lchaos.ifs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -30,10 +28,6 @@ import io.tatlook.lchaos.ChaosFileDataException;
  *
  */
 public class FractintFileParser extends IFSFileParser {
-	
-	public FractintFileParser(File file) throws FileNotFoundException  {
-		super(file);
-	}
 	
 	private double readNumber(Scanner scanner) throws ChaosFileDataException {
 		if (scanner.hasNextInt()) {

@@ -18,16 +18,14 @@
 
 package io.tatlook.lchaos.ifs;
 
-import java.io.File;
-
 /**
  * @author Administrator
  *
  */
 public class FractintFileSaver extends IFSFileSaver {
 
-	public FractintFileSaver(File file, IFSData data) {
-		super(file, data);
+	public FractintFileSaver(IFSData data) {
+		super(data);
 	}
 
 	@Override

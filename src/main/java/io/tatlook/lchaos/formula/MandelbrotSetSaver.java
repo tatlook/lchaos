@@ -3,8 +3,6 @@
  */
 package io.tatlook.lchaos.formula;
 
-import java.io.File;
-
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -16,8 +14,8 @@ public class MandelbrotSetSaver extends AbstractFileSaver {
 	/**
 	 * @param file
 	 */
-	public MandelbrotSetSaver(File file, MandelbrotSetData data) {
-		super(file);
+	public MandelbrotSetSaver(MandelbrotSetData data) {
+		super();
 	}
 
 	@Override

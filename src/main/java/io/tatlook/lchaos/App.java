@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 import io.tatlook.lchaos.data.AbstractData;
-import io.tatlook.lchaos.ifs.ChaosFileParser;
 
 public class App {
 	public static MainWindow mainWindow;
@@ -47,8 +46,7 @@ public class App {
 					if (args[0].charAt(0) == '-') {
 						ErrorMessageDialog.createFailureOptionDialog();
 					} else {
-						// = Throw new FileNotFoundException.
-						new ChaosFileParser(file);
+						throw new FileNotFoundException();
 					}
 				}
 			}

@@ -18,8 +18,6 @@
 
 package io.tatlook.lchaos.lsystem;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -32,17 +30,6 @@ import io.tatlook.lchaos.parser.AbstractFileParser;
  */
 public class LSystemFileParser extends AbstractFileParser {
 	private LSystemData data;
-	
-	/**
-	 * @param file
-	 * @throws FileNotFoundException
-	 */
-	public LSystemFileParser(File file) throws FileNotFoundException {
-		super(file);
-	}
-	
-	protected LSystemFileParser() {
-	}
 	
 	@SuppressWarnings("resource")
 	private void scanLine(String line) throws ChaosFileDataException {

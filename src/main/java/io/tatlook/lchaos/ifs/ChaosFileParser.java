@@ -88,9 +88,6 @@
 
 package io.tatlook.lchaos.ifs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import io.tatlook.lchaos.ChaosFileDataException;
 
 /**
@@ -98,9 +95,6 @@ import io.tatlook.lchaos.ChaosFileDataException;
  *
  */
 public class ChaosFileParser extends IFSFileParser {
-	public ChaosFileParser(File file) throws FileNotFoundException {
-		super(file);
-	}
 	
 	private double[] readDouble1D() throws ChaosFileDataException {
 		if (!scanner.hasNextInt()) {

@@ -18,9 +18,6 @@
 
 package io.tatlook.lchaos.ifs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import io.tatlook.lchaos.parser.AbstractFileParser;
 
 /**
@@ -29,11 +26,4 @@ import io.tatlook.lchaos.parser.AbstractFileParser;
  */
 public abstract class IFSFileParser extends AbstractFileParser {
 	protected IFSData data;
-	
-	public IFSFileParser(File file) throws FileNotFoundException {
-		super(file);
-	}
-	
-	protected IFSFileParser() {
-	}
 }

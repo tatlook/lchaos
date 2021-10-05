@@ -43,13 +43,15 @@ import io.tatlook.lchaos.data.AbstractData;
 public abstract class AbstractFileSaver {
 	protected PrintStream out;
 	protected File file;
-	
+
 	/**
-	 * Constructs a new file saver with the target file.
+	 * Sets the target file.
+	 * If and only if a file does not yet exist,
+	 * this method will create a new, empty file.
 	 * 
-	 * @param file
+	 * @param file the target file to set.
 	 */
-	public AbstractFileSaver(File file) {
+	public void setFile(File file) {
 		this.file = file;
 		try {
 			if (file == null) {
@@ -78,8 +80,10 @@ public abstract class AbstractFileSaver {
 			Class<? extends AbstractData> dataClass = fractal.getDataClass();
 			if (saverClass != null) {
 				try {
-					return saverClass.getConstructor(File.class, dataClass)
-							.newInstance(file, AbstractData.getCurrent());
+					AbstractFileSaver saver = saverClass.getConstructor(dataClass)
+							.newInstance(AbstractData.getCurrent());
+					saver.setFile(file);
+					return saver;
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {

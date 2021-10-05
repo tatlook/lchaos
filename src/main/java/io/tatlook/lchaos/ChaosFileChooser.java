@@ -105,7 +105,9 @@ public class ChaosFileChooser {
 			Class<? extends AbstractFileParser> parserClass = fractal.getAvailableParserClass(extension);
 			if (parserClass != null) {
 				try {
-					return parserClass.getConstructor(File.class).newInstance(file);
+					AbstractFileParser parser = parserClass.getConstructor().newInstance();
+					parser.setFile(file);
+					return parser;
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {

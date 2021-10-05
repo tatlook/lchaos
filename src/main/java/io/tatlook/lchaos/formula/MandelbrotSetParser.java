@@ -3,15 +3,11 @@
  */
 package io.tatlook.lchaos.formula;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
-import io.tatlook.lchaos.ifs.IFSData;
 import io.tatlook.lchaos.parser.AbstractFileParser;
-import parsii.eval.Variable;
 
 /**
  * @author YouZhe Zhen
@@ -19,11 +15,7 @@ import parsii.eval.Variable;
  */
 public class MandelbrotSetParser extends AbstractFileParser {
 
-	public MandelbrotSetParser(File file) throws FileNotFoundException {
-		super(file);
-	}
-
-	protected MandelbrotSetParser() {
+	public MandelbrotSetParser() {
 	}
 
 	private MandelbrotSetData data;
