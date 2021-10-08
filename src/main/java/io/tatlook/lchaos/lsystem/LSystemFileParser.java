@@ -28,8 +28,7 @@ import io.tatlook.lchaos.parser.AbstractFileParser;
  * @author Administrator
  *
  */
-public class LSystemFileParser extends AbstractFileParser {
-	private LSystemData data;
+public class LSystemFileParser extends AbstractFileParser<LSystemData> {
 	
 	@SuppressWarnings("resource")
 	private void scanLine(String line) throws ChaosFileDataException {

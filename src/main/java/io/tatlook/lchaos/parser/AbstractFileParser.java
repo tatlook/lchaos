@@ -30,11 +30,14 @@ import io.tatlook.lchaos.data.AbstractData;
 /**
  * The parent class of all file parsers.
  * 
+ * @param <T> the type of data to parse
+ * 
  * @author YouZhe Zhen
  */
-public abstract class AbstractFileParser {
-	private static AbstractFileParser currentFileParser;
+public abstract class AbstractFileParser<T extends AbstractData> {
+	private static AbstractFileParser<?> currentFileParser;
 	
+	protected T data;
 	protected File file;
 	protected Scanner scanner;
 	protected FileInputStream inputStream;
@@ -53,7 +56,7 @@ public abstract class AbstractFileParser {
 	 *
 	 * @throws ChaosFileDataException the file format is incorrect
 	 */
-	public abstract AbstractData parse() throws ChaosFileDataException;
+	public abstract T parse() throws ChaosFileDataException;
 	
 	/**
 	 * Returns the target file of this file parser.
@@ -84,7 +87,7 @@ public abstract class AbstractFileParser {
 	/**
 	 * @return the currentFileParser
 	 */
-	public static AbstractFileParser getCurrentFileParser() {
+	public static AbstractFileParser<?> getCurrentFileParser() {
 		return currentFileParser;
 	}
 }

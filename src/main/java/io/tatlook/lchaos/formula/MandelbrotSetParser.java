@@ -13,10 +13,7 @@ import io.tatlook.lchaos.parser.AbstractFileParser;
  * @author YouZhe Zhen
  *
  */
-public class MandelbrotSetParser extends AbstractFileParser {
-
-	public MandelbrotSetParser() {
-	}
+public class MandelbrotSetParser extends AbstractFileParser<MandelbrotSetData> {
 
 	private MandelbrotSetData data;
 

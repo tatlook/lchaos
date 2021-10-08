@@ -84,12 +84,12 @@ public class FractalManager {
 	public static class FileFormat {
 		private String extension;
 		private String description;
-		private Class<? extends AbstractFileParser> parserClass;
-		private Class<? extends AbstractFileSaver> saverClass;
+		private Class<? extends AbstractFileParser<?>> parserClass;
+		private Class<? extends AbstractFileSaver<?>> saverClass;
 
 		public FileFormat(String extension, String description,
-				Class<? extends AbstractFileParser> parserClass,
-				Class<? extends AbstractFileSaver> saverClass) {
+				Class<? extends AbstractFileParser<?>> parserClass,
+				Class<? extends AbstractFileSaver<?>> saverClass) {
 			this.extension = extension;
 			this.description = description;
 			this.parserClass = parserClass;
@@ -131,28 +131,28 @@ public class FractalManager {
 		/**
 		 * @return the parserClass
 		 */
-		public Class<? extends AbstractFileParser> getParserClass() {
+		public Class<? extends AbstractFileParser<?>> getParserClass() {
 			return parserClass;
 		}
 
 		/**
 		 * @param parserClass the parserClass to set
 		 */
-		public void setParserClass(Class<? extends AbstractFileParser> parserClass) {
+		public void setParserClass(Class<? extends AbstractFileParser<?>> parserClass) {
 			this.parserClass = parserClass;
 		}
 
 		/**
 		 * @return the saverClass
 		 */
-		public Class<? extends AbstractFileSaver> getSaverClass() {
+		public Class<? extends AbstractFileSaver<?>> getSaverClass() {
 			return saverClass;
 		}
 
 		/**
 		 * @param saverClass the saverClass to set
 		 */
-		public void setSaverClass(Class<? extends AbstractFileSaver> saverClass) {
+		public void setSaverClass(Class<? extends AbstractFileSaver<?>> saverClass) {
 			this.saverClass = saverClass;
 		}
 	}
@@ -190,7 +190,7 @@ public class FractalManager {
 			return formats.toArray(new FileFormat[formats.size()]);
 		}
 
-		public Class<? extends AbstractFileParser> getAvailableParserClass(String extension) {
+		public Class<? extends AbstractFileParser<?>> getAvailableParserClass(String extension) {
 			for (FileFormat fileFormat : formats) {
 				if (fileFormat.extension.equals(extension)) {
 					return fileFormat.parserClass;
@@ -199,7 +199,7 @@ public class FractalManager {
 			return null;
 		}
 
-		public Class<? extends AbstractFileSaver> getAvailableSaverClass(String extension) {
+		public Class<? extends AbstractFileSaver<?>> getAvailableSaverClass(String extension) {
 			for (FileFormat fileFormat : formats) {
 				if (fileFormat.extension.equals(extension)) {
 					return fileFormat.saverClass;
@@ -275,11 +275,11 @@ public class FractalManager {
 		fractals.add(fractal);
 	}
 
-//	public Class<? extends AbstractFileParser> getAvailableParser(String ext) {
+//	public Class<? extends AbstractFileParser<?>> getAvailableParser(String ext) {
 //		return getAvailableParser(new ExtensionFilter("", "nttt"));
 //	}
 //
-//	public Class<? extends AbstractFileParser> getAvailableParser(
+//	public Class<? extends AbstractFileParser<?>> getAvailableParser(
 //			FileFilter filter) {
 //		for (Fractal fractal : fractals) {
 //			if (fractal.getAvailableParser(filter) != null) {

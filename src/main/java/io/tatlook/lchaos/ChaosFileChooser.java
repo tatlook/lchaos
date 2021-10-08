@@ -97,15 +97,15 @@ public class ChaosFileChooser {
 		return file;
 	}
 	
-	public static AbstractFileParser chooseAvailableParser(File file)
+	public static AbstractFileParser<?> chooseAvailableParser(File file)
 				throws FileNotFoundException, FileFormatNotFoundException {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
-			Class<? extends AbstractFileParser> parserClass = fractal.getAvailableParserClass(extension);
+			Class<? extends AbstractFileParser<?>> parserClass = fractal.getAvailableParserClass(extension);
 			if (parserClass != null) {
 				try {
-					AbstractFileParser parser = parserClass.getConstructor().newInstance();
+					AbstractFileParser<?> parser = parserClass.getConstructor().newInstance();
 					parser.setFile(file);
 					return parser;
 				} catch (InstantiationException e) {

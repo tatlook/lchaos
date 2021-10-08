@@ -24,10 +24,6 @@ package io.tatlook.lchaos.ifs;
  */
 public class FractintFileSaver extends IFSFileSaver {
 
-	public FractintFileSaver(IFSData data) {
-		super(data);
-	}
-
 	@Override
 	public void save() {
 		double[] dist = data.getDist();

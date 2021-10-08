@@ -9,7 +9,7 @@ import io.tatlook.lchaos.saver.AbstractFileSaver;
  * @author YouZhe Zhen
  *
  */
-public class MandelbrotSetSaver extends AbstractFileSaver {
+public class MandelbrotSetSaver extends AbstractFileSaver<MandelbrotSetData> {
 
 	/**
 	 * @param file

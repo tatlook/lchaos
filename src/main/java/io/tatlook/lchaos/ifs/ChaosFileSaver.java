@@ -24,10 +24,6 @@ package io.tatlook.lchaos.ifs;
  */
 public class ChaosFileSaver extends IFSFileSaver {
 
-	public ChaosFileSaver(IFSData data) {
-		super(data);
-	}
-	
 	@Override
 	public void save() {
 		double[] dist = data.getDist();

@@ -38,11 +38,38 @@ import io.tatlook.lchaos.data.AbstractData;
 /**
  * The parent class of all file savers.
  * 
+ * @param <T> the type of data to save
+ * 
  * @author YouZhe Zhen
  */
-public abstract class AbstractFileSaver {
+public abstract class AbstractFileSaver<T extends AbstractData> {
+	protected T data;
+	
 	protected PrintStream out;
 	protected File file;
+	
+	/**
+	 * Returns the data that save to file.
+	 * 
+	 * @return the data to save.
+	 */
+	public T getData() {
+		return data;
+	}
+
+	/**
+	 * Sets the data that save to file.
+	 * 
+	 * @param data the data to save.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setData(AbstractData data) {
+		try {
+			this.data = (T) data;
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Sets the target file.
@@ -72,16 +99,16 @@ public abstract class AbstractFileSaver {
 	 */
 	public abstract void save();
 	
-	public static AbstractFileSaver chooseAvailableSaver(File file) throws FileFormatNotFoundException {
+	public static AbstractFileSaver<?> chooseAvailableSaver(File file) throws FileFormatNotFoundException {
 		String extension = AbstractFileSaver.getFileExtension(file);
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
-			Class<? extends AbstractFileSaver> saverClass = fractal.getAvailableSaverClass(extension);
-			Class<? extends AbstractData> dataClass = fractal.getDataClass();
+			Class<? extends AbstractFileSaver<?>> saverClass = fractal.getAvailableSaverClass(extension);
 			if (saverClass != null) {
 				try {
-					AbstractFileSaver saver = saverClass.getConstructor(dataClass)
-							.newInstance(AbstractData.getCurrent());
+					AbstractFileSaver<?> saver = saverClass.getConstructor()
+							.newInstance();
+					saver.setData(AbstractData.getCurrent());
 					saver.setFile(file);
 					return saver;
 				} catch (InstantiationException e) {

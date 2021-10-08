@@ -24,6 +24,5 @@ import io.tatlook.lchaos.parser.AbstractFileParser;
  * @author Administrator
  *
  */
-public abstract class IFSFileParser extends AbstractFileParser {
-	protected IFSData data;
+public abstract class IFSFileParser extends AbstractFileParser<IFSData> {
 }
