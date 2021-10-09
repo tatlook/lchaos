@@ -20,6 +20,8 @@ package io.tatlook.lchaos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import io.tatlook.lchaos.data.AbstractData;
@@ -58,14 +60,52 @@ public class App {
 		mainWindow.setVisible(true);
 	}
 
-	private static ResourceBundle bundle = ResourceBundle.getBundle("locale");
+	private static ResourceBundle bundle;
+	private static ResourceBundle englishBundle;
+
+	static {
+		try {
+			englishBundle = ResourceBundle.getBundle("locale", Locale.US);
+		} catch (MissingResourceException e) {
+		}
+		try {
+			bundle = ResourceBundle.getBundle("locale");
+		} catch (MissingResourceException e) {
+			bundle = englishBundle;
+		}
+	}
 
 	public static String s(String key) {
-		return bundle.getString(key);
+		try {
+			if (bundle == null) {
+				throw new MissingResourceException(null, null, key);
+			}
+			return bundle.getString(key);
+		} catch (MissingResourceException e) {
+			try {
+				if (englishBundle == null) {
+					throw new MissingResourceException(null, null, key);
+				}
+				return englishBundle.getString(key);
+			} catch (MissingResourceException e2) {
+				return key;
+			}
+		}
 	}
 
 	public static String s(String key, Object... formats) {
-		return String.format(bundle.getString(key), formats);
+		String string = s(key);
+		try {
+			if (string.equals(key)) {
+				throw new Exception();
+			}
+			return String.format(string, formats);
+		} catch (Exception e) {
+			for (Object object : formats) {
+				string += " " + object;
+			}
+			return string;
+		}
 	}
 
 	private static File currentFile;
