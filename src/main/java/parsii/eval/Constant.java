@@ -12,6 +12,8 @@ package parsii.eval;
  * Represents a constant numeric expression.
  */
 public class Constant implements Expression {
+
+    @java.io.Serial
     private static final long serialVersionUID = 7461494011371773146L;
 
     private Complex value;

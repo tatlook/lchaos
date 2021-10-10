@@ -113,7 +113,7 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 					Complex z0 = new Complex(x0, y0);
 					int gray = max - mand(z0, max);
 					Color color = new Color(gray, gray, gray);
-					((BufferedImage) image).setRGB(x, y, getColor(x - y, gray));
+					((BufferedImage) image).setRGB(x, y, color.getRGB());
 				}
 				if (x % 20 == 0) {
 					if (hasChange) {

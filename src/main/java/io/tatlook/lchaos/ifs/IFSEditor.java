@@ -28,10 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import io.tatlook.lchaos.App;
-import io.tatlook.lchaos.editor.AbstractEditor;
 import io.tatlook.lchaos.editor.MultipleRulesEditor;
-import io.tatlook.lchaos.editor.AbstractEditor.EditTextField;
-import io.tatlook.lchaos.editor.MultipleRulesEditor.AbstractRulePanel;
 
 /**
  * @author Administrator

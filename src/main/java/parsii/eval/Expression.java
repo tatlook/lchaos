@@ -13,7 +13,7 @@ package parsii.eval;
  * <p>
  * Can be evaluated to return a double value. If an error occurs {@code Double.NaN} will be returned.
  */
-public interface Expression {
+public interface Expression extends java.io.Serializable {
 
     /**
      * Evaluates the expression to a double number.
