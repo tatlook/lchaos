@@ -48,7 +48,6 @@ public class RandomWalkDrawer extends AbstractDrawer {
 
 	@Override
 	public void run() {
-		image = createImage(imageWidth, imageHeight);
 		Graphics g = image.getGraphics();
 		
 		// Ensimäisen pisteen koordinaati

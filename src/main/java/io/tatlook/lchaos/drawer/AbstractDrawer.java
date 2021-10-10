@@ -25,6 +25,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
@@ -113,6 +114,7 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 				move(moveX, moveY);
 			}
 		});
+		clean();
 	}
 	
 	public void move(int x, int y) {
@@ -204,6 +206,10 @@ public abstract class AbstractDrawer extends JComponent implements Runnable {
 		intoMiddle();
 	}
 	
+	@Override
+	public Image createImage(int width, int height) {
+		return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	}
 
 	public void clean() {
 		image = createImage(imageWidth, imageHeight);

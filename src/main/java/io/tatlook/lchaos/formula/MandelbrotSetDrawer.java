@@ -97,9 +97,6 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 
 	@Override
 	public void run() {
-		image = new BufferedImage(imageWidth, imageHeight,
-				BufferedImage.TYPE_INT_RGB);
-		
 		mainloop: while (true) {
 			hasChange = false;
 			
