@@ -5,9 +5,15 @@ package io.tatlook.lchaos.formula;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
 
 import io.tatlook.lchaos.App;
 import io.tatlook.lchaos.editor.AbstractEditor;
@@ -48,7 +54,44 @@ public class MandelbrotSetEditor extends AbstractEditor {
 		
 		speedControlPanel.add(field, BorderLayout.CENTER);
 		
+		JTextArea textArea = new JTextArea(MandelbrotSetData.getCurrent().getJavaCode());
+		JTextArea errorArea = new JTextArea();
+		errorArea.setVisible(false);
+		errorArea.setEditable(false);
+		errorArea.setLineWrap(true);
+		errorArea.setColumns(10);
+		errorArea.setBorder(BorderFactory.createTitledBorder("Errors"));
+
+		JButton compileButton = new JButton("Compile");
+		compileButton.addActionListener((e0) -> {
+			errorArea.setVisible(false);
+
+			MandelbrotSetData data = MandelbrotSetData.getCurrent();
+			data.setJavaCode(textArea.getText());
+			try {
+				data.compile();
+			} catch (CompileException e) {
+				for (Diagnostic<? extends JavaFileObject> diagnostic :
+						e.getDiagnosticCollector().getDiagnostics()) {
+					errorArea.setVisible(true);
+					errorArea.setText(String.format("Error on line %d in %s: %s%n",
+							diagnostic.getLineNumber(),
+							diagnostic.getSource().toUri(),
+							diagnostic.getMessage(Locale.getDefault())));
+					errorArea.updateUI();
+				}
+			}
+		});
+
+		JScrollPane textAreaScrollPane = new JScrollPane(textArea,
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		textAreaScrollPane.setBorder(BorderFactory.createTitledBorder("Source"));
+		
 		contentBox.add(speedControlPanel);
+		contentBox.add(textAreaScrollPane);
+		contentBox.add(errorArea);
+		contentBox.add(compileButton);
 	}
 
 }
