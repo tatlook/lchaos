@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class FunctionCall implements Expression {
 
+    @java.io.Serial
     private static final long serialVersionUID = 5758404497296893915L;
     private List<Expression> parameters = new ArrayList<>();
     private Function function;

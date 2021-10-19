@@ -3,6 +3,7 @@
  */
 package io.tatlook.lchaos.formula;
 
+import io.tatlook.lchaos.ifs.FractintFileSaver;
 import io.tatlook.lchaos.saver.AbstractFileSaver;
 
 /**
@@ -11,17 +12,11 @@ import io.tatlook.lchaos.saver.AbstractFileSaver;
  */
 public class MandelbrotSetSaver extends AbstractFileSaver<MandelbrotSetData> {
 
-	/**
-	 * @param file
-	 */
-	public MandelbrotSetSaver(MandelbrotSetData data) {
-		super();
-	}
-
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
-
+		out.println(FractintFileSaver.getFileNameNoEx(file.getName()) + " {");
+		out.println(data.getJavaCode());
+		out.println("}");
 	}
 
 }

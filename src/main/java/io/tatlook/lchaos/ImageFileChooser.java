@@ -85,6 +85,10 @@ public class ImageFileChooser {
 		imageFile = file;
 	}
 	
+	public static boolean canAlpha(String imageType) {
+		return !"jpg".equals(imageType);
+	}
+
 	/**
 	 * @return the imageFile
 	 */

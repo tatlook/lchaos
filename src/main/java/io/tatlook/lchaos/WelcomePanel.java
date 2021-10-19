@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import io.tatlook.lchaos.FractalManager.Fractal;
+import static io.tatlook.lchaos.App.s;
 
 /**
  * @author Administrator
@@ -53,7 +54,7 @@ public class WelcomePanel extends JPanel {
 	private void createNewFractalPanel() {
 		Box box = Box.createVerticalBox();
 		
-		box.setBorder(BorderFactory.createTitledBorder("New Fractal"));
+		box.setBorder(BorderFactory.createTitledBorder(s("welcome.new_fractal")));
 		
 		Fractal[] fractals = FractalManager.get().getFractals();
 		for (Fractal fractal : fractals) {
@@ -69,7 +70,7 @@ public class WelcomePanel extends JPanel {
 	private void createOpenRecentPanel() {
 		Box box = Box.createVerticalBox();
 		
-		box.setBorder(BorderFactory.createTitledBorder("Open Recent"));
+		box.setBorder(BorderFactory.createTitledBorder(s("welcome.open_recent")));
 		
 		File[] files = FileHistoryManager.get().getHistoryFiles();
 		for (int i = 0; i < files.length; i++) {

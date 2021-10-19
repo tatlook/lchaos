@@ -112,9 +112,11 @@ public class MenuBar extends JMenuBar {
 			}
 			String imageType = fileChooser.getImageType();
 			AbstractDrawer drawer = App.mainWindow.getDrawer();
-			
 			BufferedImage image = new BufferedImage(
-					drawer.getImageSize(), drawer.getImageSize(), BufferedImage.TYPE_INT_RGB);
+					drawer.getImageSize(), drawer.getImageSize(),
+					ImageFileChooser.canAlpha(imageType)
+						? BufferedImage.TYPE_INT_ARGB
+						: BufferedImage.TYPE_INT_RGB);
 			Graphics2D graphics = image.createGraphics();
 			graphics.drawImage(drawer.getImage(), 0, 0, null);
 			graphics.dispose();

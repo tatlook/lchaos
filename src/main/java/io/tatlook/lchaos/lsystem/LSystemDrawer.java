@@ -47,7 +47,6 @@ public class LSystemDrawer extends AbstractDrawer {
 
 	@Override
 	public void run() {
-		image = createImage(imageWidth, imageHeight);
 		Graphics g;
 
 		Vector<LSystemData.Rule> rules;
