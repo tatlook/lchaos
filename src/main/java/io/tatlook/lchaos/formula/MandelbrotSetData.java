@@ -13,9 +13,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -37,6 +35,7 @@ public class MandelbrotSetData extends AbstractData {
 	private List<Variable> variables = new ArrayList<>();
 	private List<Expression> variablesInit = new ArrayList<>();
 	private Class<? extends FormulaCalculator> compiledFormulaCalculatorClass;
+
 	private FormulaCalculator compiledFormulaCalculatorInstanse;
 	private String javaCode;
 
@@ -81,7 +80,7 @@ public class MandelbrotSetData extends AbstractData {
 				+ "public class FormulaCalculatorImpl\n"
 				+ "        implements io.tatlook.lchaos.formula.FormulaCalculator {\n"
 				+ "    @Override\n"
-				+ "    public Complex calculate(Complex z) {\n"
+				+ "    public int calculate(Complex c, int max) {\n"
 				+          javaCode
 				+ "    }\n"
 				+ "}\n";
@@ -127,8 +126,6 @@ public class MandelbrotSetData extends AbstractData {
 				classLoader.close();
 				// Create a new instance...
 				compiledFormulaCalculatorInstanse = compiledFormulaCalculatorClass.getConstructor().newInstance();
-				// Run it baby
-				compiledFormulaCalculatorInstanse.calculate(null);
 			} else {
 				throw new CompileException(diagnostics);
 			}
@@ -146,6 +143,24 @@ public class MandelbrotSetData extends AbstractData {
 			throw new IllegalStateException();
 		}
 		return (MandelbrotSetData) current;
+	}
+
+	public Class<? extends FormulaCalculator> getCompiledFormulaCalculatorClass() {
+		return compiledFormulaCalculatorClass;
+	}
+
+	public void setCompiledFormulaCalculatorClass(
+			Class<? extends FormulaCalculator> compiledFormulaCalculatorClass) {
+		this.compiledFormulaCalculatorClass = compiledFormulaCalculatorClass;
+	}
+
+	public FormulaCalculator getCompiledFormulaCalculatorInstanse() {
+		return compiledFormulaCalculatorInstanse;
+	}
+
+	public void setCompiledFormulaCalculatorInstanse(
+			FormulaCalculator compiledFormulaCalculatorInstanse) {
+		this.compiledFormulaCalculatorInstanse = compiledFormulaCalculatorInstanse;
 	}
 
 	public String getJavaCode() {

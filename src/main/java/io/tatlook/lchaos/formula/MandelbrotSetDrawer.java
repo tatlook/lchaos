@@ -21,6 +21,7 @@ package io.tatlook.lchaos.formula;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import parsii.eval.Complex;
 import io.tatlook.lchaos.drawer.AbstractDrawer;
 
 /**
@@ -42,30 +43,30 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		level = 255;
 	}
 
-	class Complex {
-		double real;
-		double image;
+	// class Complex {
+	// 	double real;
+	// 	double image;
 	
-		public Complex(double real, double image) {
-			this.real = real;
-			this.image = image;
-		}
+	// 	public Complex(double real, double image) {
+	// 		this.real = real;
+	// 		this.image = image;
+	// 	}
 	
-		public double abs() {
-			return Math.hypot(real, image);
-		}
+	// 	public double abs() {
+	// 		return Math.hypot(real, image);
+	// 	}
 	
-		public Complex mul(Complex other) {
-			double real = this.real * other.real - this.image * other.image;
-			double image = this.real * other.image + this.image * other.real;
-			return new Complex(real, image);
-		}
+	// 	public Complex mul(Complex other) {
+	// 		double real = this.real * other.real - this.image * other.image;
+	// 		double image = this.real * other.image + this.image * other.real;
+	// 		return new Complex(real, image);
+	// 	}
 	
-		public Complex plus(Complex other) {
-			return new Complex(real + other.real, image + other.image);
-		}
+	// 	public Complex plus(Complex other) {
+	// 		return new Complex(real + other.real, image + other.image);
+	// 	}
 	
-	}
+	// }
 
 	// @Override
 	// public void move(int x, int y) {
@@ -107,10 +108,14 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 				for (int y = 0; y < n; y++) {
 					double x0 = size * x / n - size / 2 + xc;
 					double y0 = size * y / n - size / 2 + yc;
-					Complex z0 = new Complex(x0, y0);
-					int gray = max - mand(z0, max);
+					Complex c = new Complex(x0, y0);
+					FormulaCalculator formulaCalculator = MandelbrotSetData.getCurrent().
+							getCompiledFormulaCalculatorInstanse();
+					int gray = max - (formulaCalculator == null
+							? calculateMandelbrot(c, max)
+							: formulaCalculator.calculate(c, max));
 					Color color = new Color(0, 0, 0, gray);
-					((BufferedImage) image).setRGB(x, y, getColor(gray * 2000, max));
+					((BufferedImage) image).setRGB(x, y, getColor(gray * 1004, max));
 				}
 				if (x % 20 == 0) {
 					if (hasChange) {
@@ -134,22 +139,22 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		}
 	}
 
-	private int mand(Complex z0, int max) {
-		Complex z = z0;
+	private int calculateMandelbrot(Complex c, int max) {
+		Complex z = c;
 		for (int t = 0; t < max; t++) {
 			if (z.abs() > 2.0)
 				return t;
-			z = z.mul(z).plus(z0);
+			z = z.mul(z).add(c);
 		}
 		return max;
 	}
 
 	public int getColor(int i, int maxIterations) {
 		// A color scheme
-		int a = (int) ((255 * (i/20)) << 16 | 0 | 0 );
+		int a = (int) (255 * ((double) i) / (maxIterations / 4));
 		return
 		// Red & black with fade, a classic!
-		// ( (2*a<<16) );
+		 ( (2*a<<16) );
 		// Other options of varying qualities...
 		// Hot pink bar & black
 		// ( (255 * (i/15)) << 16 | (255 * (i/15)) );
@@ -160,7 +165,7 @@ public class MandelbrotSetDrawer extends AbstractDrawer {
 		// Blue, blue-green fade, and black
 		// (65536 + i*256 + i/2+128);
 		// Black & purple/pink fade
-		((0) | (2 * a << 16) | (a << 8) | ((a * 2) << 0));
+		// ((0) | (2 * a << 16) | (a << 8) | ((a * 2) << 0));
 	}
 
 }

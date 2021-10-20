@@ -8,8 +8,9 @@ import parsii.eval.Complex;
 public interface FormulaCalculator {
 	/**
 	 * 
-	 * @param z
+	 * @param c
+	 * @param max
 	 * @return
 	 */
-	public Complex calculate(Complex z);
+	public int calculate(Complex c, int max);
 }
