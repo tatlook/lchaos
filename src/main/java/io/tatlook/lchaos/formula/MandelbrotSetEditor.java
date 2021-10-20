@@ -55,7 +55,9 @@ public class MandelbrotSetEditor extends AbstractEditor {
 		speedControlPanel.add(field, BorderLayout.CENTER);
 		
 		JTextArea textArea = new JTextArea(MandelbrotSetData.getCurrent().getJavaCode());
+		textArea.setTabSize(4);
 		JTextArea errorArea = new JTextArea();
+		errorArea.setTabSize(4);
 		errorArea.setVisible(false);
 		errorArea.setEditable(false);
 		errorArea.setLineWrap(true);
@@ -71,15 +73,17 @@ public class MandelbrotSetEditor extends AbstractEditor {
 			try {
 				data.compile();
 			} catch (CompileException e) {
+				String fullMessage = "";
 				for (Diagnostic<? extends JavaFileObject> diagnostic :
 						e.getDiagnosticCollector().getDiagnostics()) {
-					errorArea.setVisible(true);
-					errorArea.setText(String.format("Error on line %d in %s: %s%n",
-							diagnostic.getLineNumber(),
-							diagnostic.getSource().toUri(),
-							diagnostic.getMessage(Locale.getDefault())));
-					errorArea.updateUI();
+						fullMessage += String.format("Error on line %d in %s: %s%n",
+								diagnostic.getLineNumber(),
+								diagnostic.getSource().toUri(),
+								diagnostic.getMessage(Locale.getDefault()));
 				}
+				errorArea.setVisible(true);
+				errorArea.setText(fullMessage);
+				errorArea.updateUI();
 			}
 		});
 
