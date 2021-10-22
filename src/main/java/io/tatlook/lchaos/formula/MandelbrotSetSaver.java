@@ -15,7 +15,7 @@ public class MandelbrotSetSaver extends AbstractFileSaver<MandelbrotSetData> {
 	@Override
 	public void save() {
 		out.println(FractintFileSaver.getFileNameNoEx(file.getName()) + " {");
-		out.println(data.getJavaCode());
+		out.println(data.getFormulaCode());
 		out.println("}");
 	}
 

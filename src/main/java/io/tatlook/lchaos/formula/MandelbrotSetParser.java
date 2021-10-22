@@ -5,11 +5,9 @@ package io.tatlook.lchaos.formula;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import io.tatlook.lchaos.ChaosFileDataException;
 import io.tatlook.lchaos.parser.AbstractFileParser;
-import parsii.tokenizer.ParseException;
 
 /**
  * @author YouZhe Zhen
@@ -18,31 +16,6 @@ import parsii.tokenizer.ParseException;
 public class MandelbrotSetParser extends AbstractFileParser<MandelbrotSetData> {
 
 	private MandelbrotSetData data;
-
-	@SuppressWarnings("resource")
-	private void scanLine(String line) throws ChaosFileDataException {
-		{
-			// Poista kommentti
-			int index = line.indexOf(';');
-			if (index != -1) {
-				line = line.substring(0, index);
-			}
-		}
-		Scanner lineScanner = new Scanner(line);
-		if (!lineScanner.hasNext()) {
-			lineScanner.close();
-			return;
-		}
-		
-		String exp = lineScanner.next();
-		int i = exp.indexOf('=');
-		if (i == -1) {
-			throw new ChaosFileDataException(file);
-		}
-		
-	
-		lineScanner.close();
-	}
 	
 	@Override
 	public MandelbrotSetData parse() throws ChaosFileDataException {
@@ -62,31 +35,6 @@ public class MandelbrotSetParser extends AbstractFileParser<MandelbrotSetData> {
 			} else {
 				throw new ChaosFileDataException(file);
 			}
-			// if (scanner.hasNextLine()) {
-			// 	String line = scanner.nextLine();
-			// 	Scanner lineScanner = new Scanner(line);
-			// 	if (line.indexOf('}') == -1) {
-			// 		do {
-			// 			try {
-			// 				lineScanner.skip(",|[\\s]+,");
-			// 			} catch (NoSuchElementException e) {
-			// 			}
-			// 			String varname = lineScanner.next("[a-zA-Z]+|[a-zA-Z][a-zA-Z0-9]+");
-			// 			lineScanner.skip("=|[\\s]+=");
-			// 			 lineScanner.next("[^,]");
-			// 			System.out.println("yse");
-			// 		//	data.addVariable(varname, exp);
-			// 		} while (lineScanner.hasNext(",|[\\s]+,"));
-			// 	}
-			// 	lineScanner.close();
-			// }
-			// while (scanner.hasNextLine()) {
-			// 	String line = scanner.nextLine();
-			// 	if (line.indexOf('}') != -1) {
-			// 		break;
-			// 	}
-			// 	scanLine(line);
-			// }
 			String javaCode = "";
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
@@ -95,7 +43,7 @@ public class MandelbrotSetParser extends AbstractFileParser<MandelbrotSetData> {
 				}
 				javaCode += line + '\n';
 			}
-			data.setJavaCode(javaCode);
+			data.setFormulaCode(javaCode);
 			data.setCurrentToOrigin();
 		} catch (IOException e) {
 			e.printStackTrace();

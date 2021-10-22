@@ -1,17 +1,17 @@
 package io.tatlook.lchaos.formula;
 
 import javax.tools.DiagnosticCollector;
-import javax.tools.JavaFileObject;
+import javax.tools.FileObject;
 
 public class CompileException extends Exception {
-	private DiagnosticCollector<JavaFileObject> diagnostics;
+	private DiagnosticCollector<? extends FileObject> diagnostics;
 	
-	public CompileException(DiagnosticCollector<JavaFileObject> diagnostics) {
+	public CompileException(DiagnosticCollector<? extends FileObject> diagnostics) {
 		super();
 		this.diagnostics = diagnostics;
 	}
 
-	public DiagnosticCollector<JavaFileObject> getDiagnosticCollector() {
+	public DiagnosticCollector<? extends FileObject> getDiagnosticCollector() {
 		return diagnostics;
 	}
 

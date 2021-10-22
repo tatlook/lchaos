@@ -37,7 +37,9 @@ public class MandelbrotSetData extends AbstractData {
 	private Class<? extends FormulaCalculator> compiledFormulaCalculatorClass;
 
 	private FormulaCalculator compiledFormulaCalculatorInstanse;
+
 	private String javaCode;
+	private String formulaCode;
 
 	public MandelbrotSetData(MandelbrotSetData origin) {
 		super(origin);
@@ -69,12 +71,27 @@ public class MandelbrotSetData extends AbstractData {
 		return null;
 	}
 
-	public void setJavaCode(String javaCode) {
-		this.javaCode = javaCode;
+	public String getFormulaCode() {
+		return formulaCode;
+	}
+
+	public void setFormulaCode(String formulaCode) {
+		this.formulaCode = formulaCode;
+	}
+
+	public void compileFormulaCode() throws CompileException {
+		javaCode = "";
+		DiagnosticCollector<FormulaFileObject> diagnostics = new DiagnosticCollector<>();
+		FormulaCompiler compiler = new FormulaCompiler(formulaCode, diagnostics);
+		if (compiler.call()) {
+			javaCode = compiler.getResultJavaCode();
+		} else {
+			throw new CompileException(diagnostics);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public void compile() throws CompileException {
+	public void compileClass() throws CompileException {
 		String absoluteCode = "package io.tatlook.formula;\n\n"
 				+ "import parsii.eval.Complex;\n\n"
 				+ "public class FormulaCalculatorImpl\n"
@@ -161,10 +178,6 @@ public class MandelbrotSetData extends AbstractData {
 	public void setCompiledFormulaCalculatorInstanse(
 			FormulaCalculator compiledFormulaCalculatorInstanse) {
 		this.compiledFormulaCalculatorInstanse = compiledFormulaCalculatorInstanse;
-	}
-
-	public String getJavaCode() {
-		return javaCode;
 	}
 
 }

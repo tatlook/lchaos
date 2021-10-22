@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.tools.Diagnostic;
+import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 
 import io.tatlook.lchaos.App;
@@ -54,7 +55,7 @@ public class MandelbrotSetEditor extends AbstractEditor {
 		
 		speedControlPanel.add(field, BorderLayout.CENTER);
 		
-		JTextArea textArea = new JTextArea(MandelbrotSetData.getCurrent().getJavaCode());
+		JTextArea textArea = new JTextArea(MandelbrotSetData.getCurrent().getFormulaCode());
 		textArea.setTabSize(4);
 		JTextArea errorArea = new JTextArea();
 		errorArea.setTabSize(4);
@@ -69,17 +70,18 @@ public class MandelbrotSetEditor extends AbstractEditor {
 			errorArea.setVisible(false);
 
 			MandelbrotSetData data = MandelbrotSetData.getCurrent();
-			data.setJavaCode(textArea.getText());
+			data.setFormulaCode(textArea.getText());
 			try {
-				data.compile();
+				data.compileFormulaCode();
+				data.compileClass();
 			} catch (CompileException e) {
 				String fullMessage = "";
-				for (Diagnostic<? extends JavaFileObject> diagnostic :
+				for (Diagnostic<? extends FileObject> diagnostic :
 						e.getDiagnosticCollector().getDiagnostics()) {
-						fullMessage += String.format("Error on line %d in %s: %s%n",
-								diagnostic.getLineNumber(),
-								diagnostic.getSource().toUri(),
-								diagnostic.getMessage(Locale.getDefault()));
+					fullMessage += String.format("Error on line %d in %s: %s%n",
+							diagnostic.getLineNumber(),
+							diagnostic.getSource().toUri(),
+							diagnostic.getMessage(Locale.getDefault()));
 				}
 				errorArea.setVisible(true);
 				errorArea.setText(fullMessage);
