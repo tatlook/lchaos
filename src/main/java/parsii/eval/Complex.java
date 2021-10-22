@@ -111,7 +111,9 @@ public class Complex extends Number implements Comparable<Complex> {
 
 	public Complex div(Complex other) {
 		// FIXME
-		return null;
+		double real = this.real / other.real - this.image / other.image;
+		double image = this.real / other.image + this.image / other.real;
+		return new Complex(real, image);
 	}
 	
 	public Complex pow(Complex other) {
