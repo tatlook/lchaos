@@ -20,8 +20,9 @@ public class BinaryOperation implements Expression {
      * Enumerates the operations supported by this expression.
      */
     public enum Op {
-        ADD(3), SUBTRACT(3), MULTIPLY(4), DIVIDE(4), MODULO(4), POWER(5), LT(2), LT_EQ(2), EQ(2), GT_EQ(2), GT(2), NEQ(2), AND(
-                1), OR(1);
+        ADD(3), SUBTRACT(3), MULTIPLY(4), DIVIDE(4), MODULO(4),
+        POWER(5), LT(2), LT_EQ(2), EQ(2), GT_EQ(2), GT(2), NEQ(2), 
+        AND(1), OR(1);
 
         private final int priority;
 
@@ -141,7 +142,15 @@ public class BinaryOperation implements Expression {
             case GT_EQ:
                 return Complex.valueOf(a.abs() > b.abs() || Math.abs(a.abs() - b.abs()) < EPSILON);
             case EQ:
-                return Complex.valueOf(Math.abs(a.abs() - b.abs()) < EPSILON);
+                // Variable assignment
+                if (left instanceof VariableReference) {
+                    Variable v = ((VariableReference) left).getVariable();
+                    v.setValue(right.evaluate());
+                    return v.getValue();
+                // Expression compare
+                } else {
+                    return Complex.valueOf(Math.abs(a.abs() - b.abs()) < EPSILON);
+                }
             case NEQ:
                 return Complex.valueOf(Math.abs(a.abs() - b.abs()) > EPSILON);
             case AND:

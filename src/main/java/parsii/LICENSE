@@ -1,3 +1,26 @@
+LChaos - simple 2D fractal plotter and editor.
+Copyright (C) 2021 YouZhe Zhen
+
+LChaos is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+LChaos is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with LChaos.  If not, see <https://www.gnu.org/licenses/>.
+
+
+
+You can get it with The MIT License in <https://github.com/scireum/parsii>.
+However, this copy must be replicated using the GPLv3(+).
+There is the original statment of parsii:
+
+
 The MIT License (MIT)
 
 Copyright (c) 2013 scireum GmbH

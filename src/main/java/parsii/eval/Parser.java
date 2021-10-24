@@ -44,7 +44,7 @@ public class Parser {
 
     private final Scope scope;
     private List<ParseError> errors = new ArrayList<>();
-    private Tokenizer tokenizer;
+    protected Tokenizer tokenizer;
     private static Map<String, Function> functionTable;
 
     /*

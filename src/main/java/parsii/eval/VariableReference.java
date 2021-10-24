@@ -39,6 +39,10 @@ public class VariableReference implements Expression {
         return var.isConstant();
     }
 
+    public Variable getVariable() {
+        return var;
+    }
+
     @Override
     public Expression simplify() {
         if (isConstant()) {

@@ -185,6 +185,9 @@ public class Complex extends Number implements Comparable<Complex> {
 		return b ? TRUE : FALSE;
 	}
 
+	public static Complex valueOf(double real) {
+		return new Complex(real, 0);
+	}
 
 	public static Complex max(Complex a, Complex b) {
 		return a.abs() >= b.abs() ? a : b;

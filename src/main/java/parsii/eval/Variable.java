@@ -100,4 +100,5 @@ public class Variable {
         setValue(value);
         return this;
     }
+
 }
