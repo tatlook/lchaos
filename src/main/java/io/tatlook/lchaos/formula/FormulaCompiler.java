@@ -3,16 +3,16 @@
  */
 package io.tatlook.lchaos.formula;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.Diagnostic.Kind;
+
+import parsii.eval.Expression;
+import parsii.eval.Parser;
+import parsii.tokenizer.ParseException;
 
 class FormulaCompiler implements Callable<Boolean> {
 
@@ -100,30 +100,6 @@ class FormulaCompiler implements Callable<Boolean> {
 
 	}
 
-	static class Token {
-		enum Kind {
-			NUMBER("[0-9]+"),
-			IM_NUMBER("[0-9]+i"),
-			EXPER(""),
-			IDENTIFIER("[a-zA-Z]+|[a-zA-Z][a-zA-Z0-9]+");
-			Pattern pattern;
-			Kind(String pattern) {
-				this.pattern = Pattern.compile(pattern);
-			}
-		}
-		String value;
-		Kind kind;
-		double number;
-		Token(Kind kind, String value) {
-			this.value = value;
-			this.kind = kind;
-		}
-		Token(Kind kind, double value) {
-			this.number = value;
-			this.kind = kind;
-		}
-	}
-
 	void reportWhithIndexOnly(int index) {
 		diagnosticCollector.report(getDiagnosticWhithIndexOnly(fileObject, formulaCode, index));
 	}
@@ -153,61 +129,13 @@ class FormulaCompiler implements Callable<Boolean> {
 	@Override
 	public Boolean call() {
 		formulaCode = takeCommentsDown(formulaCode);
-		int index = formulaCode.indexOf('}');
-		if (index != -1) {
-			reportWhithIndexOnly(index);
+		try {
+			Expression expression = Parser.parse(formulaCode);
+			javaCode = expression.toString();
+		} catch (ParseException e) {
 			return false;
 		}
-		index = formulaCode.indexOf(':');
-		if (index == -1) {
-			reportWhithIndexOnly(index);
-			return false;
-		}
-		javaCode += formulaVaribleDeclarationToJavaCode(formulaCode.substring(0, index));
-		formulaCode = formulaCode.substring(index);
-		
 		return true;
-	}
-
-	List<Token> getTokens(String formulaCode) {
-		List<Token> tokens = new ArrayList<>();
-
-		Scanner scanner = new Scanner(formulaCode);
-		mainloop: while (scanner.hasNext()) {
-			if (scanner.hasNext(Token.Kind.IDENTIFIER.pattern)) {
-				String identifier = scanner.next(Token.Kind.IDENTIFIER.pattern);
-				Token token = new Token(Token.Kind.IDENTIFIER, identifier);
-				tokens.add(token);
-			} else if (scanner.hasNext(Token.Kind.IM_NUMBER.pattern)) {
-				double imNumber = Double.valueOf(scanner.next(Token.Kind.IM_NUMBER.pattern));
-				Token token = new Token(Token.Kind.IM_NUMBER, imNumber);
-				tokens.add(token);
-			} else if (scanner.hasNextDouble()) {
-				double number = scanner.nextDouble();
-				Token token = new Token(Token.Kind.NUMBER, number);
-				tokens.add(token);
-			} else {
-				String[] expers = { "\\*", ",", "/", "\\(", "\\)", "\\+", "-" };
-				for (String exper : expers) {
-					if (scanner.hasNext(exper)) {
-						scanner.skip(exper);
-						Token token = new Token(Token.Kind.EXPER, exper);
-						tokens.add(token);
-						continue mainloop;
-					}
-				}
-				reportWhithIndexOnly(scanner.skip("\\G").match().end());
-				break;
-			}
-		}
-		scanner.close();
-
-		return tokens;
-	}
-
-	String formulaVaribleDeclarationToJavaCode(String formulaCode) {
-		String result = "";
-		return result;
 	}
 
 	static String takeCommentsDown(String formulaCode) {

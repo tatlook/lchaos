@@ -402,6 +402,7 @@ public class Parser {
             // Parse numbers with a leading + sign like +2.02 by simply ignoring the +
             tokenizer.consume();
         }
+        boolean isImaginary = false;
         if (tokenizer.current().isNumber()) {
             double value = Double.parseDouble(tokenizer.consume().getContents());
             if (tokenizer.current().is(Token.TokenType.ID)) {
@@ -424,6 +425,9 @@ public class Parser {
                 } else if ("G" == quantifier) {
                     value *= 1000000000d;
                     tokenizer.consume();
+                } else if ("i" == quantifier) {
+                    isImaginary = true;
+                    tokenizer.consume();
                 } else {
                     Token token = tokenizer.consume();
                     errors.add(ParseError.error(token,
@@ -431,7 +435,9 @@ public class Parser {
                                                               token.getSource())));
                 }
             }
-            return new Constant(new Complex(value, 0.0));
+            return new Constant(isImaginary
+                    ? new Complex(0.0, value)
+                    : new Complex(value, 0.0));
         }
         Token token = tokenizer.consume();
         errors.add(ParseError.error(token,

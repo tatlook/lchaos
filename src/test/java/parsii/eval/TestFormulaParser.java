@@ -27,6 +27,20 @@ import parsii.tokenizer.ParseException;
 public class TestFormulaParser {
 
     @Test
+    public void testSigleExpression() throws ParseException {
+        String code = "(1+1)*2";
+        Expression expr = FormulaParser.parse(code);
+        assertEquals(new Complex(4, 0), expr.evaluate());
+    }
+
+    @Test
+    public void testMultiExpression() throws ParseException {
+        String code = "(123-15)*2 3+21 (1+1)*2";
+        Expression expr = FormulaParser.parse(code);
+        assertEquals(new Complex(4, 0), expr.evaluate());
+    }
+
+    @Test
     public void testIfElse() throws ParseException {
         String code = "IF (1.0+0.000 = 1)"
                 + "1- 0"
@@ -44,7 +58,8 @@ public class TestFormulaParser {
                 + " ELSE IF(0=0)"
                 + "1 + 4"
                 + " ENDIF"
-                + " ENDIF";
+                + " ENDIF"
+                + "1+1";
         Expression expr = FormulaParser.parse(code);
         assertEquals(new Complex(1, 0), expr.evaluate());
     }
