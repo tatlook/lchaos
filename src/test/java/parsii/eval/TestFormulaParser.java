@@ -35,9 +35,9 @@ public class TestFormulaParser {
 
     @Test
     public void testMultiExpression() throws ParseException {
-        String code = "(123-15)*2 3+21 (1+1)*2";
+        String code = "(123-15i)*2 3+21 (1+1)*2i";
         Expression expr = FormulaParser.parse(code);
-        assertEquals(new Complex(4, 0), expr.evaluate());
+        assertEquals(new Complex(0, 4), expr.evaluate());
     }
 
     @Test
