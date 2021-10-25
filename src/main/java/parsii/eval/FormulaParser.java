@@ -20,8 +20,13 @@ package parsii.eval;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
+import parsii.tokenizer.ParseError;
 import parsii.tokenizer.ParseException;
+import parsii.tokenizer.Token;
+import parsii.tokenizer.Token.TokenType;
 
 public class FormulaParser extends Parser {
 
@@ -87,7 +92,46 @@ public class FormulaParser extends Parser {
     }
 
     @Override
-    public Expression expression() {
+    protected Expression parse() throws ParseException {
+        Expression statments = statments().statments;
+        if (tokenizer.current().isNotEnd()) {
+            Token token = tokenizer.consume();
+            errors.add(ParseError.error(token,
+                                        String.format("Unexpected token: '%s'. Expected an expression.",
+                                                      token.getSource())));
+        }
+        if (!errors.isEmpty()) {
+            throw ParseException.create(errors);
+        }
+        return statments.simplify();
+    }
+
+    private class StatmentMatches {
+        Expression statments;
+        String endKeyWord;
+    }
+
+    protected StatmentMatches statments(String... endKeyWords) {
+        List<Expression> expressions = new ArrayList<>();
+        while (endKeyWords.length == 0
+                ? tokenizer.current().isNotEnd()
+                : !tokenizer.current().isKeyword(endKeyWords)) {
+            expressions.add(expression());
+        }
+        StatmentMatches ret = new StatmentMatches();
+        // Why statments end?
+        for (String endKeyWord : endKeyWords) {
+            if (tokenizer.current().matches(TokenType.KEYWORD, endKeyWord)) {
+                ret.endKeyWord = endKeyWord;
+                break;
+            }
+        }
+        ret.statments = new Statments(expressions);
+        return ret;
+    }
+
+    @Override
+    protected Expression expression() {
 
         return parseIfElse();
     }
@@ -102,10 +146,12 @@ public class FormulaParser extends Parser {
                 Expression elze = null;
                 if (tokenizer.current().isSymbol(")")) {
                     tokenizer.consume();
-                    then = expression();
-                    if (tokenizer.current().isKeyword("ELSE")) {
+                    StatmentMatches matches = statments("ELSE", "ENDIF");
+                    then = matches.statments;
+                    if ("ELSE".equals(matches.endKeyWord)) {
                         tokenizer.consume();
-                        elze = expression();
+                        matches = statments("ENDIF");
+                        elze = matches.statments;
                     }
                     // TODO: else if
                     if (tokenizer.current().isKeyword("ENDIF")) {

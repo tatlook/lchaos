@@ -42,12 +42,11 @@ public class Statments extends ArrayList<Expression> implements Expression {
 
 	@Override
 	public Complex evaluate() {
-		for (int i = 0; ; i++) {
-			if (i < size()) {
-				return get(i).evaluate();
-			}
+		int i;
+		for (i = 0; i < size() - 1; i++) {
 			get(i).evaluate();
 		}
+		return get(i).evaluate();
 	}
 
 }
