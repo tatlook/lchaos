@@ -33,6 +33,7 @@ public class FormulaParser extends Parser {
     protected FormulaParser(Reader input, Scope scope) {
         super(input, scope);
         tokenizer.setKeywordsCaseSensitive(true);
+        scope.withStrictLookup(false);
         String[] keywords = {
             "IF", "ELSE", "ELSEIF", "ENDIF"
         };
@@ -93,41 +94,48 @@ public class FormulaParser extends Parser {
 
     @Override
     protected Expression parse() throws ParseException {
-        Expression statments = statments().statments;
+        Expression variableDefinitions = statments(":");
+        tokenizer.consume();
+        variableDefinitions.evaluate();
+        scope.withStrictLookup(true);
+        
+        Statments statments = statments();
+
         if (tokenizer.current().isNotEnd()) {
             Token token = tokenizer.consume();
             errors.add(ParseError.error(token,
                                         String.format("Unexpected token: '%s'. Expected an expression.",
                                                       token.getSource())));
         }
+        if (statments.isEmpty()) {
+            Token token = tokenizer.consume();
+            errors.add(ParseError.error(token, "No result."));
+        }
         if (!errors.isEmpty()) {
             throw ParseException.create(errors);
         }
-        return statments.simplify();
+        // The last expression is condition.
+        Expression loopCondition = statments.remove(statments.size() - 1);
+        return new FormulaEvaluter(statments, loopCondition);
     }
 
-    private class StatmentMatches {
-        Expression statments;
-        String endKeyWord;
-    }
-
-    protected StatmentMatches statments(String... endKeyWords) {
+    protected Statments statments(String... endKeyWords) {
         List<Expression> expressions = new ArrayList<>();
-        while (endKeyWords.length == 0
-                ? tokenizer.current().isNotEnd()
-                : !tokenizer.current().isKeyword(endKeyWords)) {
-            expressions.add(expression());
-        }
-        StatmentMatches ret = new StatmentMatches();
-        // Why statments end?
-        for (String endKeyWord : endKeyWords) {
-            if (tokenizer.current().matches(TokenType.KEYWORD, endKeyWord)) {
-                ret.endKeyWord = endKeyWord;
+        while (true) {
+            if (tokenizer.current().isKeyword(endKeyWords) || tokenizer.current().isSymbol(endKeyWords)) {
                 break;
             }
+            if (tokenizer.current().isEnd()) {
+                if (endKeyWords.length == 0) {
+                    break;
+                } else {
+                    errors.add(ParseError.error(tokenizer.current(), "No such end marks but actual EOI."));   // TODO: change message
+                    break;
+                }
+            }
+            expressions.add(expression());
         }
-        ret.statments = new Statments(expressions);
-        return ret;
+        return new Statments(expressions);
     }
 
     @Override

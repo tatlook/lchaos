@@ -42,7 +42,7 @@ import java.util.TreeMap;
  */
 public class Parser {
 
-    private final Scope scope;
+    protected final Scope scope;
     protected List<ParseError> errors = new ArrayList<>();
     protected Tokenizer tokenizer;
     private static Map<String, Function> functionTable;

@@ -28,9 +28,10 @@ public class TestFormulaParser {
 
     @Test
     public void testSigleExpression() throws ParseException {
-        String code = "(1+1)*2";
+        String code = "a0=0*(1+1)*a : 3 "
+                + "4i";
         Expression expr = FormulaParser.parse(code);
-        assertEquals(new Complex(4, 0), expr.evaluate());
+        assertEquals(new Complex(255, 0), expr.evaluate());
     }
 
     @Test
